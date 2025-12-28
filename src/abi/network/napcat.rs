@@ -1,0 +1,124 @@
+use anyhow::Result;
+use async_trait::async_trait;
+use serde::{Deserialize, Serialize};
+use std::fmt;
+use tokio::sync::{OnceCell, mpsc};
+use tracing::{debug, error, info, trace};
+
+use crate::abi::{
+    echo::{self, Echo, echo_send_result},
+    message::{Event, Params, api},
+    network::BotClient,
+    websocket::BotHandler,
+};
+
+#[derive(Debug)]
+pub struct NapcatAdapter {
+    event_sender: OnceCell<mpsc::Sender<String>>,
+    api_sender: OnceCell<mpsc::Sender<String>>,
+    handler: mpsc::Sender<Event>,
+}
+
+impl NapcatAdapter {
+    pub fn new(capacity: usize) -> (Self, mpsc::Receiver<Event>) {
+        let (tx, rx) = mpsc::channel::<Event>(capacity);
+        (
+            NapcatAdapter {
+                event_sender: OnceCell::new(),
+                api_sender: OnceCell::new(),
+                handler: tx,
+            },
+            rx,
+        )
+    }
+}
+
+#[async_trait]
+impl BotClient for NapcatAdapter {
+    async fn call_api<T: Params + Serialize + fmt::Debug>(
+        &self,
+        params: T,
+        echo: Echo,
+    ) -> Result<api::ApiResponsePending<T::Response>> {
+        let action = params.get_action();
+
+        let api_send = api::ApiSend {
+            action,
+            params,
+            echo,
+        };
+        let msg = serde_json::to_string(&api_send)?;
+        debug!("调用 API: {}", action);
+        trace!(?api_send);
+
+        if let Some(sender) = self.api_sender.get() {
+            if let Err(e) = sender.send(msg).await {
+                error!("发送 API 消息失败: {:?}", e);
+            }
+        } else {
+            error!("API 发送通道未初始化");
+        }
+
+        Ok(api::ApiResponsePending::new(echo))
+    }
+}
+
+#[derive(Deserialize, Debug)]
+struct EchoOnly {
+    echo: String,
+}
+
+#[async_trait]
+impl BotHandler for NapcatAdapter {
+    async fn init(&self, event: mpsc::Sender<String>, api: mpsc::Sender<String>) -> Result<()> {
+        self.event_sender.set(event)?;
+        self.api_sender.set(api)?;
+
+        Ok(())
+    }
+
+    async fn handle_api(&self, message: String) {
+        debug!("收到API返回: {}", message);
+        trace!(?message);
+
+        let echo_only = serde_json::from_str::<EchoOnly>(&message).ok();
+
+        let echo = match echo_only {
+            None => {
+                error!("解析 API 返回的 Echo 失败");
+                return;
+            }
+            Some(e) => e.echo,
+        };
+
+        echo_send_result(&echo, message);
+    }
+
+    async fn handle_event(&self, event: String) {
+        debug!("收到事件: {}", event);
+        trace!(?event);
+
+        let data = serde_json::from_str::<Event>(&event);
+        match data {
+            Ok(evt) => {
+                debug!("解析事件成功: {:?}", evt);
+                trace!(?evt);
+
+                if let Err(e) = self.handler.send(evt).await {
+                    error!("分发事件失败: {:?}", e);
+                }
+            }
+            Err(e) => {
+                error!("解析事件失败: {:?}", e);
+            }
+        }
+    }
+
+    async fn on_connect(&self) {
+        info!("连接到服务器。");
+    }
+
+    async fn on_disconnect(&self) {
+        info!("已断开与服务器的连接。");
+    }
+}
