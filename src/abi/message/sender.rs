@@ -12,6 +12,7 @@ pub enum Sex {
 pub struct SenderPrivate {
     pub user_id: Option<i64>,
     pub nickname: Option<String>,
+    pub card: Option<String>,
     pub sex: Option<Sex>,
     pub age: Option<i32>,
 }
@@ -33,13 +34,22 @@ pub struct SenderGroup {
     pub age: Option<i32>,
     pub area: Option<String>,
     pub level: Option<String>,
-    pub role: Option<Role>,
+    pub role: Role,
     pub title: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-#[serde(rename_all = "snake_case", tag = "type", content = "data")]
-pub enum Sender {
-    Private(SenderPrivate),
-    Group(SenderGroup),
+#[derive(Debug)]
+pub enum SenderRole {
+    GroupAdmin,
+    GroupOwner,
+    GroupMember,
+    Friend,
+}
+
+#[derive(Debug)]
+pub struct Sender {
+    pub nickname: Option<String>,
+    pub user_id: Option<i64>,
+    pub card: Option<String>,
+    pub role: Option<SenderRole>,
 }

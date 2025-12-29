@@ -5,6 +5,4 @@ access_token = "xmu_assistant_bot"
 reconnect_interval_secs = 10
 
 [bot]
-qq = 123456789
 command_prefix = "/"
-admin_qqs = []

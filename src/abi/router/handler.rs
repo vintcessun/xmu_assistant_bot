@@ -1,8 +1,11 @@
-use crate::abi::{
-    message::{Event, MessageType, event_message::Message, event_meta::MetaEvent},
-    network::BotClient,
-    router::context::Context,
-    websocket::{BotHandler, BotWebsocketClient},
+use crate::{
+    abi::{
+        message::{Event, MessageType, event_message::Message, event_meta::MetaEvent},
+        network::BotClient,
+        router::context::Context,
+        websocket::{BotHandler, BotWebsocketClient},
+    },
+    logic::dispatch_all_handlers,
 };
 use anyhow::Result;
 use async_trait::async_trait;
@@ -27,18 +30,26 @@ where
     fn new(subscribe: mpsc::Receiver<Event>, client: BotWebsocketClient<T>) -> Self;
     fn get_client(&self) -> Arc<T>;
     async fn run(&mut self) -> ();
+}
+
+pub trait SpawnContext<T, R>
+where
+    T: BotClient + BotHandler + fmt::Debug,
+    R: Router<T>,
+{
+    fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: Arc<M>);
+}
+
+impl<T, R> SpawnContext<T, R> for R
+where
+    T: BotClient + BotHandler + fmt::Debug,
+    R: Router<T>,
+{
     fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: Arc<M>) {
         let client_arc = self.get_client();
         let context = Context::new(client_arc, msg);
 
-        use crate::logic::EchoHandler;
-
-        tokio::spawn(async move {
-            let ctx = context.clone();
-            EchoHandler.handle(ctx).await.unwrap_or_else(|e| {
-                error!("处理消息时出错: {:?}", e);
-            });
-        });
+        dispatch_all_handlers(context);
     }
 }
 

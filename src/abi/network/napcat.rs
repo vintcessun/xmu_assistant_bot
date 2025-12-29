@@ -6,7 +6,7 @@ use tokio::sync::{OnceCell, mpsc};
 use tracing::{debug, error, info, trace};
 
 use crate::abi::{
-    echo::{self, Echo, echo_send_result},
+    echo::{Echo, echo_send_result},
     message::{Event, Params, api},
     network::BotClient,
     websocket::BotHandler,
@@ -40,7 +40,7 @@ impl BotClient for NapcatAdapter {
         params: T,
         echo: Echo,
     ) -> Result<api::ApiResponsePending<T::Response>> {
-        let action = params.get_action();
+        let action = T::ACTION;
 
         let api_send = api::ApiSend {
             action,

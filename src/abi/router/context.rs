@@ -1,5 +1,6 @@
 use crate::abi::echo::Echo;
 use crate::abi::message::MessageSend;
+use crate::abi::message::Sender;
 use crate::abi::message::api;
 use crate::abi::message::{MessageType, Target};
 use crate::abi::network::BotClient;
@@ -8,13 +9,14 @@ use anyhow::Result;
 use std::fmt;
 use std::sync::Arc;
 use tracing::{debug, error, info, trace};
-use tracing_subscriber::field::debug;
 
 #[derive(Debug)]
 pub struct Context<T: BotClient + BotHandler + fmt::Debug, M: MessageType + fmt::Debug> {
     pub client: Arc<T>,
     pub message: Arc<M>,
+    pub sender: Arc<Sender>,
     message_list: Vec<MessageSend>,
+    message_text: Arc<str>,
     target: Target,
 }
 
@@ -23,7 +25,9 @@ impl<T: BotClient + BotHandler + fmt::Debug, M: MessageType + fmt::Debug> Clone 
         Context {
             client: self.client.clone(),
             message: self.message.clone(),
+            sender: self.sender.clone(),
             message_list: self.message_list.clone(),
+            message_text: self.message_text.clone(),
             target: self.target,
         }
     }
@@ -32,11 +36,16 @@ impl<T: BotClient + BotHandler + fmt::Debug, M: MessageType + fmt::Debug> Clone 
 impl<T: BotClient + BotHandler + fmt::Debug, M: MessageType + fmt::Debug> Context<T, M> {
     pub fn new(client: Arc<T>, message: Arc<M>) -> Self {
         let target = message.get_target();
+        let message_text = message.get_text();
+        let sender = message.get_sender();
+        let message_list = Vec::new();
         Context {
             client,
             message,
+            sender: Arc::from(sender),
             target,
-            message_list: Vec::new(),
+            message_list,
+            message_text: Arc::from(message_text),
         }
     }
 
@@ -79,6 +88,14 @@ impl<T: BotClient + BotHandler + fmt::Debug, M: MessageType + fmt::Debug> Contex
 
     pub fn get_message(&self) -> Arc<M> {
         self.message.clone()
+    }
+
+    pub fn get_message_text(&self) -> &str {
+        &self.message_text
+    }
+
+    pub fn get_target(&self) -> Target {
+        self.target
     }
 }
 

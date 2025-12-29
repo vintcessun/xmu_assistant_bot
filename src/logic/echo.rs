@@ -1,7 +1,7 @@
-use crate::abi::logic_import::*;
+use crate::{abi::logic_import::*, config};
 use helper::handler;
 
-#[handler(Message)]
+#[handler(msg_type=Message,command="echo",echo_cmd=true)]
 pub async fn echo(ctx: Context) -> Result<()> {
     let msg = ctx.get_message();
     let raw_message = match &*msg {

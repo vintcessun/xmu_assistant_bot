@@ -11,12 +11,12 @@ use router::handler::NapcatRouter;
 
 use crate::{
     abi::{network::NapcatAdapter, router::handler::Router},
-    config::Config,
+    config::ServerConfig,
 };
 
-pub async fn run(config: Config) -> Result<NapcatRouter<NapcatAdapter>> {
+pub async fn run(config: ServerConfig) -> Result<NapcatRouter<NapcatAdapter>> {
     let (adapter, subscribe) = network::NapcatAdapter::new(1024);
-    let mut client = websocket::BotWebsocketClient::new(config.napcat, adapter, 32, 32);
+    let mut client = websocket::BotWebsocketClient::new(config, adapter, 32, 32);
     client.connect().await?;
     let router = NapcatRouter::new(subscribe, client);
     Ok(router)
@@ -25,7 +25,7 @@ pub async fn run(config: Config) -> Result<NapcatRouter<NapcatAdapter>> {
 pub mod logic_import {
     pub use crate::abi::{
         Context, Handler,
-        message::{MessageType, event::Type, event_message::Message},
+        message::{MessageType, Target, event::Type, event_message::Message},
         network::BotClient,
         websocket::BotHandler,
     };

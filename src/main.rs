@@ -1,10 +1,7 @@
+use crate::abi::router::handler::Router;
 use anyhow::Result;
 use std::path::Path;
-use tracing::{debug, info, trace, warn};
 
-use crate::abi::router::handler::Router;
-
-const CONFIG_PATH: &str = "config.toml";
 const LOG_PATH: &str = "logs";
 
 mod abi;
@@ -19,21 +16,9 @@ async fn main() -> Result<()> {
         println!("不存在日志目录，已创建: {LOG_PATH}",);
     }
 
-    let _guard = logger::init_logger(LOG_PATH, "info");
+    let _guard = logger::init_logger(LOG_PATH, "trace");
 
-    if !Path::new(CONFIG_PATH).is_file() {
-        let default_config = config::Config::default();
-        config::save_config(CONFIG_PATH, &default_config).await?;
-        warn!("不存在配置文件，已创建默认配置: {CONFIG_PATH}");
-        trace!(?default_config);
-        return Ok(());
-    }
-
-    let config = config::load_config(CONFIG_PATH).await.unwrap();
-    info!("配置文件加载成功: {CONFIG_PATH}");
-    debug!(?config);
-
-    let mut router = abi::run(config).await.unwrap();
+    let mut router = abi::run(config::get_napcat_config()).await.unwrap();
 
     router.run().await;
 

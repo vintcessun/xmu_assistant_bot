@@ -1,11 +1,14 @@
 extern crate proc_macro;
+use darling::FromMeta;
 use heck::AsPascalCase;
 use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use syn::{
-    Error, Ident, ItemFn, ItemStruct, LitStr, Result, Type,
+    Error, Ident, ItemFn, ItemStruct, LitBool, LitStr, Meta, Path, Result, Token, Type,
     parse::{Parse, ParseStream},
-    parse_macro_input, token,
+    parse_macro_input,
+    punctuated::Punctuated,
+    token,
 };
 
 // 1. 定义一个结构体来解析属性参数: #[api("/path", ResponseType)]
@@ -55,9 +58,7 @@ pub fn api(attr: TokenStream, item: TokenStream) -> TokenStream {
         impl Params for #name {
             type Response = #response_type; // 自动绑定关联类型
 
-            fn get_action(&self) -> &'static str {
-                #action_str
-            }
+            const ACTION: &'static str = #action_str;
         }
     };
 
@@ -103,16 +104,77 @@ pub fn define_default_type(input: TokenStream) -> TokenStream {
     expanded.into()
 }
 
+#[derive(Debug, FromMeta)]
+struct HandlerArgs {
+    #[darling(default)]
+    msg_type: Option<Ident>,
+    #[darling(default)]
+    command: Option<LitStr>,
+    #[darling(default)]
+    echo_cmd: bool,
+}
+
+impl Parse for HandlerArgs {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let mut msg_type = None;
+        let mut command = None;
+        let mut echo_cmd = false;
+
+        if input.is_empty() {
+            return Ok(HandlerArgs {
+                msg_type,
+                command,
+                echo_cmd,
+            });
+        }
+
+        let pairs = Punctuated::<Meta, Token![,]>::parse_terminated(input)?;
+        for meta in pairs {
+            let path = meta.path();
+            if path.is_ident("msg_type") {
+                if let Meta::NameValue(nv) = meta {
+                    let expr = nv.value;
+                    msg_type = Some(syn::parse2::<Ident>(quote!(#expr))?);
+                }
+            } else if path.is_ident("command") {
+                if let Meta::NameValue(nv) = meta {
+                    let expr = nv.value;
+                    command = Some(syn::parse2::<LitStr>(quote!(#expr))?);
+                }
+            } else if path.is_ident("echo_cmd") {
+                if let Meta::NameValue(nv) = meta {
+                    let expr = nv.value;
+                    // 解析 echo_cmd = true/false
+                    let lit: LitBool = syn::parse2(quote!(#expr))?;
+                    echo_cmd = lit.value;
+                }
+            } else {
+                return Err(syn::Error::new_spanned(
+                    path,
+                    "Unknown attribute key, expected 'msg_type', 'command', or 'echo_cmd'",
+                ));
+            }
+        }
+        Ok(HandlerArgs {
+            msg_type,
+            command,
+            echo_cmd,
+        })
+    }
+}
+
 #[proc_macro_attribute]
 pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
     let input_fn = parse_macro_input!(item as ItemFn);
+    let args = parse_macro_input!(attr as HandlerArgs);
+
     let fn_name = &input_fn.sig.ident;
     let vis = &input_fn.vis;
     let body = &input_fn.block;
-    let target_type_ident = parse_macro_input!(attr as Ident);
 
-    // 关键点 1: 确保生成的结构体标识符拥有原始函数名的 Span 信息
-    // 这会让 IDE 认为这个结构体就是在这里定义的
+    // 确定目标类型：如果有 msg_type 就用它，没有就默认为 M (泛型)
+    let target_type_ident = args.msg_type.clone().unwrap_or_else(|| format_ident!("M"));
+
     let struct_name = format_ident!(
         "{}Handler",
         AsPascalCase(fn_name.to_string()).to_string(),
@@ -121,13 +183,72 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
 
     let hidden_impl = format_ident!("__hidden_{}_impl", fn_name);
 
+    // 构造过滤逻辑的代码片段
+    let type_filter = if let Some(ref ty) = args.msg_type {
+        quote! { ctx.message.get_type() == Type::#ty }
+    } else {
+        quote! { true }
+    };
+
+    let command_filter = if let Some(ref cmd) = args.command {
+        quote! {
+            {
+                ctx.get_message_text().starts_with(const_format::formatcp!("{}{}", config::get_command_prefix(), #cmd))
+            }
+        }
+    } else {
+        quote! { true }
+    };
+
+    let echo_logic = if args.echo_cmd {
+        quote! {
+            {
+                let mut ctx = typed_ctx;
+                let msg_body = ctx.get_message();
+                let msg = match &*msg_body {
+                    Message::Group(g) => &g.message,
+                    Message::Private(p) => &p.message,
+                };
+                ctx.send_message_async(message::receive2send_add_prefix(
+                    msg,
+                    match ctx.get_target() {
+                        Target::Group(group_id) => format!(
+                            "来自群({group_id})的{}({} {})命令: ",
+                            ctx.sender
+                                .card
+                                .as_ref()
+                                .unwrap_or(&String::from("未知群昵称")),
+                            &ctx.sender
+                                .nickname
+                                .as_ref()
+                                .unwrap_or(&String::from("未知昵称")),
+                            &ctx.sender.user_id.unwrap_or(0),
+                        ),
+                        Target::Private(user_id) => {
+                            format!(
+                                "用户{user_id}({})的命令: ",
+                                &ctx.sender
+                                    .nickname
+                                    .as_ref()
+                                    .unwrap_or(&String::from("未知昵称"))
+                            )
+                        }
+                    },
+                ));
+                ctx
+            }
+        }
+    } else {
+        quote! {
+            typed_ctx
+        }
+    };
+
     let expanded = quote! {
-        // 关键点 2: 保留原始函数的“足迹”，但把它变成一个对 IDE 友好的常量或类型别名
-        // 这样当你输入函数名时，RA 会提示你它被映射到了对应的 Handler 类
         #[allow(non_upper_case_globals)]
         #vis const #fn_name: #struct_name = #struct_name;
 
-        // 1. 定义隐藏的实现函数
+        // 1. 定义隐藏的实现函数，使用确定的 target_type_ident
         async fn #hidden_impl<T>(mut ctx: Context<T, #target_type_ident>) -> anyhow::Result<()>
         where T: BotClient + BotHandler + std::fmt::Debug + 'static
         {
@@ -149,15 +270,53 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
             M: MessageType + std::fmt::Debug + Send + Sync + 'static,
         {
             async fn handle(&self, ctx: Context<T, M>) -> anyhow::Result<()> {
-                if ctx.message.get_type() == Type::#target_type_ident {
+                // 联合判断逻辑
+                if #type_filter && #command_filter {
+                    // 只有逻辑通过，才进行 unsafe 转换并进入业务函数
                     let typed_ctx = unsafe {
                         std::mem::transmute::<Context<T, M>, Context<T, #target_type_ident>>(ctx)
                     };
-                    #hidden_impl(typed_ctx).await
+                    let handle_ctx = #echo_logic;
+                    #hidden_impl(handle_ctx).await
                 } else {
                     Ok(())
                 }
             }
+        }
+    };
+
+    TokenStream::from(expanded)
+}
+
+#[proc_macro]
+pub fn register_handlers(input: TokenStream) -> TokenStream {
+    // 关键点 1: 使用 Path 代替 Ident，这样就能识别 "echo::EchoHandler"
+    let parser = Punctuated::<Path, Token![,]>::parse_terminated;
+    let handlers = parse_macro_input!(input with parser);
+
+    let spawns = handlers.iter().map(|handler| {
+        quote! {
+            {
+                let ctx = context.clone();
+                // 关键点 2: 这里的 #handler 现在会展开为完整的路径名
+                let handler_instance = #handler;
+                tokio::spawn(async move {
+                    if let Err(e) = handler_instance.handle(ctx).await {
+                        tracing::error!("Handler [{}] 运行出错: {:?}", stringify!(#handler), e);
+                    }
+                });
+            }
+        }
+    });
+
+    let expanded = quote! {
+        #[allow(non_snake_case, dead_code)]
+        pub fn dispatch_all_handlers<T, M>(context: Context<T, M>)
+        where
+            T: BotClient + BotHandler + std::fmt::Debug + Sync + Send + 'static,
+            M: MessageType + std::fmt::Debug + Sync + Send + 'static,
+        {
+            #(#spawns)*
         }
     };
 

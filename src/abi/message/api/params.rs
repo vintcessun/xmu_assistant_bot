@@ -3,17 +3,17 @@ use serde::{Deserialize, Serialize};
 
 use crate::abi::{
     echo::Echo,
-    message::{MessageSend, api::data},
+    message::{MessageSend, api::data, message_body},
 };
 
 pub trait Params: Send + Sync + 'static + Serialize {
     type Response: data::ApiResponseTrait + for<'de> Deserialize<'de>;
 
-    fn get_action(&self) -> &'static str;
+    const ACTION: &'static str;
 }
 
 #[derive(Serialize, Debug)]
-pub struct ApiSend<T: Params> {
+pub struct ApiSend<T: Params + Serialize> {
     pub action: &'static str,
     pub params: T,
     pub echo: Echo,
@@ -27,42 +27,36 @@ pub struct SendGroupMessageParams {
 }
 
 impl SendGroupMessageParams {
-    pub fn new(group_id: i64, message: MessageSend) -> Self {
+    pub const fn new(group_id: i64, message: MessageSend) -> Self {
         Self { group_id, message }
     }
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ForwardNode {
-    pub uin: Option<i64>,
-    pub name: Option<String>,
-    pub content: Vec<MessageSend>,
-}
-
-#[derive(Serialize, Debug)]
-#[serde(tag = "type", rename_all = "lowercase")]
-pub enum ForwardMessage {
-    Node { data: ForwardNode },
 }
 
 #[derive(Serialize, Debug)]
 #[api("/send_group_forward_msg", data::ForwardMsgResponse)]
 pub struct SendGroupForwardMessageParams {
     pub group_id: i64,
-    pub messages: Vec<ForwardMessage>,
+    pub messages: MessageSend,
 }
 
 impl SendGroupForwardMessageParams {
     pub fn new(group_id: i64, messages: Vec<MessageSend>) -> Self {
         Self {
             group_id,
-            messages: vec![ForwardMessage::Node {
-                data: ForwardNode {
-                    uin: None,
-                    name: None,
-                    content: messages,
-                },
-            }],
+            messages: MessageSend::Array(
+                messages
+                    .into_iter()
+                    .map(|m| {
+                        message_body::SegmentSend::Node(Box::new(
+                            message_body::node::DataSend::Content(message_body::node::DataSend2 {
+                                user_id: "114514".to_string(),
+                                nickname: "聊天转发".to_string(),
+                                content: Box::new(m),
+                            }),
+                        ))
+                    })
+                    .collect::<Vec<_>>(),
+            ),
         }
     }
 }
@@ -75,7 +69,7 @@ pub struct GroupPoke {
 }
 
 impl GroupPoke {
-    pub fn new(group_id: i64, user_id: i64) -> Self {
+    pub const fn new(group_id: i64, user_id: i64) -> Self {
         Self { group_id, user_id }
     }
 }
@@ -88,7 +82,7 @@ pub struct SendPrivateMessageParams {
 }
 
 impl SendPrivateMessageParams {
-    pub fn new(user_id: i64, message: MessageSend) -> Self {
+    pub const fn new(user_id: i64, message: MessageSend) -> Self {
         Self { user_id, message }
     }
 }
@@ -97,20 +91,27 @@ impl SendPrivateMessageParams {
 #[api("/send_private_forward_msg", data::ForwardMsgResponse)]
 pub struct SendPrivateForwardMessageParams {
     pub user_id: i64,
-    pub messages: Vec<ForwardMessage>,
+    pub messages: MessageSend,
 }
 
 impl SendPrivateForwardMessageParams {
     pub fn new(user_id: i64, messages: Vec<MessageSend>) -> Self {
         Self {
             user_id,
-            messages: vec![ForwardMessage::Node {
-                data: ForwardNode {
-                    uin: None,
-                    name: None,
-                    content: messages,
-                },
-            }],
+            messages: MessageSend::Array(
+                messages
+                    .into_iter()
+                    .map(|m| {
+                        message_body::SegmentSend::Node(Box::new(
+                            message_body::node::DataSend::Content(message_body::node::DataSend2 {
+                                user_id: "".to_string(),
+                                nickname: "".to_string(),
+                                content: Box::new(m),
+                            }),
+                        ))
+                    })
+                    .collect::<Vec<_>>(),
+            ),
         }
     }
 }
@@ -123,7 +124,7 @@ pub struct FriendPoke {
 }
 
 impl FriendPoke {
-    pub fn new(user_id: i64) -> Self {
+    pub const fn new(user_id: i64) -> Self {
         Self {
             user_id,
             target_id: None,

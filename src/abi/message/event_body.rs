@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::abi::message::Sender;
+
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Target {
     Group(i64),
@@ -16,6 +18,8 @@ pub enum Type {
 pub trait MessageType {
     fn get_target(&self) -> Target;
     fn get_type(&self) -> Type;
+    fn get_text(&self) -> String;
+    fn get_sender(&self) -> Sender;
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -28,7 +32,10 @@ pub enum Event {
 }
 
 pub mod message {
-    use crate::abi::message::{MessageReceive, SenderGroup, SenderPrivate};
+    use crate::abi::message::{
+        MessageReceive, SenderGroup, SenderPrivate,
+        sender::{Role, SenderRole},
+    };
 
     use super::*;
 
@@ -49,6 +56,33 @@ pub mod message {
 
         fn get_type(&self) -> Type {
             Type::Message
+        }
+
+        fn get_text(&self) -> String {
+            match self {
+                Message::Private(private) => private.message.get_text(),
+                Message::Group(group) => group.message.get_text(),
+            }
+        }
+        fn get_sender(&self) -> Sender {
+            match self {
+                Message::Group(p) => Sender {
+                    nickname: p.sender.nickname.clone(),
+                    user_id: p.sender.user_id,
+                    card: p.sender.card.clone(),
+                    role: match p.sender.role {
+                        Role::Admin => Some(SenderRole::GroupAdmin),
+                        Role::Owner => Some(SenderRole::GroupOwner),
+                        Role::Member => Some(SenderRole::GroupMember),
+                    },
+                },
+                Message::Private(p) => Sender {
+                    nickname: p.sender.nickname.clone(),
+                    user_id: p.sender.user_id,
+                    card: p.sender.card.clone(),
+                    role: Some(SenderRole::Friend),
+                },
+            }
         }
     }
 
@@ -144,6 +178,83 @@ pub mod notice {
 
         fn get_type(&self) -> Type {
             Type::Notice
+        }
+
+        fn get_text(&self) -> String {
+            String::new()
+        }
+
+        fn get_sender(&self) -> Sender {
+            match self {
+                Notice::GroupUpload(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::GroupAdmin(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::GroupDecrease(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::GroupIncrease(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::GroupBan(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::FriendAdd(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::GroupRecall(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::FriendRecall(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Notice::Notify(notify) => match notify {
+                    Notify::Poke(poke) => Sender {
+                        nickname: None,
+                        user_id: Some(poke.user_id),
+                        card: None,
+                        role: None,
+                    },
+                    Notify::LuckyKing(lucky_king) => Sender {
+                        nickname: None,
+                        user_id: Some(lucky_king.user_id),
+                        card: None,
+                        role: None,
+                    },
+                    Notify::Honor(honor) => Sender {
+                        nickname: None,
+                        user_id: Some(honor.user_id),
+                        card: None,
+                        role: None,
+                    },
+                },
+            }
         }
     }
 
@@ -318,6 +429,27 @@ pub mod request {
 
         fn get_type(&self) -> Type {
             Type::Request
+        }
+
+        fn get_text(&self) -> String {
+            String::new()
+        }
+
+        fn get_sender(&self) -> Sender {
+            match self {
+                Request::Friend(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+                Request::Group(n) => Sender {
+                    nickname: None,
+                    user_id: Some(n.user_id),
+                    card: None,
+                    role: None,
+                },
+            }
         }
     }
 

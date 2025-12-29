@@ -1,56 +1,59 @@
-use anyhow::Result;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+const CONFIG: Config = Config {
+    napcat: ServerConfig {
+        host: "127.0.0.1",
+        port: 3001,
+        access_token: None,
+        reconnect_interval_secs: 10,
+    },
+    bot: BotConfig {
+        command_prefix: "/",
+    },
+};
+
+pub const fn get_command_prefix() -> &'static str {
+    CONFIG.bot.command_prefix
+}
+
+pub const fn get_napcat_config() -> ServerConfig {
+    CONFIG.napcat
+}
+
+#[derive(Serialize, Debug, Default, Clone)]
 pub struct Config {
     pub napcat: ServerConfig,
     pub bot: BotConfig,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Debug, Clone)]
 pub struct ServerConfig {
-    pub host: String,
+    pub host: &'static str,
     pub port: u16,
-    pub access_token: Option<String>,
+    pub access_token: Option<&'static str>,
     pub reconnect_interval_secs: u64,
 }
 
 impl Default for ServerConfig {
     fn default() -> Self {
         ServerConfig {
-            host: "127.0.0.1".to_string(),
+            host: "127.0.0.1",
             port: 3001,
-            access_token: Some("xmu_assistant_bot".to_string()),
+            access_token: None,
             reconnect_interval_secs: 10,
         }
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Debug, Clone)]
 pub struct BotConfig {
-    pub qq: u64,
-    pub command_prefix: String,
-    pub admin_qqs: Vec<u64>,
+    pub command_prefix: &'static str,
 }
 
 impl Default for BotConfig {
     fn default() -> Self {
         BotConfig {
-            qq: 123456789,
-            command_prefix: "/".to_string(),
-            admin_qqs: vec![],
+            command_prefix: "/",
         }
     }
-}
-
-pub async fn load_config(path: &str) -> Result<Config> {
-    let config_contents = tokio::fs::read_to_string(path).await?;
-    let config: Config = toml::from_str(&config_contents)?;
-    Ok(config)
-}
-
-pub async fn save_config(path: &str, config: &Config) -> Result<()> {
-    let config_contents = toml::to_string_pretty(config)?;
-    tokio::fs::write(path, config_contents).await?;
-    Ok(())
 }

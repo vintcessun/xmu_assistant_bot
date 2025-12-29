@@ -12,21 +12,21 @@ pub struct CQ {
 pub enum SegmentReceive {
     Text(text::Data),
     Face(face::Data),
-    Image(image::DataSend),
-    Record(record::DataSend),
-    Video(video::DataSend),
+    Image(image::DataReceive),
+    Record(record::DataReceive),
+    Video(video::DataReceive),
     At(at::Data),
     Rps(rps::Data),
     Dice(dice::Data),
     Shake(shake::Data),
-    Poke(poke::DataSend),
-    Anonymous(anonymous::DataSend),
+    Poke(poke::DataReceive),
+    Anonymous(anonymous::DataReceive),
     Music(music::Data),
-    Share(share::DataSend),
+    Share(share::DataReceive),
     Contact(contact::Data),
-    Location(location::DataSend),
+    Location(location::DataReceive),
     Reply(reply::Data),
-    Forward(),
+    Forward(Box<forward::DataReceive>),
     Node(),
     Xml(xml::Data),
     Json(json::Data),
@@ -51,7 +51,7 @@ pub enum SegmentSend {
     Contact(contact::Data),
     Location(location::DataSend),
     Reply(reply::Data),
-    Forward(Box<forward::DataReceive>),
+    Forward(),
     Node(Box<node::DataSend>),
     Xml(xml::Data),
     Json(json::Data),
@@ -63,17 +63,49 @@ type ArrayReceive = Vec<SegmentReceive>;
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(untagged)]
 pub enum MessageReceive {
-    Cq(CQ),
-    Single(SegmentReceive),
     Array(ArrayReceive),
+    Single(SegmentReceive),
+    //Cq(CQ),
+}
+
+impl MessageReceive {
+    pub fn get_text(&self) -> String {
+        match self {
+            //MessageReceive::Cq(cq) => cq.message.clone(),
+            MessageReceive::Single(seg) => match seg {
+                SegmentReceive::Text(data) => data.text.clone(),
+                _ => String::new(),
+            },
+            MessageReceive::Array(arr) => {
+                let capacity = arr
+                    .iter()
+                    .filter_map(|seg| {
+                        if let SegmentReceive::Text(data) = seg {
+                            Some(data.text.len())
+                        } else {
+                            None
+                        }
+                    })
+                    .sum();
+
+                let mut result = String::with_capacity(capacity);
+                for seg in arr {
+                    if let SegmentReceive::Text(data) = seg {
+                        result.push_str(&data.text);
+                    }
+                }
+                result
+            }
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(untagged)]
 pub enum MessageSend {
-    Cq(CQ),
-    Single(SegmentSend),
     Array(ArraySend),
+    Single(SegmentSend),
+    Cq(CQ),
 }
 
 pub mod text {
@@ -117,10 +149,10 @@ pub mod image {
     }
 }
 
+define_default_type!(Magic, u8, 0);
+
 pub mod record {
     use super::*;
-
-    define_default_type!(Magic, u8, 0);
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {

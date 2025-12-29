@@ -1,3 +1,6 @@
+use crate::abi::logic_import::*;
+use helper::register_handlers;
+
 mod echo;
 
-pub use echo::EchoHandler;
+register_handlers!(echo::EchoHandler);

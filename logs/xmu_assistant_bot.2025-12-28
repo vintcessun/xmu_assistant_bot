@@ -7449,3 +7449,524 @@ payload: 0x7b2274696d65223a313736363930383135372c2273656c665f6964223a33343531313
 2025-12-28T07:49:48.634803Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("data did not match any variant of untagged enum MessageReceive", line: 0, column: 0)
 2025-12-28T07:49:48.785000Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("data did not match any variant of untagged enum MessageReceive", line: 0, column: 0)
 2025-12-28T07:49:49.411230Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("data did not match any variant of untagged enum MessageReceive", line: 0, column: 0)
+2025-12-28T15:59:12.686137Z  WARN xmu_assistant_bot: 不存在配置文件，已创建默认配置: config.toml
+2025-12-28T15:59:15.867543Z  INFO xmu_assistant_bot: 配置文件加载成功: config.toml
+2025-12-28T15:59:15.867725Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3001
+2025-12-28T15:59:15.872233Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2025-12-28T15:59:47.168279Z  INFO xmu_assistant_bot: 配置文件加载成功: config.toml
+2025-12-28T15:59:47.168405Z DEBUG xmu_assistant_bot: config=Config { napcat: ServerConfig { host: "127.0.0.1", port: 3001, access_token: Some("xmu_assistant_bot"), reconnect_interval_secs: 10 }, bot: BotConfig { command_prefix: "/" } }
+2025-12-28T15:59:47.168533Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3001
+2025-12-28T15:59:47.168609Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3001, access_token: Some("xmu_assistant_bot"), reconnect_interval_secs: 10 }
+2025-12-28T15:59:47.170493Z TRACE tokio_tungstenite::handshake: Setting ctx when starting handshake
+2025-12-28T15:59:47.170734Z TRACE tungstenite::handshake::client: Request: "GET /event HTTP/1.1\r\nHost: 127.0.0.1:3001\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: TyYnsJIULtvEGwjq9S+Tkg==\r\n\r\n"
+2025-12-28T15:59:47.170845Z TRACE tungstenite::handshake::client: Client handshake initiated.
+2025-12-28T15:59:47.170915Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.170996Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:172 Write.write
+2025-12-28T15:59:47.171081Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.171168Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:174 Write.with_context write -> poll_write
+2025-12-28T15:59:47.171289Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.171414Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:183 Write.flush
+2025-12-28T15:59:47.171541Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.171616Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:185 Write.with_context flush -> poll_flush
+2025-12-28T15:59:47.171695Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.171764Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:47.171827Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.171898Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:47.171980Z TRACE tokio_tungstenite::handshake: Setting context in handshake
+2025-12-28T15:59:47.172042Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.172121Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:47.172206Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.172279Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:47.173857Z TRACE tokio_tungstenite::handshake: Setting context in handshake
+2025-12-28T15:59:47.173946Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.174042Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:47.174133Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.174221Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:47.174355Z DEBUG tungstenite::handshake::client: Client handshake done.
+2025-12-28T15:59:47.174587Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:47.174700Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:47.174810Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:47.174905Z TRACE tokio_tungstenite::handshake: Setting ctx when starting handshake
+2025-12-28T15:59:47.174963Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 116]
+2025-12-28T15:59:47.175037Z TRACE tungstenite::handshake::client: Request: "GET /api HTTP/1.1\r\nHost: 127.0.0.1:3001\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: K/93NS6ttvTRdyYczQsTgQ==\r\n\r\n"
+2025-12-28T15:59:47.175106Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T15:59:47.175173Z TRACE tungstenite::handshake::client: Client handshake initiated.
+2025-12-28T15:59:47.175221Z TRACE tungstenite::protocol::frame::frame: Second: 1110100
+2025-12-28T15:59:47.175275Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.175330Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T15:59:47.175387Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:172 Write.write
+2025-12-28T15:59:47.175433Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T15:59:47.175513Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.175598Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 118
+payload length: 116
+payload: 0x7b2274696d65223a313736363933373538372c2273656c665f6964223a333435313136393034332c22706f73745f74797065223a226d6574615f6576656e74222c226d6574615f6576656e745f74797065223a226c6966656379636c65222c227375625f74797065223a22636f6e6e656374227d
+            
+2025-12-28T15:59:47.175687Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:174 Write.with_context write -> poll_write
+2025-12-28T15:59:47.175856Z TRACE tungstenite::protocol: Received message {"time":1766937587,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2025-12-28T15:59:47.176047Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.176184Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:47.176315Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:183 Write.flush
+2025-12-28T15:59:47.176480Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:47.176624Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.176791Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:47.176896Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:185 Write.with_context flush -> poll_flush
+2025-12-28T15:59:47.177049Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:47.177168Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T15:59:47.177320Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.177461Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:47.177609Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:47.177788Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.177893Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T15:59:47.178026Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:47.178253Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1766937587,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2025-12-28T15:59:47.178510Z DEBUG tungstenite::handshake::client: Client handshake done.
+2025-12-28T15:59:47.178790Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1766937587,\"self_id\":3451169043,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2025-12-28T15:59:47.179306Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2025-12-28T15:59:47.179667Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:47.179793Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1766937587, self_id: 3451169043, sub_type: Connect }))
+2025-12-28T15:59:47.179970Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1766937587, self_id: 3451169043, sub_type: Connect }))
+2025-12-28T15:59:47.180093Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:47.180211Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1766937587, self_id: 3451169043, sub_type: Connect })
+2025-12-28T15:59:47.180381Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:47.180481Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1766937587, self_id: 3451169043, sub_type: Connect }
+2025-12-28T15:59:47.180651Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:47.180811Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:47.180962Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:47.181148Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T15:59:51.497742Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:51.498139Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:51.498506Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:51.499012Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:51.499413Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:51.499769Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:51.500166Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 126]
+2025-12-28T15:59:51.500574Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T15:59:51.500986Z TRACE tungstenite::protocol::frame::frame: Second: 1111110
+2025-12-28T15:59:51.501160Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T15:59:51.501413Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T15:59:51.501813Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 447
+payload length: 443
+payload: 0x7b2273656c665f6964223a333435313136393034332c22757365725f6964223a323231383837303639352c2274696d65223a313736363933373539312c226d6573736167655f6964223a3736373238383939302c226d6573736167655f736571223a3736373238383939302c227265616c5f6964223a3736373238383939302c227265616c5f736571223a223130313836222c226d6573736167655f74797065223a2267726f7570222c2273656e646572223a7b22757365725f6964223a323231383837303639352c226e69636b6e616d65223a22e68192e6989f222c2263617264223a22e4b8bbe4baba222c22726f6c65223a226f776e6572227d2c227261775f6d657373616765223a22373737222c22666f6e74223a31342c227375625f74797065223a226e6f726d616c222c226d657373616765223a5b7b2274797065223a2274657874222c2264617461223a7b2274657874223a22373737227d7d5d2c226d6573736167655f666f726d6174223a226172726179222c22706f73745f74797065223a226d657373616765222c2267726f75705f6964223a3533363430353339372c2267726f75705f6e616d65223a22e6b58be8af95227d
+            
+2025-12-28T15:59:51.502074Z TRACE tungstenite::protocol: Received message {"self_id":3451169043,"user_id":2218870695,"time":1766937591,"message_id":767288990,"message_seq":767288990,"real_id":767288990,"real_seq":"10186","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"777","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"777"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T15:59:51.502251Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:51.502390Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:51.502509Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:51.502639Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:51.502724Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:51.502846Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:51.502962Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T15:59:51.503112Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":3451169043,"user_id":2218870695,"time":1766937591,"message_id":767288990,"message_seq":767288990,"real_id":767288990,"real_seq":"10186","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"777","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"777"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T15:59:51.503277Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":3451169043,\"user_id\":2218870695,\"time\":1766937591,\"message_id\":767288990,\"message_seq\":767288990,\"real_id\":767288990,\"real_seq\":\"10186\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"主人\",\"role\":\"owner\"},\"raw_message\":\"777\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"777\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":536405397,\"group_name\":\"测试\"}"
+2025-12-28T15:59:51.503690Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1766937591, self_id: 3451169043, sub_type: Normal, message_id: 767288990, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "777" })]), raw_message: "777", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T15:59:51.503852Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1766937591, self_id: 3451169043, sub_type: Normal, message_id: 767288990, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "777" })]), raw_message: "777", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T15:59:51.504047Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1766937591, self_id: 3451169043, sub_type: Normal, message_id: 767288990, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "777" })]), raw_message: "777", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } })
+2025-12-28T15:59:57.238978Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:57.239391Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:57.239590Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:57.239807Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:57.239966Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:57.240123Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:57.240364Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 126]
+2025-12-28T15:59:57.240635Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T15:59:57.240827Z TRACE tungstenite::protocol::frame::frame: Second: 1111110
+2025-12-28T15:59:57.241028Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T15:59:57.241224Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T15:59:57.241722Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 153
+payload length: 149
+payload: 0x7b2274696d65223a313736363933373539372c2273656c665f6964223a333435313136393034332c22706f73745f74797065223a226d6574615f6576656e74222c226d6574615f6576656e745f74797065223a22686561727462656174222c22737461747573223a7b226f6e6c696e65223a747275652c22676f6f64223a747275657d2c22696e74657276616c223a33303030307d
+            
+2025-12-28T15:59:57.242184Z TRACE tungstenite::protocol: Received message {"time":1766937597,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2025-12-28T15:59:57.242723Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:57.243068Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:57.243615Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:57.244077Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:57.244421Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:57.244682Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:57.245003Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T15:59:57.245311Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1766937597,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2025-12-28T15:59:57.245420Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1766937597,\"self_id\":3451169043,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2025-12-28T15:59:57.245642Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1766937597, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }))
+2025-12-28T15:59:57.245790Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1766937597, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }))
+2025-12-28T15:59:57.245977Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1766937597, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 })
+2025-12-28T15:59:57.246190Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:57.246256Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1766937597, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }
+2025-12-28T15:59:57.246313Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:57.246399Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:57.246499Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:57.246586Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:57.246668Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:57.246757Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 126]
+2025-12-28T15:59:57.246830Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T15:59:57.246929Z TRACE tungstenite::protocol::frame::frame: Second: 1111110
+2025-12-28T15:59:57.246987Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T15:59:57.247061Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T15:59:57.247282Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 456
+payload length: 452
+payload: 0x7b2273656c665f6964223a333435313136393034332c22757365725f6964223a323231383837303639352c2274696d65223a313736363933373539362c226d6573736167655f6964223a35353133313731382c226d6573736167655f736571223a35353133313731382c227265616c5f6964223a35353133313731382c227265616c5f736571223a223130313837222c226d6573736167655f74797065223a2267726f7570222c2273656e646572223a7b22757365725f6964223a323231383837303639352c226e69636b6e616d65223a22e68192e6989f222c2263617264223a22e4b8bbe4baba222c22726f6c65223a226f776e6572227d2c227261775f6d657373616765223a222f6563686f20323333222c22666f6e74223a31342c227375625f74797065223a226e6f726d616c222c226d657373616765223a5b7b2274797065223a2274657874222c2264617461223a7b2274657874223a222f6563686f20323333227d7d5d2c226d6573736167655f666f726d6174223a226172726179222c22706f73745f74797065223a226d657373616765222c2267726f75705f6964223a3533363430353339372c2267726f75705f6e616d65223a22e6b58be8af95227d
+            
+2025-12-28T15:59:57.247472Z TRACE tungstenite::protocol: Received message {"self_id":3451169043,"user_id":2218870695,"time":1766937596,"message_id":55131718,"message_seq":55131718,"real_id":55131718,"real_seq":"10187","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"/echo 233","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/echo 233"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T15:59:57.247568Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:57.247642Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:57.247725Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:57.247811Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:57.247893Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:57.247978Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:57.248061Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T15:59:57.248178Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":3451169043,"user_id":2218870695,"time":1766937596,"message_id":55131718,"message_seq":55131718,"real_id":55131718,"real_seq":"10187","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"/echo 233","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/echo 233"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T15:59:57.248309Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":3451169043,\"user_id\":2218870695,\"time\":1766937596,\"message_id\":55131718,\"message_seq\":55131718,\"real_id\":55131718,\"real_seq\":\"10187\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"主人\",\"role\":\"owner\"},\"raw_message\":\"/echo 233\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/echo 233\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":536405397,\"group_name\":\"测试\"}"
+2025-12-28T15:59:57.248502Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1766937596, self_id: 3451169043, sub_type: Normal, message_id: 55131718, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 233" })]), raw_message: "/echo 233", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T15:59:57.248598Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1766937596, self_id: 3451169043, sub_type: Normal, message_id: 55131718, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 233" })]), raw_message: "/echo 233", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T15:59:57.248723Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1766937596, self_id: 3451169043, sub_type: Normal, message_id: 55131718, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 233" })]), raw_message: "/echo 233", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } })
+2025-12-28T15:59:57.248888Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共1条
+2025-12-28T15:59:57.248977Z TRACE xmu_assistant_bot::abi::router::context: messages=[Single(Text(Data { text: "你说的是: /echo 233" }))]
+2025-12-28T15:59:57.249158Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2025-12-28T15:59:57.249246Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 536405397, messages: [Node { data: ForwardNode { uin: None, name: None, content: [Single(Text(Data { text: "你说的是: /echo 233" }))] } }] }, echo: Echo(1) }
+2025-12-28T15:59:57.249392Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:57.249585Z TRACE tungstenite::protocol: Sending frame: Frame { header: FrameHeader { is_final: true, rsv1: false, rsv2: false, rsv3: false, opcode: Data(Text), mask: Some([83, 204, 125, 217]) }, payload: b"{\"action\":\"send_group_forward_msg\",\"params\":{\"group_id\":536405397,\"messages\":[{\"type\":\"node\",\"data\":{\"uin\":null,\"name\":null,\"content\":[{\"type\":\"text\",\"data\":{\"text\":\"\xe4\xbd\xa0\xe8\xaf\xb4\xe7\x9a\x84\xe6\x98\xaf: /echo 233\"}}]}}]},\"echo\":\"1\"}" }
+2025-12-28T15:59:57.250086Z TRACE tungstenite::protocol::frame: writing frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 217
+payload length: 209
+payload: 0x7b22616374696f6e223a2273656e645f67726f75705f666f72776172645f6d7367222c22706172616d73223a7b2267726f75705f6964223a3533363430353339372c226d65737361676573223a5b7b2274797065223a226e6f6465222c2264617461223a7b2275696e223a6e756c6c2c226e616d65223a6e756c6c2c22636f6e74656e74223a5b7b2274797065223a2274657874222c2264617461223a7b2274657874223a22e4bda0e8afb4e79a84e698af3a202f6563686f20323333227d7d5d7d7d5d7d2c226563686f223a2231227d
+            
+2025-12-28T15:59:57.250591Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:57.250879Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:172 Write.write
+2025-12-28T15:59:57.251018Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:57.251128Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:174 Write.with_context write -> poll_write
+2025-12-28T15:59:57.251281Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:183 Write.flush
+2025-12-28T15:59:57.251332Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:57.251403Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:185 Write.with_context flush -> poll_flush
+2025-12-28T15:59:58.255931Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:58.256036Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:58.256134Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:58.256239Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:58.256323Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:58.256414Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:58.256579Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 121]
+2025-12-28T15:59:58.256651Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T15:59:58.256753Z TRACE tungstenite::protocol::frame::frame: Second: 1111001
+2025-12-28T15:59:58.256827Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T15:59:58.256883Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T15:59:58.257011Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 123
+payload length: 121
+payload: 0x7b22737461747573223a226f6b222c22726574636f6465223a302c2264617461223a7b226d6573736167655f6964223a3537383834303432347d2c226d657373616765223a22222c22776f7264696e67223a22222c226563686f223a2231222c2273747265616d223a226e6f726d616c2d616374696f6e227d
+            
+2025-12-28T15:59:58.257109Z TRACE tungstenite::protocol: Received message {"status":"ok","retcode":0,"data":{"message_id":578840424},"message":"","wording":"","echo":"1","stream":"normal-action"}
+2025-12-28T15:59:58.257220Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T15:59:58.257298Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T15:59:58.257370Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T15:59:58.257464Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T15:59:58.257721Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T15:59:58.257936Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T15:59:58.258144Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T15:59:58.258433Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":578840424},"message":"","wording":"","echo":"1","stream":"normal-action"}
+2025-12-28T15:59:58.258674Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":578840424},\"message\":\"\",\"wording\":\"\",\"echo\":\"1\",\"stream\":\"normal-action\"}"
+2025-12-28T15:59:58.259071Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(1)
+2025-12-28T15:59:58.259453Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 578840424, res_id: None }), echo: Echo(1), wording: Some(""), stream: Some(NormalAction) })
+2025-12-28T16:00:03.888496Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:03.888581Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:03.888626Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:03.888679Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:03.888733Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:03.888838Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:03.888928Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 126]
+2025-12-28T16:00:03.888995Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T16:00:03.889068Z TRACE tungstenite::protocol::frame::frame: Second: 1111110
+2025-12-28T16:00:03.889146Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T16:00:03.889296Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T16:00:03.889845Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 496
+payload length: 492
+payload: 0x7b2273656c665f6964223a333435313136393034332c22757365725f6964223a323231383837303639352c2274696d65223a313736363933373630332c226d6573736167655f6964223a3937313833313834372c226d6573736167655f736571223a3937313833313834372c227265616c5f6964223a3937313833313834372c227265616c5f736571223a223130313839222c226d6573736167655f74797065223a2267726f7570222c2273656e646572223a7b22757365725f6964223a323231383837303639352c226e69636b6e616d65223a22e68192e6989f222c2263617264223a22e4b8bbe4baba222c22726f6c65223a226f776e6572227d2c227261775f6d657373616765223a225b43513a666f72776172642c69643d373538383933393232303539393035363136395d222c22666f6e74223a31342c227375625f74797065223a226e6f726d616c222c226d657373616765223a5b7b2274797065223a22666f7277617264222c2264617461223a7b226964223a2237353838393339323230353939303536313639227d7d5d2c226d6573736167655f666f726d6174223a226172726179222c22706f73745f74797065223a226d657373616765222c2267726f75705f6964223a3533363430353339372c2267726f75705f6e616d65223a22e6b58be8af95227d
+            
+2025-12-28T16:00:03.890297Z TRACE tungstenite::protocol: Received message {"self_id":3451169043,"user_id":2218870695,"time":1766937603,"message_id":971831847,"message_seq":971831847,"real_id":971831847,"real_seq":"10189","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"[CQ:forward,id=7588939220599056169]","font":14,"sub_type":"normal","message":[{"type":"forward","data":{"id":"7588939220599056169"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T16:00:03.890623Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:03.890897Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:03.891156Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:03.891439Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:03.891665Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:03.891856Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:03.892086Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T16:00:03.892441Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":3451169043,"user_id":2218870695,"time":1766937603,"message_id":971831847,"message_seq":971831847,"real_id":971831847,"real_seq":"10189","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"[CQ:forward,id=7588939220599056169]","font":14,"sub_type":"normal","message":[{"type":"forward","data":{"id":"7588939220599056169"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T16:00:03.892784Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":3451169043,\"user_id\":2218870695,\"time\":1766937603,\"message_id\":971831847,\"message_seq\":971831847,\"real_id\":971831847,\"real_seq\":\"10189\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"主人\",\"role\":\"owner\"},\"raw_message\":\"[CQ:forward,id=7588939220599056169]\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"forward\",\"data\":{\"id\":\"7588939220599056169\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":536405397,\"group_name\":\"测试\"}"
+2025-12-28T16:00:03.893526Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1766937603, self_id: 3451169043, sub_type: Normal, message_id: 971831847, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Forward(DataReceive { id: "7588939220599056169" })]), raw_message: "[CQ:forward,id=7588939220599056169]", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T16:00:03.893993Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1766937603, self_id: 3451169043, sub_type: Normal, message_id: 971831847, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Forward(DataReceive { id: "7588939220599056169" })]), raw_message: "[CQ:forward,id=7588939220599056169]", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T16:00:03.894544Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1766937603, self_id: 3451169043, sub_type: Normal, message_id: 971831847, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Forward(DataReceive { id: "7588939220599056169" })]), raw_message: "[CQ:forward,id=7588939220599056169]", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } })
+2025-12-28T16:00:09.625209Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:09.625564Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:09.625857Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:09.626108Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:09.626327Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:09.626569Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:09.626807Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 126]
+2025-12-28T16:00:09.626987Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T16:00:09.627157Z TRACE tungstenite::protocol::frame::frame: Second: 1111110
+2025-12-28T16:00:09.627368Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T16:00:09.627568Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T16:00:09.628351Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 529
+payload length: 525
+payload: 0x7b2273656c665f6964223a333435313136393034332c22757365725f6964223a323231383837303639352c2274696d65223a313736363933373630392c226d6573736167655f6964223a3738323330313733372c226d6573736167655f736571223a3738323330313733372c227265616c5f6964223a3738323330313733372c227265616c5f736571223a223130313930222c226d6573736167655f74797065223a2267726f7570222c2273656e646572223a7b22757365725f6964223a323231383837303639352c226e69636b6e616d65223a22e68192e6989f222c2263617264223a22e4b8bbe4baba222c22726f6c65223a226f776e6572227d2c227261775f6d657373616765223a225b43513a7265706c792c69643d3937313833313834375d2f6563686f203237373236222c22666f6e74223a31342c227375625f74797065223a226e6f726d616c222c226d657373616765223a5b7b2274797065223a227265706c79222c2264617461223a7b226964223a22393731383331383437227d7d2c7b2274797065223a2274657874222c2264617461223a7b2274657874223a222f6563686f203237373236227d7d5d2c226d6573736167655f666f726d6174223a226172726179222c22706f73745f74797065223a226d657373616765222c2267726f75705f6964223a3533363430353339372c2267726f75705f6e616d65223a22e6b58be8af95227d
+            
+2025-12-28T16:00:09.628962Z TRACE tungstenite::protocol: Received message {"self_id":3451169043,"user_id":2218870695,"time":1766937609,"message_id":782301737,"message_seq":782301737,"real_id":782301737,"real_seq":"10190","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"[CQ:reply,id=971831847]/echo 27726","font":14,"sub_type":"normal","message":[{"type":"reply","data":{"id":"971831847"}},{"type":"text","data":{"text":"/echo 27726"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T16:00:09.629399Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:09.629678Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:09.629966Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:09.630290Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:09.630639Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:09.630999Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:09.631383Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T16:00:09.631923Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":3451169043,"user_id":2218870695,"time":1766937609,"message_id":782301737,"message_seq":782301737,"real_id":782301737,"real_seq":"10190","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"主人","role":"owner"},"raw_message":"[CQ:reply,id=971831847]/echo 27726","font":14,"sub_type":"normal","message":[{"type":"reply","data":{"id":"971831847"}},{"type":"text","data":{"text":"/echo 27726"}}],"message_format":"array","post_type":"message","group_id":536405397,"group_name":"测试"}
+2025-12-28T16:00:09.632493Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":3451169043,\"user_id\":2218870695,\"time\":1766937609,\"message_id\":782301737,\"message_seq\":782301737,\"real_id\":782301737,\"real_seq\":\"10190\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"主人\",\"role\":\"owner\"},\"raw_message\":\"[CQ:reply,id=971831847]/echo 27726\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"reply\",\"data\":{\"id\":\"971831847\"}},{\"type\":\"text\",\"data\":{\"text\":\"/echo 27726\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":536405397,\"group_name\":\"测试\"}"
+2025-12-28T16:00:09.633320Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1766937609, self_id: 3451169043, sub_type: Normal, message_id: 782301737, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Reply(Data { id: "971831847" }), Text(Data { text: "/echo 27726" })]), raw_message: "[CQ:reply,id=971831847]/echo 27726", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T16:00:09.633736Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1766937609, self_id: 3451169043, sub_type: Normal, message_id: 782301737, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Reply(Data { id: "971831847" }), Text(Data { text: "/echo 27726" })]), raw_message: "[CQ:reply,id=971831847]/echo 27726", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } }))
+2025-12-28T16:00:09.633894Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1766937609, self_id: 3451169043, sub_type: Normal, message_id: 782301737, group_id: 536405397, user_id: 2218870695, anonymous: None, message: Array([Reply(Data { id: "971831847" }), Text(Data { text: "/echo 27726" })]), raw_message: "[CQ:reply,id=971831847]/echo 27726", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some("主人"), sex: None, age: None, area: None, level: None, role: Some(Owner), title: None } })
+2025-12-28T16:00:09.634050Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共1条
+2025-12-28T16:00:09.634139Z TRACE xmu_assistant_bot::abi::router::context: messages=[Single(Text(Data { text: "你说的是: [CQ:reply,id=971831847]/echo 27726" }))]
+2025-12-28T16:00:09.634253Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2025-12-28T16:00:09.634350Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 536405397, messages: [Node { data: ForwardNode { uin: None, name: None, content: [Single(Text(Data { text: "你说的是: [CQ:reply,id=971831847]/echo 27726" }))] } }] }, echo: Echo(2) }
+2025-12-28T16:00:09.634471Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:09.634581Z TRACE tungstenite::protocol: Sending frame: Frame { header: FrameHeader { is_final: true, rsv1: false, rsv2: false, rsv3: false, opcode: Data(Text), mask: Some([179, 47, 251, 96]) }, payload: b"{\"action\":\"send_group_forward_msg\",\"params\":{\"group_id\":536405397,\"messages\":[{\"type\":\"node\",\"data\":{\"uin\":null,\"name\":null,\"content\":[{\"type\":\"text\",\"data\":{\"text\":\"\xe4\xbd\xa0\xe8\xaf\xb4\xe7\x9a\x84\xe6\x98\xaf: [CQ:reply,id=971831847]/echo 27726\"}}]}}]},\"echo\":\"2\"}" }
+2025-12-28T16:00:09.634767Z TRACE tungstenite::protocol::frame: writing frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 242
+payload length: 234
+payload: 0x7b22616374696f6e223a2273656e645f67726f75705f666f72776172645f6d7367222c22706172616d73223a7b2267726f75705f6964223a3533363430353339372c226d65737361676573223a5b7b2274797065223a226e6f6465222c2264617461223a7b2275696e223a6e756c6c2c226e616d65223a6e756c6c2c22636f6e74656e74223a5b7b2274797065223a2274657874222c2264617461223a7b2274657874223a22e4bda0e8afb4e79a84e698af3a205b43513a7265706c792c69643d3937313833313834375d2f6563686f203237373236227d7d5d7d7d5d7d2c226563686f223a2232227d
+            
+2025-12-28T16:00:09.634888Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:09.634996Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:172 Write.write
+2025-12-28T16:00:09.635068Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:09.635154Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:174 Write.with_context write -> poll_write
+2025-12-28T16:00:09.635393Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:183 Write.flush
+2025-12-28T16:00:09.635517Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:09.635639Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:185 Write.with_context flush -> poll_flush
+2025-12-28T16:00:10.736138Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:10.736307Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:10.736442Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:10.736545Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:10.736640Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:10.736734Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:10.736817Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 121]
+2025-12-28T16:00:10.736890Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T16:00:10.736959Z TRACE tungstenite::protocol::frame::frame: Second: 1111001
+2025-12-28T16:00:10.737025Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T16:00:10.737088Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T16:00:10.737207Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 123
+payload length: 121
+payload: 0x7b22737461747573223a226f6b222c22726574636f6465223a302c2264617461223a7b226d6573736167655f6964223a3234313332393932317d2c226d657373616765223a22222c22776f7264696e67223a22222c226563686f223a2232222c2273747265616d223a226e6f726d616c2d616374696f6e227d
+            
+2025-12-28T16:00:10.737292Z TRACE tungstenite::protocol: Received message {"status":"ok","retcode":0,"data":{"message_id":241329921},"message":"","wording":"","echo":"2","stream":"normal-action"}
+2025-12-28T16:00:10.737378Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:10.737453Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:10.737536Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:10.737620Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:10.737697Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:10.737774Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:10.737848Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T16:00:10.737933Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":241329921},"message":"","wording":"","echo":"2","stream":"normal-action"}
+2025-12-28T16:00:10.738009Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":241329921},\"message\":\"\",\"wording\":\"\",\"echo\":\"2\",\"stream\":\"normal-action\"}"
+2025-12-28T16:00:10.738115Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(2)
+2025-12-28T16:00:10.738204Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 241329921, res_id: None }), echo: Echo(2), wording: Some(""), stream: Some(NormalAction) })
+2025-12-28T16:00:27.247261Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:27.247634Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:27.247889Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:27.248097Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:27.248283Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:27.248469Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:27.248685Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 126]
+2025-12-28T16:00:27.248879Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T16:00:27.249086Z TRACE tungstenite::protocol::frame::frame: Second: 1111110
+2025-12-28T16:00:27.249281Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T16:00:27.249434Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T16:00:27.249705Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 153
+payload length: 149
+payload: 0x7b2274696d65223a313736363933373632372c2273656c665f6964223a333435313136393034332c22706f73745f74797065223a226d6574615f6576656e74222c226d6574615f6576656e745f74797065223a22686561727462656174222c22737461747573223a7b226f6e6c696e65223a747275652c22676f6f64223a747275657d2c22696e74657276616c223a33303030307d
+            
+2025-12-28T16:00:27.249934Z TRACE tungstenite::protocol: Received message {"time":1766937627,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2025-12-28T16:00:27.250155Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:27.250295Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:27.250478Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:27.250672Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:27.250868Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:27.251049Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:27.251186Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T16:00:27.251366Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1766937627,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2025-12-28T16:00:27.251536Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1766937627,\"self_id\":3451169043,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2025-12-28T16:00:27.251743Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1766937627, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }))
+2025-12-28T16:00:27.251908Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1766937627, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }))
+2025-12-28T16:00:27.252137Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1766937627, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 })
+2025-12-28T16:00:27.252308Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1766937627, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }
+2025-12-28T16:00:57.260832Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:57.261251Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:57.261700Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:57.262135Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:57.262463Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:57.262571Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:57.262655Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 126]
+2025-12-28T16:00:57.262721Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T16:00:57.262782Z TRACE tungstenite::protocol::frame::frame: Second: 1111110
+2025-12-28T16:00:57.262852Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T16:00:57.262929Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T16:00:57.263064Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 153
+payload length: 149
+payload: 0x7b2274696d65223a313736363933373635372c2273656c665f6964223a333435313136393034332c22706f73745f74797065223a226d6574615f6576656e74222c226d6574615f6576656e745f74797065223a22686561727462656174222c22737461747573223a7b226f6e6c696e65223a747275652c22676f6f64223a747275657d2c22696e74657276616c223a33303030307d
+            
+2025-12-28T16:00:57.263159Z TRACE tungstenite::protocol: Received message {"time":1766937657,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2025-12-28T16:00:57.263246Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:00:57.263323Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:00:57.263391Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:00:57.263481Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:00:57.263569Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:00:57.263635Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:00:57.263718Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T16:00:57.263803Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1766937657,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2025-12-28T16:00:57.263873Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1766937657,\"self_id\":3451169043,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2025-12-28T16:00:57.263987Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1766937657, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }))
+2025-12-28T16:00:57.264074Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1766937657, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }))
+2025-12-28T16:00:57.264187Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1766937657, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 })
+2025-12-28T16:00:57.264267Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1766937657, self_id: 3451169043, status: Status { online: true, good: true }, interval: 30000 }
+2025-12-28T16:07:15.719026Z  INFO xmu_assistant_bot: 配置文件加载成功: config.toml
+2025-12-28T16:07:15.719179Z DEBUG xmu_assistant_bot: config=Config { napcat: ServerConfig { host: "127.0.0.1", port: 3001, access_token: Some("xmu_assistant_bot"), reconnect_interval_secs: 10 }, bot: BotConfig { command_prefix: "/" } }
+2025-12-28T16:07:15.719307Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3001
+2025-12-28T16:07:15.719393Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3001, access_token: Some("xmu_assistant_bot"), reconnect_interval_secs: 10 }
+2025-12-28T16:07:15.721240Z TRACE tokio_tungstenite::handshake: Setting ctx when starting handshake
+2025-12-28T16:07:15.721382Z TRACE tungstenite::handshake::client: Request: "GET /event HTTP/1.1\r\nHost: 127.0.0.1:3001\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: T+LXLhXjIo30H1ZZAdW3pA==\r\n\r\n"
+2025-12-28T16:07:15.721488Z TRACE tungstenite::handshake::client: Client handshake initiated.
+2025-12-28T16:07:15.721576Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.721648Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:172 Write.write
+2025-12-28T16:07:15.721712Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.721777Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:174 Write.with_context write -> poll_write
+2025-12-28T16:07:15.721914Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.721981Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:183 Write.flush
+2025-12-28T16:07:15.722077Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.722247Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:185 Write.with_context flush -> poll_flush
+2025-12-28T16:07:15.722412Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.722555Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:07:15.722692Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.722835Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:07:15.722983Z TRACE tokio_tungstenite::handshake: Setting context in handshake
+2025-12-28T16:07:15.723109Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.723243Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:07:15.723375Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.723515Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:07:15.723902Z TRACE tokio_tungstenite::handshake: Setting context in handshake
+2025-12-28T16:07:15.723977Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.724039Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:07:15.724145Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.724250Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:07:15.724373Z DEBUG tungstenite::handshake::client: Client handshake done.
+2025-12-28T16:07:15.724598Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:07:15.724673Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:07:15.724763Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:07:15.724980Z TRACE tokio_tungstenite::handshake: Setting ctx when starting handshake
+2025-12-28T16:07:15.725071Z TRACE tungstenite::protocol::frame::frame: Parsed headers [129, 116]
+2025-12-28T16:07:15.725137Z TRACE tungstenite::protocol::frame::frame: First: 10000001
+2025-12-28T16:07:15.725215Z TRACE tungstenite::handshake::client: Request: "GET /api HTTP/1.1\r\nHost: 127.0.0.1:3001\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: kLgHqCpyh8E77F/DpefSpg==\r\n\r\n"
+2025-12-28T16:07:15.725264Z TRACE tungstenite::protocol::frame::frame: Second: 1110100
+2025-12-28T16:07:15.725321Z TRACE tungstenite::handshake::client: Client handshake initiated.
+2025-12-28T16:07:15.725376Z TRACE tungstenite::protocol::frame::frame: Opcode: Data(Text)
+2025-12-28T16:07:15.725424Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.725491Z TRACE tungstenite::protocol::frame::frame: Masked: false
+2025-12-28T16:07:15.725674Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:172 Write.write
+2025-12-28T16:07:15.725887Z TRACE tungstenite::protocol::frame: received frame 
+<FRAME>
+final: true
+reserved: false false false
+opcode: TEXT
+length: 118
+payload length: 116
+payload: 0x7b2274696d65223a313736363933383033352c2273656c665f6964223a333435313136393034332c22706f73745f74797065223a226d6574615f6576656e74222c226d6574615f6576656e745f74797065223a226c6966656379636c65222c227375625f74797065223a22636f6e6e656374227d
+            
+2025-12-28T16:07:15.726015Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.726121Z TRACE tungstenite::protocol: Received message {"time":1766938035,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2025-12-28T16:07:15.726239Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:174 Write.with_context write -> poll_write
+2025-12-28T16:07:15.726337Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:07:15.726428Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.726557Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:07:15.726709Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:183 Write.flush
+2025-12-28T16:07:15.726863Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.726964Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:07:15.727068Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:185 Write.with_context flush -> poll_flush
+2025-12-28T16:07:15.727197Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:07:15.727279Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.727393Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.727501Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:07:15.727696Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:07:15.728056Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.728311Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:07:15.728454Z TRACE tokio_tungstenite::compat: WouldBlock
+2025-12-28T16:07:15.728564Z TRACE tokio_tungstenite::handshake: Setting context in handshake
+2025-12-28T16:07:15.728672Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1766938035,"self_id":3451169043,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2025-12-28T16:07:15.728825Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1766938035,\"self_id\":3451169043,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2025-12-28T16:07:15.728959Z TRACE tungstenite::handshake::machine: Doing handshake round.
+2025-12-28T16:07:15.729180Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:07:15.729390Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.729745Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:07:15.730040Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1766938035, self_id: 3451169043, sub_type: Connect }))
+2025-12-28T16:07:15.730202Z DEBUG tungstenite::handshake::client: Client handshake done.
+2025-12-28T16:07:15.730428Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1766938035, self_id: 3451169043, sub_type: Connect }))
+2025-12-28T16:07:15.730607Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:292 Stream.poll_next
+2025-12-28T16:07:15.730676Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2025-12-28T16:07:15.730882Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:243 WebSocketStream.with_context
+2025-12-28T16:07:15.731009Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1766938035, self_id: 3451169043, sub_type: Connect })
+2025-12-28T16:07:15.731155Z TRACE tokio_tungstenite: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\lib.rs:302 Stream.with_context poll_next -> read()
+2025-12-28T16:07:15.731325Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1766938035, self_id: 3451169043, sub_type: Connect }
+2025-12-28T16:07:15.731491Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:154 Read.read
+2025-12-28T16:07:15.731585Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:131 AllowStd.with_context
+2025-12-28T16:07:15.731678Z TRACE tokio_tungstenite::compat: C:\Users\vintces\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\tokio-tungstenite-0.28.0\src\compat.rs:157 Read.with_context read -> poll_read
+2025-12-28T16:07:15.731809Z TRACE tokio_tungstenite::compat: WouldBlock
