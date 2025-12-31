@@ -1,8 +1,11 @@
 pub mod api;
 pub mod event_body;
 mod file;
-mod message_body;
+mod helper;
+pub mod message_body;
 mod sender;
+
+use crate::abi::message::message_body::*;
 
 pub use api::Params;
 pub use event_body as event;
@@ -12,18 +15,13 @@ pub use event_body::meta as event_meta;
 pub use event_body::notice as event_notice;
 pub use event_body::request as event_request;
 pub use event_body::{MessageType, Target};
+pub use helper::*;
 pub use message_body::MessageReceive;
 pub use message_body::MessageSend;
 pub use sender::{Sender, SenderGroup, SenderPrivate};
-use tokio_tungstenite::tungstenite::Message;
 
-use crate::abi::message::message_body::SegmentReceive;
-use crate::abi::message::message_body::SegmentSend;
-use crate::abi::message::message_body::anonymous;
-use crate::abi::message::message_body::text;
-
-pub fn from_str(s: String) -> MessageSend {
-    MessageSend::Array(vec![SegmentSend::Text(text::Data { text: s })])
+pub fn from_str<S: Into<String>>(s: S) -> MessageSend {
+    MessageSend::new_message().text(s).build()
 }
 
 fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {

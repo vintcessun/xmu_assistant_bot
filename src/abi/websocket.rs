@@ -6,11 +6,15 @@ use futures_util::sink::SinkExt;
 use std::sync::Arc;
 use tokio::sync::mpsc;
 use tokio_tungstenite::{connect_async, tungstenite::Message};
-use tracing::{debug, error, info, trace};
+use tracing::{debug, error, info};
 
 #[async_trait]
 pub trait BotHandler: Send + Sync + 'static {
-    async fn init(&self, event: mpsc::Sender<String>, api: mpsc::Sender<String>) -> Result<()>;
+    async fn init(
+        &self,
+        event: mpsc::UnboundedSender<String>,
+        api: mpsc::UnboundedSender<String>,
+    ) -> Result<()>;
     async fn handle_api(&self, message: String);
     async fn handle_event(&self, event: String);
     async fn on_connect(&self);
@@ -21,29 +25,20 @@ pub struct BotWebsocketClient<T: BotHandler> {
     config: ServerConfig,
     pub handler: Arc<T>,
 
-    event_capacity: usize,
     event_read_task: Option<tokio::task::JoinHandle<()>>,
     event_write_task: Option<tokio::task::JoinHandle<()>>,
 
-    api_capacity: usize,
     api_read_task: Option<tokio::task::JoinHandle<()>>,
     api_write_task: Option<tokio::task::JoinHandle<()>>,
 }
 
 impl<T: BotHandler> BotWebsocketClient<T> {
-    pub fn new(
-        config: ServerConfig,
-        handler: T,
-        event_capacity: usize,
-        api_capacity: usize,
-    ) -> Self {
+    pub fn new(config: ServerConfig, handler: T) -> Self {
         BotWebsocketClient {
             config,
             handler: Arc::new(handler),
-            event_capacity,
             event_read_task: None,
             event_write_task: None,
-            api_capacity,
             api_read_task: None,
             api_write_task: None,
         }
@@ -73,7 +68,7 @@ impl<T: BotHandler> BotWebsocketClient<T> {
             }
         }));
 
-        let (event_sender, mut event_receiver) = mpsc::channel::<String>(self.event_capacity);
+        let (event_sender, mut event_receiver) = mpsc::unbounded_channel::<String>();
 
         self.event_write_task = Some(tokio::spawn(async move {
             while let Some(msg) = event_receiver.recv().await {
@@ -101,7 +96,7 @@ impl<T: BotHandler> BotWebsocketClient<T> {
             }
         }));
 
-        let (api_sender, mut api_receiver) = mpsc::channel::<String>(self.api_capacity);
+        let (api_sender, mut api_receiver) = mpsc::unbounded_channel::<String>();
 
         self.api_write_task = Some(tokio::spawn(async move {
             while let Some(msg) = api_receiver.recv().await {

@@ -11,7 +11,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use std::{fmt, sync::Arc};
 use tokio::sync::mpsc;
-use tracing::{debug, error, trace};
+use tracing::{debug, trace};
 
 #[async_trait]
 pub trait Handler<T, M>: Send + Sync
@@ -27,7 +27,7 @@ pub trait Router<T>
 where
     T: BotClient + BotHandler + fmt::Debug,
 {
-    fn new(subscribe: mpsc::Receiver<Event>, client: BotWebsocketClient<T>) -> Self;
+    fn new(subscribe: mpsc::UnboundedReceiver<Event>, client: BotWebsocketClient<T>) -> Self;
     fn get_client(&self) -> Arc<T>;
     async fn run(&mut self) -> ();
 }
@@ -54,13 +54,13 @@ where
 }
 
 pub struct NapcatRouter<T: BotHandler> {
-    subscribe: mpsc::Receiver<Event>,
+    subscribe: mpsc::UnboundedReceiver<Event>,
     client: BotWebsocketClient<T>,
 }
 
 #[async_trait]
 impl<T: BotHandler + BotClient + fmt::Debug> Router<T> for NapcatRouter<T> {
-    fn new(subscribe: mpsc::Receiver<Event>, client: BotWebsocketClient<T>) -> Self {
+    fn new(subscribe: mpsc::UnboundedReceiver<Event>, client: BotWebsocketClient<T>) -> Self {
         NapcatRouter { subscribe, client }
     }
 

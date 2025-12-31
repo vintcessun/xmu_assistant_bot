@@ -1,5 +1,4 @@
-use crate::{abi::logic_import::*, config};
-use helper::handler;
+use crate::abi::logic_import::*;
 
 #[handler(msg_type=Message,command="echo",echo_cmd=true)]
 pub async fn echo(ctx: Context) -> Result<()> {

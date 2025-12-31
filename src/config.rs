@@ -1,3 +1,5 @@
+use std::fs;
+
 use serde::Serialize;
 
 const CONFIG: Config = Config {
@@ -11,6 +13,13 @@ const CONFIG: Config = Config {
         command_prefix: "/",
     },
 };
+
+pub fn ensure_dir(path: &'static str) -> &'static str {
+    fs::create_dir_all(path).unwrap();
+    path
+}
+
+pub const DATA_DIR: &str = "./data";
 
 pub const fn get_command_prefix() -> &'static str {
     CONFIG.bot.command_prefix

@@ -14,14 +14,14 @@ use crate::abi::{
 
 #[derive(Debug)]
 pub struct NapcatAdapter {
-    event_sender: OnceCell<mpsc::Sender<String>>,
-    api_sender: OnceCell<mpsc::Sender<String>>,
-    handler: mpsc::Sender<Event>,
+    event_sender: OnceCell<mpsc::UnboundedSender<String>>,
+    api_sender: OnceCell<mpsc::UnboundedSender<String>>,
+    handler: mpsc::UnboundedSender<Event>,
 }
 
 impl NapcatAdapter {
-    pub fn new(capacity: usize) -> (Self, mpsc::Receiver<Event>) {
-        let (tx, rx) = mpsc::channel::<Event>(capacity);
+    pub fn new() -> (Self, mpsc::UnboundedReceiver<Event>) {
+        let (tx, rx) = mpsc::unbounded_channel::<Event>();
         (
             NapcatAdapter {
                 event_sender: OnceCell::new(),
@@ -52,7 +52,7 @@ impl BotClient for NapcatAdapter {
         trace!(?api_send);
 
         if let Some(sender) = self.api_sender.get() {
-            if let Err(e) = sender.send(msg).await {
+            if let Err(e) = sender.send(msg) {
                 error!("发送 API 消息失败: {:?}", e);
             }
         } else {
@@ -70,7 +70,11 @@ struct EchoOnly {
 
 #[async_trait]
 impl BotHandler for NapcatAdapter {
-    async fn init(&self, event: mpsc::Sender<String>, api: mpsc::Sender<String>) -> Result<()> {
+    async fn init(
+        &self,
+        event: mpsc::UnboundedSender<String>,
+        api: mpsc::UnboundedSender<String>,
+    ) -> Result<()> {
         self.event_sender.set(event)?;
         self.api_sender.set(api)?;
 
@@ -104,7 +108,7 @@ impl BotHandler for NapcatAdapter {
                 debug!("解析事件成功: {:?}", evt);
                 trace!(?evt);
 
-                if let Err(e) = self.handler.send(evt).await {
+                if let Err(e) = self.handler.send(evt) {
                     error!("分发事件失败: {:?}", e);
                 }
             }

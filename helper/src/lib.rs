@@ -11,7 +11,6 @@ use syn::{
     token,
 };
 
-// 1. 定义一个结构体来解析属性参数: #[api("/path", ResponseType)]
 struct ApiAttr {
     path: LitStr,
     _comma: token::Comma,
@@ -30,12 +29,10 @@ impl Parse for ApiAttr {
 
 #[proc_macro_attribute]
 pub fn api(attr: TokenStream, item: TokenStream) -> TokenStream {
-    // 2. 解析属性参数
     let args = parse_macro_input!(attr as ApiAttr);
     let path = args.path.value();
     let response_type = args.response_type;
 
-    // 校验斜杠
     if !path.starts_with('/') || path.len() < 2 {
         return Error::new(
             args.path.span(),
@@ -47,16 +44,14 @@ pub fn api(attr: TokenStream, item: TokenStream) -> TokenStream {
 
     let action_str = &path[1..];
 
-    // 3. 解析结构体本身
     let input = parse_macro_input!(item as ItemStruct);
     let name = &input.ident;
 
-    // 4. 生成代码，包含关联类型
     let expanded = quote! {
         #input
 
         impl Params for #name {
-            type Response = #response_type; // 自动绑定关联类型
+            type Response = #response_type;
 
             const ACTION: &'static str = #action_str;
         }
@@ -155,6 +150,20 @@ impl Parse for HandlerArgs {
                 ));
             }
         }
+
+        if echo_cmd {
+            if !msg_type
+                .as_ref()
+                .map(|t| t.to_string() == "Message")
+                .unwrap_or(false)
+            {
+                return Err(syn::Error::new_spanned(
+                    &msg_type,
+                    "When 'echo_cmd' is true, 'msg_type' must be 'Message'",
+                ));
+            }
+        }
+
         Ok(HandlerArgs {
             msg_type,
             command,
@@ -172,7 +181,6 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
     let vis = &input_fn.vis;
     let body = &input_fn.block;
 
-    // 确定目标类型：如果有 msg_type 就用它，没有就默认为 M (泛型)
     let target_type_ident = args.msg_type.clone().unwrap_or_else(|| format_ident!("M"));
 
     let struct_name = format_ident!(
@@ -183,7 +191,6 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
 
     let hidden_impl = format_ident!("__hidden_{}_impl", fn_name);
 
-    // 构造过滤逻辑的代码片段
     let type_filter = if let Some(ref ty) = args.msg_type {
         quote! { ctx.message.get_type() == Type::#ty }
     } else {
@@ -244,12 +251,20 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
         }
     };
 
+    let (generics, target_type) = if args.msg_type.is_some() {
+        (quote! { <T> }, quote! { #target_type_ident })
+    } else {
+        (
+            quote! { <T, M: MessageType + std::fmt::Debug> },
+            quote! { M },
+        )
+    };
+
     let expanded = quote! {
         #[allow(non_upper_case_globals)]
         #vis const #fn_name: #struct_name = #struct_name;
 
-        // 1. 定义隐藏的实现函数，使用确定的 target_type_ident
-        async fn #hidden_impl<T>(mut ctx: Context<T, #target_type_ident>) -> anyhow::Result<()>
+        async fn #hidden_impl #generics(mut ctx: Context<T, #target_type>) -> anyhow::Result<()>
         where T: BotClient + BotHandler + std::fmt::Debug + 'static
         {
             let plugin_logic = |mut ctx: Context<T, #target_type_ident>| async move {
@@ -259,7 +274,6 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
             plugin_logic(ctx).await
         }
 
-        // 2. 生成 Handler 结构体
         #[derive(Clone, Default, Debug)]
         #vis struct #struct_name;
 
@@ -270,9 +284,7 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
             M: MessageType + std::fmt::Debug + Send + Sync + 'static,
         {
             async fn handle(&self, ctx: Context<T, M>) -> anyhow::Result<()> {
-                // 联合判断逻辑
                 if #type_filter && #command_filter {
-                    // 只有逻辑通过，才进行 unsafe 转换并进入业务函数
                     let typed_ctx = unsafe {
                         std::mem::transmute::<Context<T, M>, Context<T, #target_type_ident>>(ctx)
                     };
@@ -290,7 +302,6 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
 
 #[proc_macro]
 pub fn register_handlers(input: TokenStream) -> TokenStream {
-    // 关键点 1: 使用 Path 代替 Ident，这样就能识别 "echo::EchoHandler"
     let parser = Punctuated::<Path, Token![,]>::parse_terminated;
     let handlers = parse_macro_input!(input with parser);
 
@@ -298,7 +309,6 @@ pub fn register_handlers(input: TokenStream) -> TokenStream {
         quote! {
             {
                 let ctx = context.clone();
-                // 关键点 2: 这里的 #handler 现在会展开为完整的路径名
                 let handler_instance = #handler;
                 tokio::spawn(async move {
                     if let Err(e) = handler_instance.handle(ctx).await {
@@ -317,6 +327,152 @@ pub fn register_handlers(input: TokenStream) -> TokenStream {
             M: MessageType + std::fmt::Debug + Sync + Send + 'static,
         {
             #(#spawns)*
+        }
+    };
+
+    TokenStream::from(expanded)
+}
+struct JwApiArgs {
+    url: String,
+    app: String,
+    field_name: String,
+}
+
+impl Parse for JwApiArgs {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let vars = Punctuated::<Meta, Token![,]>::parse_terminated(input)?;
+        let mut url: Option<String> = None;
+        let mut app: Option<String> = None;
+
+        for meta in vars {
+            if let Meta::NameValue(nv) = meta {
+                if nv.path.is_ident("url") {
+                    if let syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Str(s),
+                        ..
+                    }) = nv.value
+                    {
+                        url = Some(s.value());
+                    }
+                } else if nv.path.is_ident("app") {
+                    if let syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Str(s),
+                        ..
+                    }) = nv.value
+                    {
+                        app = Some(s.value());
+                    }
+                }
+            }
+        }
+
+        let url = url.ok_or_else(|| {
+            syn::Error::new(
+                input.span(),
+                "Missing required attribute: `url` (e.g., #[jw_api(url = \"...\")])",
+            )
+        })?;
+
+        let app = app.ok_or_else(|| {
+            syn::Error::new(
+                input.span(),
+                "Missing required attribute: `app` (e.g., #[jw_api(app = \"...\")])",
+            )
+        })?;
+
+        if !url.ends_with(".do") {
+            return Err(syn::Error::new(
+                input.span(),
+                "The url is invalid because it does not end with .do",
+            ));
+        }
+
+        let field_name = url
+            .split('/')
+            .last()
+            .and_then(|s| s.split('.').next())
+            .ok_or(syn::Error::new(
+                input.span(),
+                "The url may be invalid because it does not contain a valid api name",
+            ))?
+            .to_string();
+
+        Ok(JwApiArgs {
+            url,
+            app,
+            field_name,
+        })
+    }
+}
+
+#[proc_macro_attribute]
+pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
+    let args = parse_macro_input!(args as JwApiArgs);
+
+    let input_struct = parse_macro_input!(input as ItemStruct);
+    let original_ident = &input_struct.ident;
+
+    let response_item_ident = format_ident!("{}Response", original_ident);
+    let data_api_ident = format_ident!("{}DataApi", original_ident);
+    let datas_ident = format_ident!("{}Datas", original_ident);
+
+    let vis = &input_struct.vis;
+    let fields = &input_struct.fields;
+    let url_val = args.url;
+    let app_val = args.app;
+
+    let field_name_from_url = args.field_name;
+
+    let dynamic_field_ident = format_ident!("{}", field_name_from_url);
+
+    let expanded = quote! {
+        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
+        #[serde(rename_all = "UPPERCASE")]
+        #vis struct #response_item_ident
+        #fields
+
+        #[async_trait::async_trait]
+        impl JwAPI for #original_ident {
+            const URL_DATA: &'static str = #url_val;
+            const APP_ENTRANCE: &'static str = #app_val;
+            type Response = #response_item_ident;
+        }
+
+        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
+        #[serde(rename_all = "camelCase")]
+        #vis struct #data_api_ident {
+            pub rows: Vec<#response_item_ident>,
+            #[serde(skip_serializing_if = "Option::is_none")]
+            pub ext_params: Option<Box<serde_json::value::RawValue>>,
+            pub page_number: Option<Box<serde_json::value::RawValue>>,
+            pub page_size: Option<Box<serde_json::value::RawValue>>,
+            pub total_size: Option<Box<serde_json::value::RawValue>>,
+        }
+
+        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
+        #vis struct #datas_ident {
+            pub #dynamic_field_ident: #data_api_ident,
+        }
+
+        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
+        #vis struct #original_ident {
+            pub code: String,
+            pub datas: #datas_ident,
+        }
+
+        impl #original_ident {
+            async fn call<D: Serialize + Sync>(castgc: &str, data: &D) -> Result<#original_ident> {
+                let mut client = SessionClient::new();
+                client.set_cookie(
+                    "CASTGC",
+                    castgc,
+                    IDS_URL.clone(),
+                );
+                let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
+
+                let resp = client.post(#original_ident::URL_DATA, data).await?.json().await?;
+                Ok(resp)
+            }
         }
     };
 
