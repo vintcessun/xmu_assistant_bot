@@ -267,11 +267,11 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
         async fn #hidden_impl #generics(mut ctx: Context<T, #target_type>) -> anyhow::Result<()>
         where T: BotClient + BotHandler + std::fmt::Debug + 'static
         {
-            let plugin_logic = |mut ctx: Context<T, #target_type_ident>| async move {
-                let result: anyhow::Result<()> = { #body };
-                result
-            };
-            plugin_logic(ctx).await
+            let result: anyhow::Result<()> = (async { #body }).await;;
+            if let Err(e) = result{
+                handle_error(ctx, stringify!(#fn_name), e).await;
+            }
+            Ok(())
         }
 
         #[derive(Clone, Default, Debug)]
@@ -312,7 +312,7 @@ pub fn register_handlers(input: TokenStream) -> TokenStream {
                 let handler_instance = #handler;
                 tokio::spawn(async move {
                     if let Err(e) = handler_instance.handle(ctx).await {
-                        tracing::error!("Handler [{}] 运行出错: {:?}", stringify!(#handler), e);
+                        tracing::error!("Handler [{}] 运行时错误: {:?}", stringify!(#handler), e);
                     }
                 });
             }
@@ -332,10 +332,18 @@ pub fn register_handlers(input: TokenStream) -> TokenStream {
 
     TokenStream::from(expanded)
 }
+
+enum WrapState {
+    Normal,
+    Query,
+}
+
 struct JwApiArgs {
     url: String,
     app: String,
     field_name: String,
+    wrapper_name: String,
+    wrap_response: WrapState,
 }
 
 impl Parse for JwApiArgs {
@@ -343,6 +351,8 @@ impl Parse for JwApiArgs {
         let vars = Punctuated::<Meta, Token![,]>::parse_terminated(input)?;
         let mut url: Option<String> = None;
         let mut app: Option<String> = None;
+        let mut wrap_response = WrapState::Normal;
+        let mut wrapper_name: Option<String> = None;
 
         for meta in vars {
             if let Meta::NameValue(nv) = meta {
@@ -362,6 +372,19 @@ impl Parse for JwApiArgs {
                     {
                         app = Some(s.value());
                     }
+                } else if nv.path.is_ident("wrapper_name") {
+                    if let syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Str(s),
+                        ..
+                    }) = nv.value
+                    {
+                        wrapper_name = Some(s.value());
+                    }
+                } else {
+                    return Err(syn::Error::new_spanned(
+                        nv.path,
+                        "Unknown attribute key, expected 'url', 'app', 'wrap_response', or 'wrapper_name'",
+                    ));
                 }
             }
         }
@@ -397,10 +420,24 @@ impl Parse for JwApiArgs {
             ))?
             .to_string();
 
+        if field_name.find("Xs").is_some() {
+            wrap_response = WrapState::Query;
+        }
+
+        let wrapper_name = match wrapper_name {
+            Some(name) => name,
+            None => match wrap_response {
+                WrapState::Normal => "datas".to_string(),
+                WrapState::Query => "data".to_string(),
+            },
+        };
+
         Ok(JwApiArgs {
             url,
             app,
             field_name,
+            wrap_response,
+            wrapper_name,
         })
     }
 }
@@ -416,6 +453,8 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
     let data_api_ident = format_ident!("{}DataApi", original_ident);
     let datas_ident = format_ident!("{}Datas", original_ident);
 
+    let data_name = format_ident!("{}", args.wrapper_name);
+
     let vis = &input_struct.vis;
     let fields = &input_struct.fields;
     let url_val = args.url;
@@ -425,55 +464,89 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
 
     let dynamic_field_ident = format_ident!("{}", field_name_from_url);
 
-    let expanded = quote! {
-        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-        #[serde(rename_all = "UPPERCASE")]
-        #vis struct #response_item_ident
-        #fields
+    let expanded = match args.wrap_response {
+        WrapState::Normal => quote! {
+            #[derive(Deserialize, Debug, Clone, Default)]
+            #[serde(rename_all = "UPPERCASE")]
+            #vis struct #response_item_ident
+            #fields
 
-        #[async_trait::async_trait]
-        impl JwAPI for #original_ident {
-            const URL_DATA: &'static str = #url_val;
-            const APP_ENTRANCE: &'static str = #app_val;
-            type Response = #response_item_ident;
-        }
-
-        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-        #[serde(rename_all = "camelCase")]
-        #vis struct #data_api_ident {
-            pub rows: Vec<#response_item_ident>,
-            #[serde(skip_serializing_if = "Option::is_none")]
-            pub ext_params: Option<Box<serde_json::value::RawValue>>,
-            pub page_number: Option<Box<serde_json::value::RawValue>>,
-            pub page_size: Option<Box<serde_json::value::RawValue>>,
-            pub total_size: Option<Box<serde_json::value::RawValue>>,
-        }
-
-        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-        #vis struct #datas_ident {
-            pub #dynamic_field_ident: #data_api_ident,
-        }
-
-        #[derive(Serialize, Deserialize, Debug, Clone, Default)]
-        #vis struct #original_ident {
-            pub code: String,
-            pub datas: #datas_ident,
-        }
-
-        impl #original_ident {
-            async fn call<D: Serialize + Sync>(castgc: &str, data: &D) -> Result<#original_ident> {
-                let mut client = SessionClient::new();
-                client.set_cookie(
-                    "CASTGC",
-                    castgc,
-                    IDS_URL.clone(),
-                );
-                let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
-
-                let resp = client.post(#original_ident::URL_DATA, data).await?.json().await?;
-                Ok(resp)
+            #[async_trait::async_trait]
+            impl JwAPI for #original_ident {
+                const URL_DATA: &'static str = #url_val;
+                const APP_ENTRANCE: &'static str = #app_val;
             }
-        }
+
+            #[derive(Deserialize, Debug, Clone, Default)]
+            #[serde(rename_all = "camelCase")]
+            #vis struct #data_api_ident {
+                pub rows: Vec<#response_item_ident>,
+                // pub ext_params: serde::de::IgnoredAny,
+                // pub page_number: serde::de::IgnoredAny,
+                // pub page_size: serde::de::IgnoredAny,
+                // pub total_size: serde::de::IgnoredAny,
+            }
+
+            #[derive(Deserialize, Debug, Clone, Default)]
+            #vis struct #datas_ident {
+                pub #dynamic_field_ident: #data_api_ident,
+            }
+
+            #[derive(Deserialize, Debug, Clone, Default)]
+            #vis struct #original_ident {
+                pub code: String,
+                pub #data_name: #datas_ident,
+            }
+
+            impl #original_ident {
+                pub async fn call<D: Serialize + Sync>(castgc: &str, data: &D) -> Result<#original_ident> {
+                    let mut client = SessionClient::new();
+                    client.set_cookie(
+                        "CASTGC",
+                        castgc,
+                        IDS_URL.clone(),
+                    );
+                    let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
+
+                    let resp = client.post(#original_ident::URL_DATA, data).await?.json().await?;
+                    Ok(resp)
+                }
+            }
+        },
+        WrapState::Query => quote! {
+            #[derive(Deserialize, Debug, Clone, Default)]
+            #[serde(rename_all = "UPPERCASE")]
+            #vis struct #response_item_ident
+            #fields
+
+            #[async_trait::async_trait]
+            impl JwAPI for #original_ident {
+                const URL_DATA: &'static str = #url_val;
+                const APP_ENTRANCE: &'static str = #app_val;
+            }
+
+            #[derive(Deserialize, Debug, Clone, Default)]
+            #vis struct #original_ident {
+                pub #data_name: Vec<#response_item_ident>,
+                // pub success: serde::de::IgnoredAny,
+                // pub ttbList: serde::de::IgnoredAny,
+            }
+
+            impl #original_ident {
+                async fn call<D: Serialize + Sync>(castgc: &str, data: &D) -> Result<#original_ident> {
+                    let mut client = SessionClient::new();
+                    client.set_cookie(
+                        "CASTGC",
+                        castgc,
+                        IDS_URL.clone(),
+                    );
+                    let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
+
+                    let resp = client.post(#original_ident::URL_DATA, data).await?.json().await?;
+                    Ok(resp)
+                }
+            }
+        },
     };
 
     TokenStream::from(expanded)

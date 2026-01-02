@@ -1,4 +1,4 @@
-mod echo;
+pub mod echo;
 pub mod message;
 pub mod network;
 pub mod router;
@@ -23,6 +23,22 @@ pub async fn run(config: ServerConfig) -> Result<NapcatRouter<NapcatAdapter>> {
 }
 
 pub mod logic_import {
+    pub async fn handle_error<T, M>(
+        mut ctx: Context<T, M>,
+        fn_name: &'static str,
+        err: anyhow::Error,
+    ) where
+        T: BotClient + BotHandler + std::fmt::Debug + 'static,
+        M: message::MessageType + std::fmt::Debug + 'static,
+    {
+        ctx.send_message_async(message::from_str(format!(
+            "Logic [{}] 运行出现错误: {}",
+            stringify!(#fn_name),
+            err
+        )));
+        tracing::debug!("Logic [{}] 运行出错: {:?}", fn_name, err);
+    }
+
     pub use crate::abi::message;
     pub use crate::abi::{
         Context, Handler,

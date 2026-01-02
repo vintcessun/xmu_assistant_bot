@@ -10,51 +10,51 @@ pub struct CQ {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(tag = "type", content = "data", rename_all = "snake_case")]
 pub enum SegmentReceive {
-    Text(text::Data),
-    Face(face::Data),
-    Image(image::DataReceive),
-    Record(record::DataReceive),
-    Video(video::DataReceive),
-    At(at::Data),
+    Text(Box<text::Data>),
+    Face(Box<face::Data>),
+    Image(Box<image::DataReceive>),
+    Record(Box<record::DataReceive>),
+    Video(Box<video::DataReceive>),
+    At(Box<at::Data>),
     Rps(rps::Data),
     Dice(dice::Data),
     Shake(shake::Data),
-    Poke(poke::DataReceive),
+    Poke(Box<poke::DataReceive>),
     Anonymous(anonymous::DataReceive),
-    Music(music::Data),
-    Share(share::DataReceive),
-    Contact(contact::Data),
-    Location(location::DataReceive),
-    Reply(reply::Data),
+    Music(Box<music::Data>),
+    Share(Box<share::DataReceive>),
+    Contact(Box<contact::Data>),
+    Location(Box<location::DataReceive>),
+    Reply(Box<reply::Data>),
     Forward(Box<forward::DataReceive>),
     Node(),
-    Xml(xml::Data),
-    Json(json::Data),
+    Xml(Box<xml::Data>),
+    Json(Box<json::Data>),
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(tag = "type", content = "data", rename_all = "snake_case")]
 pub enum SegmentSend {
-    Text(text::Data),
-    Face(face::Data),
-    Image(image::DataSend),
-    Record(record::DataSend),
-    Video(video::DataSend),
-    At(at::Data),
+    Text(Box<text::Data>),
+    Face(Box<face::Data>),
+    Image(Box<image::DataSend>),
+    Record(Box<record::DataSend>),
+    Video(Box<video::DataSend>),
+    At(Box<at::Data>),
     Rps(rps::Data),
     Dice(dice::Data),
     Shake(shake::Data),
-    Poke(poke::DataSend),
+    Poke(Box<poke::DataSend>),
     Anonymous(anonymous::DataSend),
-    Music(music::Data),
-    Share(share::DataSend),
-    Contact(contact::Data),
-    Location(location::DataSend),
-    Reply(reply::Data),
+    Music(Box<music::Data>),
+    Share(Box<share::DataSend>),
+    Contact(Box<contact::Data>),
+    Location(Box<location::DataSend>),
+    Reply(Box<reply::Data>),
     Forward(),
     Node(Box<node::DataSend>),
-    Xml(xml::Data),
-    Json(json::Data),
+    Xml(Box<xml::Data>),
+    Json(Box<json::Data>),
 }
 
 type ArraySend = Vec<SegmentSend>;
@@ -71,32 +71,86 @@ pub enum MessageReceive {
 impl MessageReceive {
     pub fn get_text(&self) -> String {
         match self {
-            //MessageReceive::Cq(cq) => cq.message.clone(),
-            MessageReceive::Single(seg) => match seg {
-                SegmentReceive::Text(data) => data.text.clone(),
-                _ => String::new(),
-            },
-            MessageReceive::Array(arr) => {
-                let capacity = arr
-                    .iter()
-                    .filter_map(|seg| {
-                        if let SegmentReceive::Text(data) = seg {
-                            Some(data.text.len())
-                        } else {
-                            None
-                        }
-                    })
-                    .sum();
+            // 1. 极速路径：单条文本直接 Clone
+            MessageReceive::Single(SegmentReceive::Text(data)) => data.text.clone(),
 
-                let mut result = String::with_capacity(capacity);
-                for seg in arr {
+            // 2. 数组路径：利用 Extend 内部优化
+            MessageReceive::Array(arr) => {
+                let mut result = String::new();
+                result.extend(arr.iter().filter_map(|seg| {
                     if let SegmentReceive::Text(data) = seg {
-                        result.push_str(&data.text);
+                        Some(data.text.as_str())
+                    } else {
+                        None
                     }
-                }
+                }));
                 result
             }
+
+            // 3. 其他情况：统一返回空 String (Inline 处理)
+            _ => String::new(),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::mem::size_of;
+
+    #[test]
+    fn test_size() {
+        println!("\n========================================");
+        println!("MessageSend size: {} bytes", size_of::<MessageSend>());
+        println!("MessageReceive size: {} bytes", size_of::<MessageReceive>());
+        println!("========================================\n\n");
+    }
+
+    #[test]
+    fn locate_large_variants() {
+        let mut sizes = vec![
+            ("Text", size_of::<text::Data>()),
+            ("Face", size_of::<face::Data>()),
+            ("Image", size_of::<image::DataSend>()),
+            ("Record", size_of::<record::DataSend>()),
+            ("Video", size_of::<video::DataSend>()),
+            ("At", size_of::<at::Data>()),
+            ("Rps", size_of::<rps::Data>()),
+            ("Dice", size_of::<dice::Data>()),
+            ("Shake", size_of::<shake::Data>()),
+            ("Poke", size_of::<poke::DataSend>()),
+            ("Anonymous", size_of::<anonymous::DataSend>()),
+            ("Music", size_of::<music::Data>()),
+            ("Share", size_of::<share::DataSend>()),
+            ("Contact", size_of::<contact::Data>()),
+            ("Location", size_of::<location::DataSend>()),
+            ("Reply", size_of::<reply::Data>()),
+            ("Xml", size_of::<xml::Data>()),
+            ("Json", size_of::<json::Data>()),
+            ("Node", size_of::<node::DataSend>()),
+        ];
+
+        // 按字节大小降序排列
+        sizes.sort_by(|a, b| b.1.cmp(&a.1));
+
+        println!("\n========================================");
+        println!("      SEGMENT VARIANT SIZE ANALYSIS      ");
+        println!("========================================");
+        println!("Total SegmentSend size: {} bytes", size_of::<SegmentSend>());
+        println!("Total MessageSend size: {} bytes", size_of::<MessageSend>());
+        println!("----------------------------------------");
+
+        for (name, size) in sizes {
+            let status = if size > 64 {
+                "!! [REALLY LARGE]"
+            } else if size > 32 {
+                "!  [LARGE]"
+            } else {
+                "   [OK]"
+            };
+            println!("{:<20} : {:>3} bytes  {}", name, size, status);
+        }
+        println!("========================================\n");
     }
 }
 
@@ -105,7 +159,6 @@ impl MessageReceive {
 pub enum MessageSend {
     Array(ArraySend),
     Single(SegmentSend),
-    Cq(CQ),
 }
 
 pub mod text {

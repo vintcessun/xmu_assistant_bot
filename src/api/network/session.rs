@@ -30,6 +30,12 @@ pub struct SessionCookieStore {
     dirty: DashSet<SmolStr, RandomState>,
 }
 
+impl Default for SessionCookieStore {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SessionCookieStore {
     pub fn new() -> Self {
         Self {
@@ -106,6 +112,12 @@ impl SessionCookieStore {
 pub struct SessionClient {
     cookie_store: Arc<SessionCookieStore>,
     ua: HeaderValue,
+}
+
+impl Default for SessionClient {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl SessionClient {

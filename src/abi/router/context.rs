@@ -15,9 +15,9 @@ pub struct Context<T: BotClient + BotHandler + fmt::Debug, M: MessageType + fmt:
     pub client: Arc<T>,
     pub message: Arc<M>,
     pub sender: Arc<Sender>,
-    message_list: Vec<MessageSend>,
-    message_text: Arc<str>,
-    target: Target,
+    pub message_list: Vec<MessageSend>,
+    pub message_text: Arc<str>,
+    pub target: Target,
 }
 
 impl<T: BotClient + BotHandler + fmt::Debug, M: MessageType + fmt::Debug> Clone for Context<T, M> {

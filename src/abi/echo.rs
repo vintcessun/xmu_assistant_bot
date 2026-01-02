@@ -20,6 +20,12 @@ lazy_static! {
 #[derive(Debug, Clone, Copy, Hash, Eq, PartialEq)]
 pub struct Echo(u64);
 
+impl Default for Echo {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Echo {
     pub fn new() -> Self {
         loop {

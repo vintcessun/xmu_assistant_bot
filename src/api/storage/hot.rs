@@ -1,12 +1,12 @@
 const BASE: &str = "hot.redb";
 
 use super::BASE_DATA_DIR;
+use super::BINCODE_CONFIG;
 use anyhow::Result;
 use bytes::Bytes;
 use const_format::concatcp;
 use dashmap::DashMap;
 use lazy_static::lazy_static;
-use once_cell::sync::Lazy;
 use redb::{Database, ReadableDatabase, ReadableTable, TableDefinition};
 use serde::{Serialize, de::DeserializeOwned};
 use std::{path::Path, sync::Arc};
@@ -23,8 +23,6 @@ enum StoreOp {
         key: Bytes,
     },
 }
-
-const BINCODE_CONFIG: bincode::config::Configuration = bincode::config::standard();
 
 pub mod send_engine {
     use super::*;
@@ -211,8 +209,8 @@ where
     }
 
     pub fn remove(&self, key: &K) -> Result<()> {
-        self.cache.remove(key);
         send_engine::delete(self.table_name, key)?;
+        self.cache.remove(key);
         Ok(())
     }
 

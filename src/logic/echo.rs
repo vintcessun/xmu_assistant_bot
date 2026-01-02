@@ -11,7 +11,6 @@ pub async fn echo(ctx: Context) -> Result<()> {
 
     let message = message::from_str(content);
 
-    //ctx.send_message(message.clone()).await?;
     ctx.send_message_async(message);
 
     Ok(())

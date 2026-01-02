@@ -4,70 +4,74 @@ use anyhow::Result;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
-use serde::Serialize;
-use serde_json::value::RawValue;
+//use serde::de::IgnoredAny;
 use std::sync::Arc;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct Department {
     pub id: i64,
     pub name: String,
-    pub code: Option<Box<RawValue>>,
-    pub cover: Option<Box<RawValue>>,
-    pub created_at: Option<Box<RawValue>>,
-    pub created_user: Option<Box<RawValue>>,
-    pub is_show_on_homepage: Option<Box<RawValue>>,
-    pub parent_id: Option<Box<RawValue>>,
-    pub short_name: Option<Box<RawValue>>,
-    pub sort: Option<Box<RawValue>>,
-    pub stopped: Option<Box<RawValue>>,
-    pub storage_assigned: Option<Box<RawValue>>,
-    pub storage_used: Option<Box<RawValue>>,
-    pub updated_at: Option<Box<RawValue>>,
-    pub updated_user: Option<Box<RawValue>>,
+    //pub code: IgnoredAny,
+    //pub cover: IgnoredAny,
+    //pub created_at: IgnoredAny,
+    //pub created_user: IgnoredAny,
+    //pub is_show_on_homepage: IgnoredAny,
+    //pub parent_id: IgnoredAny,
+    //pub short_name: IgnoredAny,
+    //pub sort: IgnoredAny,
+    //pub stopped: IgnoredAny,
+    //pub storage_assigned: IgnoredAny,
+    //pub storage_used: IgnoredAny,
+    //pub updated_at: IgnoredAny,
+    //pub updated_user: IgnoredAny,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Deserialize, Debug)]
 pub struct ProfileResponse {
     pub id: i64,
     pub name: String,
     pub user_no: String,
-    pub active: Option<Box<RawValue>>,
-    pub ai_activation: Option<Box<RawValue>>,
-    pub audit: Option<Box<RawValue>>,
-    pub avatar_big_url: Option<Box<RawValue>>,
-    pub avatar_small_url: Option<Box<RawValue>>,
-    pub comment: Option<Box<RawValue>>,
-    pub created_at: Option<Box<RawValue>>,
-    pub created_by: Option<Box<RawValue>>,
-    pub department: Department,
-    pub education: Option<Box<RawValue>>,
-    pub email: Option<Box<RawValue>>,
-    pub end_at: Option<Box<RawValue>>,
-    pub grade: Option<Box<RawValue>>,
-    pub has_ai_ability: Option<Box<RawValue>>,
-    pub imported_from: Option<Box<RawValue>>,
-    pub is_imported_data: Option<Box<RawValue>>,
-    pub klass: Option<Box<RawValue>>,
-    pub mobile_phone: Option<Box<RawValue>>,
-    pub nickname: Option<Box<RawValue>>,
-    pub org: Option<Box<RawValue>>,
-    pub program: Option<Box<RawValue>>,
-    pub program_id: Option<Box<RawValue>>,
-    pub remarks: Option<Box<RawValue>>,
-    pub require_verification: Option<Box<RawValue>>,
-    pub role: Option<Box<RawValue>>,
-    pub user_addresses: Option<Box<RawValue>>,
-    pub user_attributes: Option<Box<RawValue>>,
-    pub user_auth_externals: Option<Box<RawValue>>,
-    pub user_personas: Option<Box<RawValue>>,
-    pub webex_auth: Option<Box<RawValue>>,
+    //pub active: IgnoredAny,
+    //pub audit: IgnoredAny,
+    //pub avatar_big_url: IgnoredAny,
+    //pub avatar_small_url: IgnoredAny,
+    //pub comment: IgnoredAny,
+    //pub created_at: IgnoredAny,
+    //pub created_by: IgnoredAny,
+    //pub department: Department,
+    //pub education: IgnoredAny,
+    //pub email: IgnoredAny,
+    //pub end_at: IgnoredAny,
+    //pub grade: IgnoredAny,
+    //pub has_ai_ability: IgnoredAny,
+    //pub imported_from: IgnoredAny,
+    //pub is_imported_data: IgnoredAny,
+    //pub klass: IgnoredAny,
+    //pub mobile_phone: IgnoredAny,
+    //pub nickname: IgnoredAny,
+    //pub org: IgnoredAny,
+    //pub program: IgnoredAny,
+    //pub program_id: IgnoredAny,
+    //pub remarks: IgnoredAny,
+    //pub require_verification: IgnoredAny,
+    //pub role: IgnoredAny,
+    //pub user_addresses: IgnoredAny,
+    //pub user_attributes: IgnoredAny,
+    //pub user_auth_externals: IgnoredAny,
+    //pub user_personas: IgnoredAny,
+    //pub webex_auth: IgnoredAny,
 }
 
 static PROFILE: Lazy<ProfileStruct> = Lazy::new(ProfileStruct::new);
 
 pub struct ProfileStruct {
     pub profile_data: DashMap<String, Arc<ProfileResponse>>,
+}
+
+impl Default for ProfileStruct {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl ProfileStruct {
@@ -100,5 +104,28 @@ pub struct Profile;
 impl Profile {
     pub async fn get_profile(session: &str) -> Result<Arc<ProfileResponse>> {
         PROFILE.get_profile(session).await
+    }
+
+    pub async fn check(session: &str) -> bool {
+        (Self::get_profile(session).await).is_ok()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::api::xmu_service::login::castgc_get_session;
+
+    use super::*;
+    use anyhow::Result;
+
+    #[tokio::test]
+    async fn test() -> Result<()> {
+        let castgc = "TGT-2287042-KTGUC02s8q1yH06BAFT1cT6bV01mv3-M9MOczLVnOzMesYVhCZcU8-VMD6d2ZFBgRBcnull_main";
+        let session = castgc_get_session(castgc).await?;
+        let profile = Profile::get_profile(&session).await?;
+        println!("Profile: {:?}", profile);
+        let check_result = Profile::check(&session).await;
+        println!("Check Result: {}", check_result);
+        Ok(())
     }
 }

@@ -8,15 +8,23 @@ pub struct MessageSendBuilder {
 impl MessageSendBuilder {
     pub fn new() -> Self {
         Self {
-            segments: Vec::new(),
+            segments: Vec::with_capacity(4),
         }
     }
+}
 
+impl Default for MessageSendBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl MessageSendBuilder {
     pub fn build(self) -> MessageSend {
         MessageSend::Array(self.segments)
     }
 
-    pub fn add(mut self, segment: SegmentSend) -> Self {
+    pub fn add_seg(mut self, segment: SegmentSend) -> Self {
         self.segments.push(segment);
         self
     }
@@ -33,134 +41,150 @@ impl MessageSendBuilder {
         self
     }
 
+    pub fn add_msg(mut self, message: MessageSend) -> Self {
+        match message {
+            MessageSend::Array(arr) => {
+                self.segments.reserve(arr.len());
+                self.segments.extend(arr);
+            }
+            MessageSend::Single(seg) => {
+                self.segments.push(seg);
+            }
+        }
+        self
+    }
+
     pub fn text<S: Into<String>>(self, s: S) -> Self {
-        self.add(SegmentSend::Text(text::Data { text: s.into() }))
+        self.add_seg(SegmentSend::Text(Box::new(text::Data { text: s.into() })))
     }
 
     pub fn face<S: Into<String>>(self, id: S) -> Self {
-        self.add(SegmentSend::Face(face::Data { id: id.into() }))
+        self.add_seg(SegmentSend::Face(Box::new(face::Data { id: id.into() })))
     }
 
     pub fn image<S: Into<String>>(self, url: S) -> Self {
-        self.add(SegmentSend::Image(image::DataSend {
+        self.add_seg(SegmentSend::Image(Box::new(image::DataSend {
             file: url.into(),
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
             r#type: None,
-        }))
+        })))
     }
 
     pub fn flash_image<S: Into<String>>(self, url: S) -> Self {
-        self.add(SegmentSend::Image(image::DataSend {
+        self.add_seg(SegmentSend::Image(Box::new(image::DataSend {
             file: url.into(),
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
             r#type: Some("flash".to_string()),
-        }))
+        })))
     }
 
     pub fn record<S: Into<String>>(self, url: S) -> Self {
-        self.add(SegmentSend::Record(record::DataSend {
+        self.add_seg(SegmentSend::Record(Box::new(record::DataSend {
             file: url.into(),
             magic: Magic::default(),
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
-        }))
+        })))
     }
 
     pub fn record_magic<S: Into<String>>(self, url: S) -> Self {
-        self.add(SegmentSend::Record(record::DataSend {
+        self.add_seg(SegmentSend::Record(Box::new(record::DataSend {
             file: url.into(),
             magic: Magic(1),
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
-        }))
+        })))
     }
 
     pub fn video<S: Into<String>>(self, url: S) -> Self {
-        self.add(SegmentSend::Video(video::DataSend {
+        self.add_seg(SegmentSend::Video(Box::new(video::DataSend {
             file: url.into(),
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
-        }))
+        })))
     }
 
     pub fn at<S: Into<String>>(self, qq: S) -> Self {
-        self.add(SegmentSend::At(at::Data { qq: qq.into() }))
+        self.add_seg(SegmentSend::At(Box::new(at::Data { qq: qq.into() })))
+            .text(" ")
     }
 
     pub fn rps(self) -> Self {
-        self.add(SegmentSend::Rps(rps::Data {}))
+        self.add_seg(SegmentSend::Rps(rps::Data {}))
     }
 
     pub fn dice(self) -> Self {
-        self.add(SegmentSend::Dice(dice::Data {}))
+        self.add_seg(SegmentSend::Dice(dice::Data {}))
     }
 
     pub fn shake(self) -> Self {
-        self.add(SegmentSend::Shake(shake::Data {}))
+        self.add_seg(SegmentSend::Shake(shake::Data {}))
     }
 
     pub fn poke<S: Into<String>>(self, qq: S) -> Self {
-        self.add(SegmentSend::Poke(poke::DataSend {
+        self.add_seg(SegmentSend::Poke(Box::new(poke::DataSend {
             r#type: "1".to_string(),
             id: qq.into(),
-        }))
+        })))
     }
 
     pub fn anonymous(self) -> Self {
-        self.add(SegmentSend::Anonymous(anonymous::DataSend { ignore: None }))
+        self.add_seg(SegmentSend::Anonymous(anonymous::DataSend { ignore: None }))
     }
 
     pub fn share<S1: Into<String>, S2: Into<String>>(self, url: S1, title: S2) -> Self {
-        self.add(SegmentSend::Share(share::DataSend {
+        self.add_seg(SegmentSend::Share(Box::new(share::DataSend {
             url: url.into(),
             title: title.into(),
             content: None,
             image: None,
-        }))
+        })))
     }
 
     pub fn contact_friend<S: Into<String>>(self, qq: S) -> Self {
-        self.add(SegmentSend::Contact(contact::Data::Qq { id: qq.into() }))
+        self.add_seg(SegmentSend::Contact(Box::new(contact::Data::Qq {
+            id: qq.into(),
+        })))
     }
 
     pub fn contact_group<S: Into<String>>(self, group_id: S) -> Self {
-        self.add(SegmentSend::Contact(contact::Data::Group {
+        self.add_seg(SegmentSend::Contact(Box::new(contact::Data::Group {
             id: group_id.into(),
-        }))
+        })))
     }
 
     pub fn location(self, lat: f64, lon: f64) -> Self {
-        self.add(SegmentSend::Location(location::DataSend {
+        self.add_seg(SegmentSend::Location(Box::new(location::DataSend {
             lat: lat.to_string(),
             lon: lon.to_string(),
             title: None,
             content: None,
-        }))
+        })))
     }
 
     pub fn music_qq<S: Into<String>>(self, music_id: S) -> Self {
-        self.add(SegmentSend::Music(music::Data::Qq {
+        self.add_seg(SegmentSend::Music(Box::new(music::Data::Qq {
             id: music_id.into(),
-        }))
+        })))
     }
 
     pub fn music_163<S: Into<String>>(self, music_id: S) -> Self {
-        self.add(SegmentSend::Music(music::Data::NetEase163 {
+        self.add_seg(SegmentSend::Music(Box::new(music::Data::NetEase163 {
             id: music_id.into(),
-        }))
+        })))
     }
 
     pub fn music_xiami<S: Into<String>>(self, music_id: S) -> Self {
-        self.add(SegmentSend::Music(music::Data::Xm {
+        self.add_seg(SegmentSend::Music(Box::new(music::Data::Xm {
             id: music_id.into(),
-        }))
+        })))
     }
 
     pub fn music_custom<S1: Into<String>, S2: Into<String>, S3: Into<String>>(
@@ -169,21 +193,23 @@ impl MessageSendBuilder {
         share_url: S2,
         audio_url: S3,
     ) -> Self {
-        self.add(SegmentSend::Music(music::Data::Custom {
+        self.add_seg(SegmentSend::Music(Box::new(music::Data::Custom {
             title: title.into(),
             url: share_url.into(),
             audio: audio_url.into(),
             content: None,
             image: None,
-        }))
+        })))
     }
 
     pub fn reply<S: Into<String>>(self, msg_id: S) -> Self {
-        self.add(SegmentSend::Reply(reply::Data { id: msg_id.into() }))
+        self.add_seg(SegmentSend::Reply(Box::new(reply::Data {
+            id: msg_id.into(),
+        })))
     }
 
     pub fn node_id<S: Into<String>>(self, node_id: S) -> Self {
-        self.add(SegmentSend::Node(Box::new(node::DataSend::Id(
+        self.add_seg(SegmentSend::Node(Box::new(node::DataSend::Id(
             node::DataSend1 { id: node_id.into() },
         ))))
     }
@@ -194,7 +220,7 @@ impl MessageSendBuilder {
         nickname: S2,
         content: MessageSend,
     ) -> Self {
-        self.add(SegmentSend::Node(Box::new(node::DataSend::Content(
+        self.add_seg(SegmentSend::Node(Box::new(node::DataSend::Content(
             node::DataSend2 {
                 user_id: user_id.into(),
                 nickname: nickname.into(),
@@ -204,11 +230,13 @@ impl MessageSendBuilder {
     }
 
     pub fn xml<S: Into<String>>(self, data: S) -> Self {
-        self.add(SegmentSend::Xml(xml::Data { data: data.into() }))
+        self.add_seg(SegmentSend::Xml(Box::new(xml::Data { data: data.into() })))
     }
 
     pub fn json<S: Into<String>>(self, data: S) -> Self {
-        self.add(SegmentSend::Json(json::Data { data: data.into() }))
+        self.add_seg(SegmentSend::Json(Box::new(json::Data {
+            data: data.into(),
+        })))
     }
 }
 
