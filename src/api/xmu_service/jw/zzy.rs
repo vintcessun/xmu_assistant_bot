@@ -163,7 +163,7 @@ mod tests {
 
     #[tokio::test]
     async fn test() -> Result<()> {
-        let castgc = "TGT-3681464-jG5kUMn-IwCQv6O3lCTUAyXLTMVHR0JBC1hJohMnh1hXL6-N-m-cVuz46Jqm5dyKBRInull_main";
+        let castgc = "TGT-2288325-P177wkI8xWr8WNjs6QfA23HpnFTZH6Ac8U-zUHtVbWsxx5vVxWOTZ3VifZiELK0EDSInull_main";
         let data = ZzyRequest {
             batch_code: "01",
             student_id: "34520242201240",

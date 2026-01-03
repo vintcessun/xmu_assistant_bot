@@ -1,0 +1,159 @@
+name: Build multi-platform releases
+
+on:
+    push:
+        branches: ["master", "main"]
+    pull_request:
+        branches: ["master", "main"]
+    workflow_dispatch:
+
+jobs:
+    # Linux cross-compilation jobs (using cross for Linux targets)
+    build-linux-cross:
+        name: Linux cross builds
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                target:
+                    [
+                        x86_64-unknown-linux-gnu,
+                        i686-unknown-linux-gnu,
+                        aarch64-unknown-linux-gnu,
+                        armv7-unknown-linux-gnueabihf,
+                    ]
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@v4
+
+            - name: Set up Rust
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: ${{ matrix.target }}
+                  components: rustfmt, clippy
+
+            - name: Install cross
+              run: cargo install cross --force
+
+            - name: Build release binary using cross
+              run: cross build --release --target ${{ matrix.target }} --verbose
+
+            - name: Rename artifact
+              shell: bash
+              run: |
+                  mkdir -p artifacts  # 确保 artifacts 目录存在
+                  BIN_NAME="xmu_assistant-${{ matrix.target }}"
+                  if [ -f "target/${{ matrix.target }}/release/xmu_assistant" ]; then
+                      cp target/${{ matrix.target }}/release/xmu_assistant artifacts/${BIN_NAME}
+                  else
+                      echo "Warning: No binary found for ${{ matrix.target }} (maybe cross failed)"
+                      ls -R target/${{ matrix.target }}/release || true
+                  fi
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: xmu_assistant-${{ matrix.target }}
+                  path: artifacts/**
+                  if-no-files-found: warn
+                  compression-level: 6
+                  overwrite: false
+                  include-hidden-files: false
+              env:
+                  CARGO_HOME: /home/runner/.cargo
+                  CARGO_INCREMENTAL: 0
+                  CARGO_TERM_COLOR: always
+
+    # Windows MSVC builds (using Windows runner)
+    build-windows-msvc:
+        name: Windows MSVC builds
+        runs-on: windows-latest
+        strategy:
+            matrix:
+                target:
+                    [
+                        x86_64-pc-windows-msvc,
+                        i686-pc-windows-msvc,
+                        aarch64-pc-windows-msvc,
+                    ]
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@v4
+
+            - name: Set up Rust
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: ${{ matrix.target }}
+                  components: rustfmt, clippy
+
+            - name: Install Windows MSVC toolchain
+              run: |
+                  rustup target add ${{ matrix.target }}
+                  rustc -V
+                  cargo -V
+
+            - name: Build release binary
+              run: cargo build --release --target ${{ matrix.target }} --verbose
+
+            - name: Rename artifact
+              shell: powershell
+              run: |
+                  New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+                  $BIN_NAME = "xmu_assistant-${{ matrix.target }}"
+                  if (Test-Path "target/${{ matrix.target }}/release/*.exe") {
+                      Copy-Item "target/${{ matrix.target }}/release/*.exe" "artifacts/$BIN_NAME.exe"
+                      Write-Host "Successfully copied artifacts for $BIN_NAME"
+                  } else {
+                      Write-Warning "No .exe binary found for $BIN_NAME (maybe build failed)"
+                      Get-ChildItem -Recurse "target/${{ matrix.target }}/release"
+                  }
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: xmu_assistant-${{ matrix.target }}
+                  path: artifacts/**
+                  if-no-files-found: warn
+                  compression-level: 6
+                  overwrite: false
+                  include-hidden-files: false
+
+    # macOS builds (using macOS runner)
+    build-macos:
+        name: macOS builds
+        runs-on: macos-latest
+        strategy:
+            matrix:
+                target: [x86_64-apple-darwin, aarch64-apple-darwin]
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@v4
+
+            - name: Set up Rust
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: ${{ matrix.target }}
+                  components: rustfmt, clippy
+
+            - name: Install macOS target
+              run: rustup target add ${{ matrix.target }}
+
+            - name: Build release binary
+              run: cargo build --release --target ${{ matrix.target }} --verbose
+
+            - name: Rename artifact
+              shell: bash
+              run: |
+                  mkdir -p artifacts  # 确保 artifacts 目录存在
+                  BIN_NAME="xmu_assistant-${{ matrix.target }}"
+                  if [ -f "target/${{ matrix.target }}/release/xmu_assistant" ]; then
+                      cp target/${{ matrix.target }}/release/xmu_assistant artifacts/${BIN_NAME}
+                  else
+                      echo "Warning: No binary found for ${{ matrix.target }} (maybe build failed)"
+                      ls -R target/${{ matrix.target }}/release || true
+                  fi
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: xmu_assistant-${{ matrix.target }}
+                  path: artifacts/
