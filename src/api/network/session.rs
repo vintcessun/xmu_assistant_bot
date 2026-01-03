@@ -4,18 +4,17 @@ use bytes::{BufMut, BytesMut};
 use cookie::Cookie;
 use dashmap::{DashMap, DashSet};
 use fake_user_agent::get_chrome_rua;
-use once_cell::sync::Lazy;
 use reqwest::{
     Client, IntoUrl, Response,
     header::{COOKIE, HeaderValue, SET_COOKIE, USER_AGENT},
 };
 use smol_str::SmolStr;
-use std::sync::Arc;
+use std::sync::{Arc, LazyLock};
 use url::Url;
 
 const MAX_REDIRECTS: u8 = 20;
 
-static GLOBAL_CLIENT: Lazy<Client> = Lazy::new(|| {
+static GLOBAL_CLIENT: LazyLock<Client> = LazyLock::new(|| {
     Client::builder()
         .tcp_keepalive(std::time::Duration::from_secs(60))
         .redirect(reqwest::redirect::Policy::none()) // 必须手动处理重定向，才能跨请求同步 Cookie

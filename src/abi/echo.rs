@@ -1,8 +1,8 @@
 use anyhow::Result;
 use dashmap::{DashMap, DashSet};
-use lazy_static::lazy_static;
 use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 use std::fmt;
+use std::sync::LazyLock;
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Duration;
 use tokio::sync::oneshot;
@@ -12,10 +12,9 @@ use tracing::debug;
 static COUNTER: AtomicU64 = AtomicU64::new(1);
 static TIMEOUT: Duration = Duration::from_secs(600);
 
-lazy_static! {
-    static ref ACTIVE_ECHOS: DashSet<u64> = DashSet::new();
-    static ref RESPONSE_REGISTRY: DashMap<u64, oneshot::Sender<String>> = DashMap::new();
-}
+static ACTIVE_ECHOS: LazyLock<DashSet<u64>> = LazyLock::new(DashSet::new);
+static RESPONSE_REGISTRY: LazyLock<DashMap<u64, oneshot::Sender<String>>> =
+    LazyLock::new(DashMap::new);
 
 #[derive(Debug, Clone, Copy, Hash, Eq, PartialEq)]
 pub struct Echo(u64);

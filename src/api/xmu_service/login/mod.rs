@@ -1,10 +1,11 @@
 mod password;
 mod qrcode;
 
+use std::sync::LazyLock;
+
 pub use password::*;
 pub use qrcode::*;
 
-use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use url::Url;
 use url_macro::url;
@@ -45,8 +46,9 @@ pub struct LoginData {
     pub lnt: String,
 }
 
-static LOGIN_URL: Lazy<Url> =
-    Lazy::new(|| url!("https://jw.xmu.edu.cn/login?service=https://jw.xmu.edu.cn/new/index.html"));
+static LOGIN_URL: LazyLock<Url> = LazyLock::new(|| {
+    url!("https://jw.xmu.edu.cn/login?service=https://jw.xmu.edu.cn/new/index.html")
+});
 
 fn extract_execution_fast(html: &str) -> Option<String> {
     let bytes = html.as_bytes();
@@ -158,16 +160,15 @@ mod session_test {
 
 #[cfg(test)]
 mod regex_tests_execution {
-    use lazy_static::lazy_static;
     use regex::Regex;
     use std::sync::Arc;
     use std::time::Instant;
 
-    lazy_static! {
-        static ref REGEX_EXECUTION: Arc<Regex> = Arc::new(
-            Regex::new("<input[^>]*?name=\"execution\"[^>]*?value=\"([^\"]*)\"[^>]*?>").unwrap()
-        );
-    }
+    static REGEX_EXECUTION: LazyLock<Arc<Regex>> = LazyLock::new(|| {
+        Arc::new(
+            Regex::new("<input[^>]*?name=\"execution\"[^>]*?value=\"([^\"]*)\"[^>]*?>").unwrap(),
+        )
+    });
 
     fn extract_execution(html: &str) -> Option<String> {
         let execution = REGEX_EXECUTION
@@ -234,16 +235,15 @@ mod regex_tests_execution {
 
 #[cfg(test)]
 mod regex_tests_salt {
-    use lazy_static::lazy_static;
     use regex::Regex;
-    use std::sync::Arc;
+    use std::sync::{Arc, LazyLock};
     use std::time::Instant;
 
-    lazy_static! {
-        static ref REGEX_EXECUTION: Arc<Regex> = Arc::new(
-            Regex::new(r#"<input[^>]*?id="pwdEncryptSalt"[^>]*?value="([^"]*)"[^>]*?>"#).unwrap()
-        );
-    }
+    static REGEX_EXECUTION: LazyLock<Arc<Regex>> = LazyLock::new(|| {
+        Arc::new(
+            Regex::new(r#"<input[^>]*?id="pwdEncryptSalt"[^>]*?value="([^"]*)"[^>]*?>"#).unwrap(),
+        )
+    });
 
     fn extract_salt(html: &str) -> Option<String> {
         let salt = REGEX_EXECUTION

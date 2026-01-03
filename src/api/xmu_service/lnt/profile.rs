@@ -2,10 +2,9 @@ use crate::api::network::SessionClient;
 use crate::api::xmu_service::lnt::LNT_URL;
 use anyhow::Result;
 use dashmap::DashMap;
-use once_cell::sync::Lazy;
 use serde::Deserialize;
 //use serde::de::IgnoredAny;
-use std::sync::Arc;
+use std::sync::{Arc, LazyLock};
 
 #[derive(Deserialize, Debug)]
 pub struct Department {
@@ -62,7 +61,7 @@ pub struct ProfileResponse {
     //pub webex_auth: IgnoredAny,
 }
 
-static PROFILE: Lazy<ProfileStruct> = Lazy::new(ProfileStruct::new);
+static PROFILE: LazyLock<ProfileStruct> = LazyLock::new(ProfileStruct::new);
 
 pub struct ProfileStruct {
     pub profile_data: DashMap<String, Arc<ProfileResponse>>,

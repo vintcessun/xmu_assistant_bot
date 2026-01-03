@@ -1,3 +1,4 @@
+pub mod r#box;
 pub mod echo;
 pub mod message;
 pub mod network;

@@ -1,13 +1,12 @@
+use std::sync::LazyLock;
+
 use super::process::process_login;
 use crate::api::storage::HotTable;
 use crate::api::xmu_service::login::LoginData;
 use crate::{abi::logic_import::*, api::xmu_service::lnt::Profile};
 use anyhow::anyhow;
-use lazy_static::lazy_static;
 
-lazy_static! {
-    pub static ref DATA: HotTable<i64, LoginData> = HotTable::new("login");
-}
+pub static DATA: LazyLock<HotTable<i64, LoginData>> = LazyLock::new(|| HotTable::new("login"));
 
 #[handler(msg_type=Message,command="login",echo_cmd=true)]
 pub async fn login(ctx: Context) -> Result<()> {

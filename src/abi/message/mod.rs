@@ -6,6 +6,7 @@ pub mod message_body;
 pub mod sender;
 
 use crate::abi::message::message_body::*;
+use crate::box_new;
 
 pub use api::Params;
 pub use event_body as event;
@@ -33,10 +34,11 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
         SegmentReceive::Contact(p) => SegmentSend::Contact(p.clone()),
         SegmentReceive::Dice(p) => SegmentSend::Dice(p.clone()),
         SegmentReceive::Face(p) => SegmentSend::Face(p.clone()),
-        SegmentReceive::Forward(p) => SegmentSend::Node(Box::new(
-            message_body::node::DataSend::Id(message_body::node::DataSend1 { id: p.id.clone() }),
+        SegmentReceive::Forward(p) => SegmentSend::Node(box_new!(
+            message_body::node::DataSend,
+            message_body::node::DataSend::Id(message_body::node::DataSend1 { id: p.id.clone() })
         )),
-        SegmentReceive::Image(p) => SegmentSend::Image(Box::new(message_body::image::DataSend {
+        SegmentReceive::Image(p) => SegmentSend::Image(box_new!(message_body::image::DataSend, {
             file: p.url.clone(),
             r#type: p.r#type.clone(),
             cache: message_body::Cache::default(),
@@ -45,7 +47,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
         })),
         SegmentReceive::Json(p) => SegmentSend::Json(p.clone()),
         SegmentReceive::Location(p) => {
-            SegmentSend::Location(Box::new(message_body::location::DataSend {
+            SegmentSend::Location(box_new!(message_body::location::DataSend, {
                 lat: p.lat.clone(),
                 lon: p.lon.clone(),
                 title: Some(p.title.clone()),
@@ -53,19 +55,20 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             }))
         }
         SegmentReceive::Music(p) => SegmentSend::Music(p.clone()),
-        SegmentReceive::Node() => SegmentSend::Node(Box::new(
+        SegmentReceive::Node() => SegmentSend::Node(box_new!(
+            message_body::node::DataSend,
             message_body::node::DataSend::Content(message_body::node::DataSend2 {
                 user_id: "".to_string(),
                 nickname: "".to_string(),
-                content: Box::new(MessageSend::Array(Vec::new())),
-            }),
+                content: box_new!(MessageSend, MessageSend::Array(Vec::new()))
+            })
         )),
-        SegmentReceive::Poke(p) => SegmentSend::Poke(Box::new(message_body::poke::DataSend {
+        SegmentReceive::Poke(p) => SegmentSend::Poke(box_new!(message_body::poke::DataSend, {
             r#type: p.r#type.clone(),
             id: p.id.clone(),
         })),
         SegmentReceive::Record(p) => {
-            SegmentSend::Record(Box::new(message_body::record::DataSend {
+            SegmentSend::Record(box_new!(message_body::record::DataSend, {
                 file: p.url.clone(),
                 magic: message_body::Magic::default(),
                 cache: message_body::Cache::default(),
@@ -76,14 +79,14 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
         SegmentReceive::Reply(p) => SegmentSend::Reply(p.clone()),
         SegmentReceive::Rps(p) => SegmentSend::Rps(p.clone()),
         SegmentReceive::Shake(p) => SegmentSend::Shake(p.clone()),
-        SegmentReceive::Share(p) => SegmentSend::Share(Box::new(message_body::share::DataSend {
+        SegmentReceive::Share(p) => SegmentSend::Share(box_new!(message_body::share::DataSend, {
             url: p.url.clone(),
             title: p.title.clone(),
             content: Some(p.content.clone()),
             image: Some(p.image.clone()),
         })),
         SegmentReceive::Text(p) => SegmentSend::Text(p.clone()),
-        SegmentReceive::Video(p) => SegmentSend::Video(Box::new(message_body::video::DataSend {
+        SegmentReceive::Video(p) => SegmentSend::Video(box_new!(message_body::video::DataSend, {
             file: p.url.clone(),
             cache: message_body::Cache::default(),
             proxy: message_body::Proxy::default(),
@@ -112,7 +115,7 @@ pub fn receive2send_add_prefix(msg: &MessageReceive, prefix: String) -> MessageS
         }
     };
 
-    let mut ret = vec![SegmentSend::Text(Box::new(message_body::text::Data {
+    let mut ret = vec![SegmentSend::Text(box_new!(message_body::text::Data, {
         text: prefix,
     }))];
 

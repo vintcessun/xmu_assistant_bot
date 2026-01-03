@@ -327,8 +327,18 @@ pub mod contact {
     #[derive(Serialize, Deserialize, Debug, Clone)]
     #[serde(tag = "type", rename_all = "snake_case")]
     pub enum Data {
-        Qq { id: String },
-        Group { id: String },
+        Qq(Qq),
+        Group(Group),
+    }
+
+    #[derive(Serialize, Deserialize, Debug, Clone)]
+    pub struct Qq {
+        pub id: String,
+    }
+
+    #[derive(Serialize, Deserialize, Debug, Clone)]
+    pub struct Group {
+        pub id: String,
     }
 }
 

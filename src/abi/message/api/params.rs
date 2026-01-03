@@ -1,9 +1,12 @@
 use helper::api;
 use serde::{Deserialize, Serialize};
 
-use crate::abi::{
-    echo::Echo,
-    message::{MessageSend, api::data, message_body},
+use crate::{
+    abi::{
+        echo::Echo,
+        message::{MessageSend, api::data, message_body},
+    },
+    box_new,
 };
 
 pub trait Params: Send + Sync + 'static + Serialize {
@@ -47,12 +50,13 @@ impl SendGroupForwardMessageParams {
                 messages
                     .into_iter()
                     .map(|m| {
-                        message_body::SegmentSend::Node(Box::new(
+                        message_body::SegmentSend::Node(box_new!(
+                            message_body::node::DataSend,
                             message_body::node::DataSend::Content(message_body::node::DataSend2 {
                                 user_id: "114514".to_string(),
                                 nickname: "聊天转发".to_string(),
-                                content: Box::new(m),
-                            }),
+                                content: box_new!(MessageSend, m),
+                            })
                         ))
                     })
                     .collect::<Vec<_>>(),
@@ -102,12 +106,13 @@ impl SendPrivateForwardMessageParams {
                 messages
                     .into_iter()
                     .map(|m| {
-                        message_body::SegmentSend::Node(Box::new(
+                        message_body::SegmentSend::Node(box_new!(
+                            message_body::node::DataSend,
                             message_body::node::DataSend::Content(message_body::node::DataSend2 {
                                 user_id: "".to_string(),
                                 nickname: "".to_string(),
-                                content: Box::new(m),
-                            }),
+                                content: box_new!(MessageSend, m),
+                            })
                         ))
                     })
                     .collect::<Vec<_>>(),

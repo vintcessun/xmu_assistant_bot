@@ -6,9 +6,9 @@ use anyhow::Result;
 use bytes::Bytes;
 use const_format::concatcp;
 use dashmap::DashMap;
-use lazy_static::lazy_static;
 use redb::{Database, ReadableDatabase, ReadableTable, TableDefinition};
 use serde::{Serialize, de::DeserializeOwned};
+use std::sync::LazyLock;
 use std::{path::Path, sync::Arc};
 use tokio::sync::mpsc::{self, UnboundedSender};
 
@@ -44,7 +44,7 @@ pub mod send_engine {
             }
         };
 
-        database_engine.send(msg)?;
+        HOT_ENGINE.send(msg)?;
 
         Ok(())
     }
@@ -61,15 +61,13 @@ pub mod send_engine {
             key: key_bytes,
         };
 
-        database_engine.send(msg)?;
+        HOT_ENGINE.send(msg)?;
 
         Ok(())
     }
 }
 
-lazy_static! {
-    static ref database_engine: StorageEngine = StorageEngine::create();
-}
+static HOT_ENGINE: LazyLock<StorageEngine> = LazyLock::new(|| StorageEngine::create());
 
 struct StorageEngine {
     pub sender: UnboundedSender<StoreOp>,
@@ -198,7 +196,7 @@ where
     pub fn new(table_name: &'static str) -> Self {
         HotTable {
             table_name,
-            cache: database_engine.read_table(table_name),
+            cache: HOT_ENGINE.read_table(table_name),
         }
     }
 

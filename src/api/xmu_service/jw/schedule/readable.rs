@@ -1,6 +1,6 @@
 use crate::api::xmu_service::{
     jw::{Schedule, ScheduleResponse, ScheduleTime, ScheduleTimeResponse},
-    location::{Location, locations},
+    location::{LOCATIONS, Location},
 };
 use anyhow::{Result, anyhow};
 use std::ops::Index;
@@ -171,7 +171,7 @@ impl CourseTime {
         let location_str = data.jasmc.as_ref();
         let mut location = None;
         if let Some(location_str) = location_str {
-            let location_get = locations
+            let location_get = LOCATIONS
                 .query(location_str)
                 .ok_or(anyhow!("地点(jasmc)解析错误; 原始结构体: {:?}", data))?;
             location = Some(location_get);

@@ -1,3 +1,5 @@
+use crate::box_new;
+
 use super::MessageSend;
 use super::message_body::*;
 
@@ -55,15 +57,15 @@ impl MessageSendBuilder {
     }
 
     pub fn text<S: Into<String>>(self, s: S) -> Self {
-        self.add_seg(SegmentSend::Text(Box::new(text::Data { text: s.into() })))
+        self.add_seg(SegmentSend::Text(box_new!(text::Data, { text: s.into() })))
     }
 
     pub fn face<S: Into<String>>(self, id: S) -> Self {
-        self.add_seg(SegmentSend::Face(Box::new(face::Data { id: id.into() })))
+        self.add_seg(SegmentSend::Face(box_new!(face::Data, { id: id.into() })))
     }
 
     pub fn image<S: Into<String>>(self, url: S) -> Self {
-        self.add_seg(SegmentSend::Image(Box::new(image::DataSend {
+        self.add_seg(SegmentSend::Image(box_new!(image::DataSend, {
             file: url.into(),
             cache: Cache::default(),
             proxy: Proxy::default(),
@@ -73,7 +75,7 @@ impl MessageSendBuilder {
     }
 
     pub fn flash_image<S: Into<String>>(self, url: S) -> Self {
-        self.add_seg(SegmentSend::Image(Box::new(image::DataSend {
+        self.add_seg(SegmentSend::Image(box_new!(image::DataSend, {
             file: url.into(),
             cache: Cache::default(),
             proxy: Proxy::default(),
@@ -83,7 +85,7 @@ impl MessageSendBuilder {
     }
 
     pub fn record<S: Into<String>>(self, url: S) -> Self {
-        self.add_seg(SegmentSend::Record(Box::new(record::DataSend {
+        self.add_seg(SegmentSend::Record(box_new!(record::DataSend, {
             file: url.into(),
             magic: Magic::default(),
             cache: Cache::default(),
@@ -93,7 +95,7 @@ impl MessageSendBuilder {
     }
 
     pub fn record_magic<S: Into<String>>(self, url: S) -> Self {
-        self.add_seg(SegmentSend::Record(Box::new(record::DataSend {
+        self.add_seg(SegmentSend::Record(box_new!(record::DataSend, {
             file: url.into(),
             magic: Magic(1),
             cache: Cache::default(),
@@ -103,7 +105,7 @@ impl MessageSendBuilder {
     }
 
     pub fn video<S: Into<String>>(self, url: S) -> Self {
-        self.add_seg(SegmentSend::Video(Box::new(video::DataSend {
+        self.add_seg(SegmentSend::Video(box_new!(video::DataSend, {
             file: url.into(),
             cache: Cache::default(),
             proxy: Proxy::default(),
@@ -112,7 +114,7 @@ impl MessageSendBuilder {
     }
 
     pub fn at<S: Into<String>>(self, qq: S) -> Self {
-        self.add_seg(SegmentSend::At(Box::new(at::Data { qq: qq.into() })))
+        self.add_seg(SegmentSend::At(box_new!(at::Data, { qq: qq.into() })))
             .text(" ")
     }
 
@@ -129,7 +131,7 @@ impl MessageSendBuilder {
     }
 
     pub fn poke<S: Into<String>>(self, qq: S) -> Self {
-        self.add_seg(SegmentSend::Poke(Box::new(poke::DataSend {
+        self.add_seg(SegmentSend::Poke(box_new!(poke::DataSend, {
             r#type: "1".to_string(),
             id: qq.into(),
         })))
@@ -140,7 +142,7 @@ impl MessageSendBuilder {
     }
 
     pub fn share<S1: Into<String>, S2: Into<String>>(self, url: S1, title: S2) -> Self {
-        self.add_seg(SegmentSend::Share(Box::new(share::DataSend {
+        self.add_seg(SegmentSend::Share(box_new!(share::DataSend, {
             url: url.into(),
             title: title.into(),
             content: None,
@@ -149,19 +151,23 @@ impl MessageSendBuilder {
     }
 
     pub fn contact_friend<S: Into<String>>(self, qq: S) -> Self {
-        self.add_seg(SegmentSend::Contact(Box::new(contact::Data::Qq {
-            id: qq.into(),
-        })))
+        self.add_seg(SegmentSend::Contact(box_new!(
+            contact::Data,
+            contact::Data::Qq(contact::Qq { id: qq.into() },)
+        )))
     }
 
     pub fn contact_group<S: Into<String>>(self, group_id: S) -> Self {
-        self.add_seg(SegmentSend::Contact(Box::new(contact::Data::Group {
-            id: group_id.into(),
-        })))
+        self.add_seg(SegmentSend::Contact(box_new!(
+            contact::Data,
+            contact::Data::Group(contact::Group {
+                id: group_id.into(),
+            },)
+        )))
     }
 
     pub fn location(self, lat: f64, lon: f64) -> Self {
-        self.add_seg(SegmentSend::Location(Box::new(location::DataSend {
+        self.add_seg(SegmentSend::Location(box_new!(location::DataSend, {
             lat: lat.to_string(),
             lon: lon.to_string(),
             title: None,
@@ -170,21 +176,30 @@ impl MessageSendBuilder {
     }
 
     pub fn music_qq<S: Into<String>>(self, music_id: S) -> Self {
-        self.add_seg(SegmentSend::Music(Box::new(music::Data::Qq {
-            id: music_id.into(),
-        })))
+        self.add_seg(SegmentSend::Music(box_new!(
+            music::Data,
+            music::Data::Qq {
+                id: music_id.into(),
+            }
+        )))
     }
 
     pub fn music_163<S: Into<String>>(self, music_id: S) -> Self {
-        self.add_seg(SegmentSend::Music(Box::new(music::Data::NetEase163 {
-            id: music_id.into(),
-        })))
+        self.add_seg(SegmentSend::Music(box_new!(
+            music::Data,
+            music::Data::NetEase163 {
+                id: music_id.into(),
+            }
+        )))
     }
 
     pub fn music_xiami<S: Into<String>>(self, music_id: S) -> Self {
-        self.add_seg(SegmentSend::Music(Box::new(music::Data::Xm {
-            id: music_id.into(),
-        })))
+        self.add_seg(SegmentSend::Music(box_new!(
+            music::Data,
+            music::Data::Xm {
+                id: music_id.into(),
+            }
+        )))
     }
 
     pub fn music_custom<S1: Into<String>, S2: Into<String>, S3: Into<String>>(
@@ -193,25 +208,29 @@ impl MessageSendBuilder {
         share_url: S2,
         audio_url: S3,
     ) -> Self {
-        self.add_seg(SegmentSend::Music(Box::new(music::Data::Custom {
-            title: title.into(),
-            url: share_url.into(),
-            audio: audio_url.into(),
-            content: None,
-            image: None,
-        })))
+        self.add_seg(SegmentSend::Music(box_new!(
+            music::Data,
+            music::Data::Custom {
+                title: title.into(),
+                url: share_url.into(),
+                audio: audio_url.into(),
+                content: None,
+                image: None,
+            }
+        )))
     }
 
     pub fn reply<S: Into<String>>(self, msg_id: S) -> Self {
-        self.add_seg(SegmentSend::Reply(Box::new(reply::Data {
+        self.add_seg(SegmentSend::Reply(box_new!(reply::Data, {
             id: msg_id.into(),
         })))
     }
 
     pub fn node_id<S: Into<String>>(self, node_id: S) -> Self {
-        self.add_seg(SegmentSend::Node(Box::new(node::DataSend::Id(
-            node::DataSend1 { id: node_id.into() },
-        ))))
+        self.add_seg(SegmentSend::Node(box_new!(
+            node::DataSend,
+            node::DataSend::Id(node::DataSend1 { id: node_id.into() },)
+        )))
     }
 
     pub fn node_content<S1: Into<String>, S2: Into<String>>(
@@ -220,21 +239,24 @@ impl MessageSendBuilder {
         nickname: S2,
         content: MessageSend,
     ) -> Self {
-        self.add_seg(SegmentSend::Node(Box::new(node::DataSend::Content(
-            node::DataSend2 {
+        self.add_seg(SegmentSend::Node(box_new!(
+            node::DataSend,
+            node::DataSend::Content(node::DataSend2 {
                 user_id: user_id.into(),
                 nickname: nickname.into(),
-                content: Box::new(content),
-            },
-        ))))
+                content: box_new!(MessageSend, content),
+            },)
+        )))
     }
 
     pub fn xml<S: Into<String>>(self, data: S) -> Self {
-        self.add_seg(SegmentSend::Xml(Box::new(xml::Data { data: data.into() })))
+        self.add_seg(SegmentSend::Xml(box_new!(xml::Data, {
+            data: data.into(),
+        })))
     }
 
     pub fn json<S: Into<String>>(self, data: S) -> Self {
-        self.add_seg(SegmentSend::Json(Box::new(json::Data {
+        self.add_seg(SegmentSend::Json(box_new!(json::Data, {
             data: data.into(),
         })))
     }

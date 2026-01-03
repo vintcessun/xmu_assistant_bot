@@ -5,28 +5,27 @@ use crate::config::ensure_dir;
 use anyhow::Result;
 use const_format::concatcp;
 use dashmap::DashSet;
-use lazy_static::lazy_static;
-use once_cell::sync::Lazy;
 use std::{
     fs::{self, OpenOptions},
     io::Write,
     path::{Path, PathBuf},
-    sync::atomic::{AtomicUsize, Ordering},
+    sync::{
+        LazyLock,
+        atomic::{AtomicUsize, Ordering},
+    },
 };
 use tokio::sync::{
     mpsc::{self, UnboundedSender},
     oneshot,
 };
 
-pub static TEMP_DATA_DIR: Lazy<&'static str> = Lazy::new(|| {
+pub static TEMP_DATA_DIR: LazyLock<&'static str> = LazyLock::new(|| {
     let path = concatcp!(BASE_DATA_DIR, "/", BASE);
     ensure_dir(path);
     path
 });
 
-lazy_static! {
-    static ref MANAGER: TempFileManager = TempFileManager::new();
-}
+static MANAGER: LazyLock<TempFileManager> = LazyLock::new(TempFileManager::new);
 
 pub struct TempFileManager {
     dir: PathBuf,

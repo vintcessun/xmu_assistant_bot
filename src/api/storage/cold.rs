@@ -4,22 +4,19 @@ use super::BASE_DATA_DIR;
 use super::BINCODE_CONFIG;
 use anyhow::Result;
 use const_format::concatcp;
-use lazy_static::lazy_static;
 use redb::Database;
 use redb::ReadableDatabase;
 use redb::TableDefinition;
 use serde::{Serialize, de::DeserializeOwned};
+use std::sync::LazyLock;
 use std::{path::Path, sync::Arc};
 use tokio::task;
 
-lazy_static! {
-    static ref cold_engine: Arc<Database> = {
-        let path = Path::new(concatcp!(BASE_DATA_DIR, "/", BASE));
-        let db = Database::builder().create(path).unwrap();
-        Arc::new(db)
-    };
-}
-
+static COLD_ENGINE: LazyLock<Arc<Database>> = LazyLock::new(|| {
+    let path = Path::new(concatcp!(BASE_DATA_DIR, "/", BASE));
+    let db = Database::builder().create(path).unwrap();
+    Arc::new(db)
+});
 pub struct ColdTable<K, V>
 where
     K: Serialize + DeserializeOwned + Send + Sync + 'static,
@@ -50,7 +47,7 @@ where
             let key_vec = bincode::serde::encode_to_vec(&key, BINCODE_CONFIG)?;
             let val_vec = bincode::serde::encode_to_vec(&value, BINCODE_CONFIG)?;
 
-            let db = &cold_engine;
+            let db = &COLD_ENGINE;
             let txn = db.begin_write()?;
             {
                 let definition: TableDefinition<&[u8], &[u8]> = TableDefinition::new(table_name);
@@ -70,7 +67,7 @@ where
         task::spawn_blocking(move || {
             let key_vec = bincode::serde::encode_to_vec(&key, BINCODE_CONFIG)?;
 
-            let db = &cold_engine;
+            let db = &COLD_ENGINE;
             let read_txn = db.begin_read()?;
             let definition: TableDefinition<&[u8], &[u8]> = TableDefinition::new(table_name);
 
@@ -97,7 +94,7 @@ where
         let table_name = self.table_name;
         task::spawn_blocking(move || {
             let key_vec = bincode::serde::encode_to_vec(&key, BINCODE_CONFIG)?;
-            let db = &cold_engine;
+            let db = &COLD_ENGINE;
             let txn = db.begin_write()?;
             {
                 let definition: TableDefinition<&[u8], &[u8]> = TableDefinition::new(table_name);
