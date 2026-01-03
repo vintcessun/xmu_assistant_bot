@@ -93,6 +93,46 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_location_lih() -> Result<()> {
+        let castgc = "TGT-3689952-fGlR02k8pDvqfPNL-F-lyY8-bpus2ZHBZRqFbmEcmomCsp0D9laQQItngiL-K3UAumonull_main";
+        let data = ScheduleListRequest {};
+        let schedule_list = ScheduleList::call(castgc, &data).await?;
+        for item in schedule_list.datas.kfdxnxqcx.rows {
+            println!("Schedule Item: {:?}", item);
+            let data = ScheduleRequest {
+                semester: &item.xnxqdm,
+                student_id: "",
+            };
+            let schedule = Schedule::call(castgc, &data).await?;
+            println!("{} Schedule API Response: {:?}\n\n", &item.xnxqdm, schedule);
+            let parse_result = ScheduleCourseTime::new_partial(schedule);
+            println!("Parsed Schedule Course Time: {:?}\n\n", parse_result);
+        }
+
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn test_location_axol() -> Result<()> {
+        let castgc = "TGT-2288325-P177wkI8xWr8WNjs6QfA23HpnFTZH6Ac8U-zUHtVbWsxx5vVxWOTZ3VifZiELK0EDSInull_main";
+        let data = ScheduleListRequest {};
+        let schedule_list = ScheduleList::call(castgc, &data).await?;
+        for item in schedule_list.datas.kfdxnxqcx.rows {
+            println!("Schedule Item: {:?}", item);
+            let data = ScheduleRequest {
+                semester: &item.xnxqdm,
+                student_id: "",
+            };
+            let schedule = Schedule::call(castgc, &data).await?;
+            println!("{} Schedule API Response: {:?}\n\n", &item.xnxqdm, schedule);
+            let parse_result = ScheduleCourseTime::new_partial(schedule);
+            println!("Parsed Schedule Course Time: {:?}\n\n", parse_result);
+        }
+
+        Ok(())
+    }
+
+    #[tokio::test]
     async fn test_detail() -> Result<()> {
         let castgc = "TGT-3689523-tqSGK8uMKkyZVNAjG5H1ss4yc0Rsbdeac8Cwq7T5YKUxMQ3XU2L0cCe5FGiYHO6Z7EUnull_main";
         let client = SessionClient::new();
