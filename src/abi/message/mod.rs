@@ -39,7 +39,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             message_body::node::DataSend::Id(message_body::node::DataSend1 { id: p.id.clone() })
         )),
         SegmentReceive::Image(p) => SegmentSend::Image(box_new!(message_body::image::DataSend, {
-            file: p.url.clone(),
+            file: file::FileUrl::new(p.url.clone()),
             r#type: p.r#type.clone(),
             cache: message_body::Cache::default(),
             proxy: message_body::Proxy::default(),
@@ -69,7 +69,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
         })),
         SegmentReceive::Record(p) => {
             SegmentSend::Record(box_new!(message_body::record::DataSend, {
-                file: p.url.clone(),
+                file: file::FileUrl::new(p.url.clone()),
                 magic: message_body::Magic::default(),
                 cache: message_body::Cache::default(),
                 proxy: message_body::Proxy::default(),
@@ -87,7 +87,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
         })),
         SegmentReceive::Text(p) => SegmentSend::Text(p.clone()),
         SegmentReceive::Video(p) => SegmentSend::Video(box_new!(message_body::video::DataSend, {
-            file: p.url.clone(),
+            file: file::FileUrl::new(p.url.clone()),
             cache: message_body::Cache::default(),
             proxy: message_body::Proxy::default(),
             timeout: None,

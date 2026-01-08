@@ -67,7 +67,7 @@ pub mod send_engine {
     }
 }
 
-static HOT_ENGINE: LazyLock<StorageEngine> = LazyLock::new(|| StorageEngine::create());
+static HOT_ENGINE: LazyLock<StorageEngine> = LazyLock::new(StorageEngine::create);
 
 struct StorageEngine {
     pub sender: UnboundedSender<StoreOp>,

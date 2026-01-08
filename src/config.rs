@@ -5,7 +5,7 @@ use serde::Serialize;
 const CONFIG: Config = Config {
     napcat: ServerConfig {
         host: "127.0.0.1",
-        port: 3001,
+        port: 3008,
         access_token: None,
         reconnect_interval_secs: 10,
     },

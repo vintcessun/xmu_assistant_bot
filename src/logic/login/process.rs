@@ -37,16 +37,20 @@ pub async fn send_msg_and_wait<T: BotClient + BotHandler + fmt::Debug>(
     let (qrcode_id, data) = get_qrcode_id(session).await?;
 
     {
-        let qrcode_url = format!(
-            "https://ids.xmu.edu.cn/authserver/qrCode/getCode?uuid={}",
-            qrcode_id
-        );
+        let qrcode_url =
+            format!("https://ids.xmu.edu.cn/authserver/qrCode/getCode?uuid={qrcode_id}");
+
+        let qrcode_login =
+            format!("https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid={qrcode_id}");
 
         ctx.send_message(
             MessageSend::new_message()
                 .at(id.to_string())
-                .text("请使用企业微信扫码登录：")
-                .image(qrcode_url)
+                .text(format!("将为{id}登录：\n"))
+                .text("请使用企业微信扫码登录")
+                .image_url(qrcode_url)
+                .text("\n或者直接点击链接登录：")
+                .text(qrcode_login)
                 .build(),
         )
         .await?;
@@ -63,9 +67,9 @@ pub async fn process_login<T: BotClient + BotHandler + fmt::Debug>(
 ) -> Result<()> {
     let session = SessionClient::new();
 
-    ctx.send_message_async(message::from_str("登录成功！"));
-
     let data = send_msg_and_wait(ctx, &session, id).await?;
+
+    ctx.send_message_async(message::from_str("登录成功！"));
 
     let zzy_profile = update_db_and_login_base(&session, data, id).await?;
 

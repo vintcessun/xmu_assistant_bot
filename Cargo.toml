@@ -16,6 +16,10 @@ harness = false
 name = "context_clone"
 harness = false
 
+[[bench]]
+name = "storage_concurrency"
+harness = false
+
 [dependencies]
 anyhow = "1.0.100"
 async-trait = "0.1.89"
@@ -46,6 +50,11 @@ soft-aes = "0.2.2"
 base64 = "0.22.1"
 memchr = "2.7.6"
 mimalloc = "0.1.48"
+axum = "0.8.8"
+mime_guess = "2.0.5"
+futures = "0.3.31"
+uuid = { version = "1.19.0", features = ["v4"] }
+tokio-util = "0.7.18"
 
 [dev-dependencies]
 regex = "1.12.2"

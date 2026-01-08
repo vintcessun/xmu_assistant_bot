@@ -1,4 +1,6 @@
-use serde::{Deserialize, Serialize};
+use std::{fmt, sync::Arc};
+
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct File {
@@ -6,4 +8,78 @@ pub struct File {
     pub name: String,
     pub size: i64,
     pub busid: i64,
+}
+
+#[derive(Debug)]
+pub enum FileUrl<T: fmt::Debug = ()> {
+    Temp { url: String, _handle: Arc<T> },
+    Raw(String),
+}
+
+impl<T: fmt::Debug> FileUrl<T> {
+    pub fn new(url: String) -> Self {
+        FileUrl::Raw(url)
+    }
+}
+
+impl<T: fmt::Debug> Clone for FileUrl<T> {
+    fn clone(&self) -> Self {
+        match self {
+            FileUrl::Temp { url, _handle } => FileUrl::Temp {
+                url: url.clone(),
+                _handle: _handle.clone(),
+            },
+            FileUrl::Raw(url) => FileUrl::Raw(url.clone()),
+        }
+    }
+}
+
+impl<T: fmt::Debug> Serialize for FileUrl<T> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match self {
+            // 无论哪种情况，都只序列化内部的字符串部分
+            FileUrl::Temp { url, .. } => serializer.serialize_str(url),
+            FileUrl::Raw(url) => serializer.serialize_str(url),
+        }
+    }
+}
+
+impl<'de, T: fmt::Debug> Deserialize<'de> for FileUrl<T> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        // 定义一个访问者来处理字符串数据
+        struct FileUrlVisitor<T>(std::marker::PhantomData<T>);
+
+        impl<'de, T: fmt::Debug> de::Visitor<'de> for FileUrlVisitor<T> {
+            type Value = FileUrl<T>;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("a string representing a file URL")
+            }
+
+            // 当 serde 发现数据是一个字符串（owned string）时调用
+            fn visit_string<E>(self, v: String) -> Result<Self::Value, E>
+            where
+                E: de::Error,
+            {
+                Ok(FileUrl::Raw(v))
+            }
+
+            // 当 serde 发现数据是一个字符串切片（borrowed str）时调用
+            fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+            where
+                E: de::Error,
+            {
+                Ok(FileUrl::Raw(v.to_string()))
+            }
+        }
+
+        // 告诉 deserializer 我们期待一个字符串
+        deserializer.deserialize_str(FileUrlVisitor(std::marker::PhantomData))
+    }
 }

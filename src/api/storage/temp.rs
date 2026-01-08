@@ -1,16 +1,19 @@
 const BASE: &str = "temp";
 
 use super::BASE_DATA_DIR;
-use crate::config::ensure_dir;
-use anyhow::Result;
+use crate::{abi::message::file::FileUrl, api::storage::file::FileStorage, config::ensure_dir};
+use anyhow::{Result, anyhow};
+use async_trait::async_trait;
 use const_format::concatcp;
 use dashmap::DashSet;
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 use std::{
+    fmt,
     fs::{self, OpenOptions},
     io::Write,
     path::{Path, PathBuf},
     sync::{
-        LazyLock,
+        Arc, LazyLock,
         atomic::{AtomicUsize, Ordering},
     },
 };
@@ -18,6 +21,7 @@ use tokio::sync::{
     mpsc::{self, UnboundedSender},
     oneshot,
 };
+use url::Url;
 
 pub static TEMP_DATA_DIR: LazyLock<&'static str> = LazyLock::new(|| {
     let path = concatcp!(BASE_DATA_DIR, "/", BASE);
@@ -103,6 +107,7 @@ enum WriteOp {
     Sync(oneshot::Sender<()>),
 }
 
+#[derive(Debug)]
 pub struct TempFile {
     path: PathBuf,
     remove_on_drop: bool,
@@ -183,20 +188,18 @@ impl TempFile {
             .map_err(|_| anyhow::anyhow!("TempFile worker channel closed"))
     }
 
-    /// 异步等待所有写入操作完成并落盘
-    pub async fn wait_flush(&self) -> Result<()> {
-        let (tx, rx) = oneshot::channel();
-        self.write_tx
-            .send(WriteOp::Sync(tx))
-            .map_err(|_| anyhow::anyhow!("TempFile worker channel closed"))?;
-
-        rx.await
-            .map_err(|_| anyhow::anyhow!("Flush operation cancelled"))
-    }
-
-    /// 获取文件物理路径
-    pub fn path(&self) -> &Path {
-        &self.path
+    async fn get_url(self) -> Result<FileUrl<Self>> {
+        self.wait_flush().await?;
+        let abs_path = tokio::fs::canonicalize(&self.path)
+            .await
+            .unwrap_or(self.path.clone());
+        let url = Url::from_file_path(abs_path)
+            .map_err(|_| anyhow!("路径出现异常"))?
+            .to_string();
+        Ok(FileUrl::Temp {
+            url,
+            _handle: Arc::new(self),
+        })
     }
 }
 
@@ -206,4 +209,22 @@ impl Drop for TempFile {
         // 传递路径的所有权给管理器进行后台清理
         MANAGER.release(self.path.clone(), self.remove_on_drop);
     }
+}
+
+#[async_trait]
+impl FileStorage for TempFile {
+    fn get_path(&self) -> &PathBuf {
+        &self.path
+    }
+
+    async fn wait_flush(&self) -> Result<()> {
+        let (tx, rx) = oneshot::channel();
+        self.write_tx
+            .send(WriteOp::Sync(tx))
+            .map_err(|_| anyhow::anyhow!("临时文件进程已关闭"))?;
+
+        rx.await.map_err(|_| anyhow::anyhow!("写入被取消"))
+    }
+
+    const IS_TEMP: bool = true;
 }

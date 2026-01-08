@@ -183,6 +183,10 @@ define_default_type!(Cache, u8, 1);
 define_default_type!(Proxy, u8, 1);
 
 pub mod image {
+    use std::fmt;
+
+    use crate::abi::message::file::FileUrl;
+
     use super::*;
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -193,8 +197,8 @@ pub mod image {
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
-    pub struct DataSend {
-        pub file: String,
+    pub struct DataSend<T: fmt::Debug + Clone = ()> {
+        pub file: FileUrl<T>,
         pub r#type: Option<String>,
         pub cache: Cache,
         pub proxy: Proxy,
@@ -205,6 +209,10 @@ pub mod image {
 define_default_type!(Magic, u8, 0);
 
 pub mod record {
+    use std::fmt;
+
+    use crate::abi::message::file::FileUrl;
+
     use super::*;
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -215,8 +223,8 @@ pub mod record {
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
-    pub struct DataSend {
-        pub file: String,
+    pub struct DataSend<T: fmt::Debug + Clone = ()> {
+        pub file: FileUrl<T>,
         pub magic: Magic,
         pub cache: Cache,
         pub proxy: Proxy,
@@ -225,6 +233,10 @@ pub mod record {
 }
 
 pub mod video {
+    use std::fmt;
+
+    use crate::abi::message::file::FileUrl;
+
     use super::*;
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -234,8 +246,8 @@ pub mod video {
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
-    pub struct DataSend {
-        pub file: String,
+    pub struct DataSend<T: fmt::Debug + Clone = ()> {
+        pub file: FileUrl<T>,
         pub cache: Cache,
         pub proxy: Proxy,
         pub timeout: Option<u64>,

@@ -18,6 +18,8 @@ async fn main() -> Result<()> {
 
     let mut router = abi::run(config::get_napcat_config()).await.unwrap();
 
+    web::start().await?;
+
     router.run().await;
 
     Ok(())

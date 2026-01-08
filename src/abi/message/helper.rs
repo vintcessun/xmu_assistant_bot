@@ -1,3 +1,4 @@
+use crate::abi::message::file;
 use crate::box_new;
 
 use super::MessageSend;
@@ -64,9 +65,13 @@ impl MessageSendBuilder {
         self.add_seg(SegmentSend::Face(box_new!(face::Data, { id: id.into() })))
     }
 
-    pub fn image<S: Into<String>>(self, url: S) -> Self {
+    pub fn image_url<S: Into<String>>(self, url: S) -> Self {
+        self.image(file::FileUrl::Raw(url.into()))
+    }
+
+    pub fn image(self, url: file::FileUrl) -> Self {
         self.add_seg(SegmentSend::Image(box_new!(image::DataSend, {
-            file: url.into(),
+            file: url,
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
@@ -74,9 +79,13 @@ impl MessageSendBuilder {
         })))
     }
 
-    pub fn flash_image<S: Into<String>>(self, url: S) -> Self {
+    pub fn flash_image_url<S: Into<String>>(self, url: S) -> Self {
+        self.flash_image(file::FileUrl::Raw(url.into()))
+    }
+
+    pub fn flash_image(self, url: file::FileUrl) -> Self {
         self.add_seg(SegmentSend::Image(box_new!(image::DataSend, {
-            file: url.into(),
+            file: url,
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
@@ -84,9 +93,13 @@ impl MessageSendBuilder {
         })))
     }
 
-    pub fn record<S: Into<String>>(self, url: S) -> Self {
+    pub fn record_url<S: Into<String>>(self, url: S) -> Self {
+        self.record(file::FileUrl::Raw(url.into()))
+    }
+
+    pub fn record(self, url: file::FileUrl) -> Self {
         self.add_seg(SegmentSend::Record(box_new!(record::DataSend, {
-            file: url.into(),
+            file: url,
             magic: Magic::default(),
             cache: Cache::default(),
             proxy: Proxy::default(),
@@ -94,9 +107,13 @@ impl MessageSendBuilder {
         })))
     }
 
-    pub fn record_magic<S: Into<String>>(self, url: S) -> Self {
+    pub fn record_magic_url<S: Into<String>>(self, url: S) -> Self {
+        self.record_magic(file::FileUrl::Raw(url.into()))
+    }
+
+    pub fn record_magic(self, url: file::FileUrl) -> Self {
         self.add_seg(SegmentSend::Record(box_new!(record::DataSend, {
-            file: url.into(),
+            file: url,
             magic: Magic(1),
             cache: Cache::default(),
             proxy: Proxy::default(),
@@ -104,9 +121,13 @@ impl MessageSendBuilder {
         })))
     }
 
-    pub fn video<S: Into<String>>(self, url: S) -> Self {
+    pub fn video_url<S: Into<String>>(self, url: S) -> Self {
+        self.video(file::FileUrl::Raw(url.into()))
+    }
+
+    pub fn video(self, url: file::FileUrl) -> Self {
         self.add_seg(SegmentSend::Video(box_new!(video::DataSend, {
-            file: url.into(),
+            file: url,
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
