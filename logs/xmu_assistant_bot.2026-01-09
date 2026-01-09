@@ -20852,3 +20852,355 @@
 2026-01-09T19:49:20.746830Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
 2026-01-09T19:49:20.747994Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
 2026-01-09T19:49:20.748736Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:21.753253Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:21.753520Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:21.810817Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:21.810939Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:21.811030Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:21.925591Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988161,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:49:21.925834Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988161,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:49:21.925930Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988161, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:49:21.926062Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988161, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:49:21.926195Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988161, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:49:21.926304Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988161, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:49:22.817298Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:22.817557Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:22.898940Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:22.899264Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:22.899341Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:23.902143Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:23.902788Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:23.960762Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:23.961059Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:23.961270Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:24.978113Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:24.980632Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:25.048046Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:25.048442Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:25.048583Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:26.055009Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:26.055473Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:26.112424Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:26.112589Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:26.112650Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:27.127313Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:27.128981Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:27.198492Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:27.199112Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:27.199389Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:28.214196Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:28.215067Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:28.265094Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:28.265174Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:28.265233Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:29.270340Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:29.271743Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:29.348963Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T19:49:29.349079Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:29.349175Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:29.349309Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:29.349416Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:30.356642Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:30.356900Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:30.417129Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:30.420152Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:30.421312Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:31.441065Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:31.441370Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:31.499094Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:31.499334Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:31.499589Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:32.515197Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:32.515607Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:32.564714Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:32.564833Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:32.564916Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:33.569323Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:33.570439Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:33.649978Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:33.650108Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:33.650209Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:34.652618Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:34.653162Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:34.710082Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:34.710335Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:34.710474Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:35.715059Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:35.715668Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:35.799999Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:35.800110Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:35.800189Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:36.814116Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:36.814450Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:36.872659Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:36.872872Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:36.873004Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:37.887316Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:37.888173Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:37.951247Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:37.951359Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:37.951440Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:38.959434Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:38.960478Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:39.014485Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:39.015187Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:39.015383Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:40.028000Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:40.028781Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:40.102272Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:40.102862Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:40.103523Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:41.123509Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:41.123801Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:41.166041Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:41.166285Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:41.166405Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:42.174262Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:42.174600Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:42.251644Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:42.253312Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:42.253476Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:43.253337Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:43.253485Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:43.313985Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:43.314098Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:43.314156Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:44.335137Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:44.335456Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:44.401695Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:44.402208Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:44.402295Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:45.414161Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:45.414467Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:45.466746Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T19:49:45.467140Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:45.467247Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:46.478840Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:46.479082Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:46.552430Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码已扫码，等待确认
+2026-01-09T19:49:46.553150Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:46.553282Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:47.563010Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:47.563183Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:47.617259Z DEBUG xmu_assistant_bot::api::xmu_service::login::qrcode: 请求成功
+2026-01-09T19:49:47.617480Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:47.617638Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:47.617796Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:47.617935Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:47.723249Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:47.723418Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:47.723584Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:47.723729Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:47.813440Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:47.813540Z TRACE hyper_util::client::legacy::pool: removing expired connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:47.813643Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:47.813803Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:47.813887Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T19:49:47.814045Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T19:49:47.814190Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:47.814529Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:47.814734Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T19:49:47.999545Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T19:49:48.000095Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T19:49:48.000343Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T19:49:48.000646Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:48.001437Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:48.001990Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:48.002325Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:48.002562Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:48.002881Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:48.088605Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:48.088908Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.143896Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.144484Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T19:49:48.144665Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T19:49:48.146038Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.146423Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T19:49:48.147189Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.149281Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.226594Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.226719Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T19:49:48.226958Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T19:49:48.227430Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.227910Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.246302Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T19:49:48.331585Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T19:49:48.331744Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T19:49:48.331947Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T19:49:48.332169Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.332328Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.446064Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T19:49:48.446212Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T19:49:48.446384Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T19:49:48.446518Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.498386Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.498516Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.498762Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:48.498873Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.534786Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.534887Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.535046Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:48.535163Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:48.630394Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:48.630537Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:48.630678Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:48.630743Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.832863Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.833109Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:49:48.833427Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:48.833725Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.937459Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:48.938162Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.938737Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:48.938911Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.010543Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:49.010740Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.010996Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.011247Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.112229Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:49.113036Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.113374Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.113575Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.629567Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:49.629755Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.831406Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.832478Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:49:49.833088Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:49.833524Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:49.940229Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:49.942991Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T19:49:49.943174Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T19:49:49.944052Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T19:49:49.944375Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:49.944499Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:49.945662Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.037477Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.037713Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:50.041202Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.041340Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.137909Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:50.138120Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:50.138358Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.138475Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.238914Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.239857Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T19:49:50.240154Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T19:49:50.241042Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T19:49:50.241360Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.241513Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.241590Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.387816Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T19:49:50.387998Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T19:49:50.388491Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T19:49:50.388756Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.388862Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.400788Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T19:49:50.401043Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T19:49:50.401273Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T19:49:50.401478Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.401664Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.449976Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.450095Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.450241Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.450346Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.648710Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.649122Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.649429Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.649515Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.691604Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.691717Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.691844Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.691923Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:50.772621Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:50.772738Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T19:49:50.772954Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.773104Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.853142Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.853310Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.853500Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.853604Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.905227Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T19:49:50.905540Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.989010Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.989641Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: set_group_special_title
+2026-01-09T19:49:50.989738Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.989841Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "set_group_special_title", params: SpecialTitle { group_id: 1077220910, user_id: 2704139501, special_title: "24转航空航天学院" }, echo: Echo(7) }
+2026-01-09T19:49:50.990358Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:50.990466Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T19:49:51.004653Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"message":"","wording":"","echo":"7","stream":"normal-action"}
+2026-01-09T19:49:51.004781Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"message\":\"\",\"wording\":\"\",\"echo\":\"7\",\"stream\":\"normal-action\"}"
+2026-01-09T19:49:51.004861Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(7)
+2026-01-09T19:49:51.004939Z TRACE xmu_assistant_bot::abi::router::context: res=ApiResponse { status: Ok, retcode: 0, message: Some(""), data: None, echo: Echo(7), wording: Some(""), stream: Some(NormalAction) }
+2026-01-09T19:49:51.005058Z DEBUG xmu_assistant_bot::abi::message::api::params::send_msg: 发送转发消息共2条
+2026-01-09T19:49:51.005137Z TRACE xmu_assistant_bot::abi::message::api::params::send_msg: messages=[Array([Text(Data { text: "登录成功！" })]), Array([Text(Data { text: "信息:2024级 转入学院:[\"航空航天学院\"]" })])]
+2026-01-09T19:49:51.005218Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T19:49:51.005313Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "2704139501", nickname: "洛肯爆改哈基米", content: Array([Text(Data { text: "来自群(1077220910)的(洛肯爆改哈基米 2704139501)命令: " }), Text(Data { text: "/login" })]) })), Node(Content(DataSend2 { user_id: "1363408373", nickname: "指令回复", content: Array([Text(Data { text: "登录成功！" })]) })), Node(Content(DataSend2 { user_id: "1363408373", nickname: "指令回复", content: Array([Text(Data { text: "信息:2024级 转入学院:[\"航空航天学院\"]" })]) }))]) }, echo: Echo(8) }
+2026-01-09T19:49:51.324636Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988191,"self_id":1363408373,"post_type":"notice","group_id":1077220910,"user_id":2704139501,"notice_type":"notify","sub_type":"title","title":"24转航空航天学院"}
+2026-01-09T19:49:51.324778Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988191,\"self_id\":1363408373,\"post_type\":\"notice\",\"group_id\":1077220910,\"user_id\":2704139501,\"notice_type\":\"notify\",\"sub_type\":\"title\",\"title\":\"24转航空航天学院\"}"
+2026-01-09T19:49:51.324874Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("invalid value: map, expected map with a single key", line: 0, column: 0)
+2026-01-09T19:49:51.496900Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":1694928783,"res_id":"v/gvX3eoxjUJg0rrJ9D24z2pkfYfUI0d/LQ0O8iAXasJoVPeWvbZp6SElgRrBNJK","forward_id":"v/gvX3eoxjUJg0rrJ9D24z2pkfYfUI0d/LQ0O8iAXasJoVPeWvbZp6SElgRrBNJK"},"message":"","wording":"","echo":"8","stream":"normal-action"}
+2026-01-09T19:49:51.497624Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":1694928783,\"res_id\":\"v/gvX3eoxjUJg0rrJ9D24z2pkfYfUI0d/LQ0O8iAXasJoVPeWvbZp6SElgRrBNJK\",\"forward_id\":\"v/gvX3eoxjUJg0rrJ9D24z2pkfYfUI0d/LQ0O8iAXasJoVPeWvbZp6SElgRrBNJK\"},\"message\":\"\",\"wording\":\"\",\"echo\":\"8\",\"stream\":\"normal-action\"}"
+2026-01-09T19:49:51.497837Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(8)
+2026-01-09T19:49:51.497965Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 1694928783, res_id: Some("v/gvX3eoxjUJg0rrJ9D24z2pkfYfUI0d/LQ0O8iAXasJoVPeWvbZp6SElgRrBNJK") }), echo: Echo(8), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T19:49:51.929451Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988191,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:49:51.929554Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988191,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:49:51.929653Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988191, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:49:51.929742Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988191, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:49:51.929860Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988191, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:49:51.929950Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988191, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:50:00.578570Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T19:50:00.580247Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", api.jisuai.top)
+2026-01-09T19:50:21.936944Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988221,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:50:21.937317Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988221,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:50:21.937453Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988221, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:50:21.937696Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988221, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:50:21.937895Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988221, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:50:21.938085Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988221, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:50:50.356420Z DEBUG hyper_util::client::legacy::client: client connection error: hyper::Error(IncompleteMessage)
+2026-01-09T19:50:50.356845Z TRACE hyper_util::client::legacy::client: sending connection error to error channel
+2026-01-09T19:50:51.950796Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988251,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:50:51.951174Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988251,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:50:51.951556Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988251, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:50:51.952163Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988251, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:50:51.952557Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988251, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:50:51.952812Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988251, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:50:59.362375Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T19:50:59.362582Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", jw.xmu.edu.cn)
+2026-01-09T19:51:21.963949Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988281,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:51:21.964209Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988281,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:51:21.964430Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988281, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:51:21.964664Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988281, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:51:21.964845Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988281, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:51:21.965054Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988281, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:51:30.588503Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T19:51:51.975414Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988311,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:51:51.975848Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988311,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:51:51.976139Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988311, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:51:51.976401Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988311, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:51:51.976704Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988311, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:51:51.977047Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988311, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:52:21.991439Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988341,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:52:21.991738Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988341,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:52:21.991852Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988341, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:52:21.991925Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988341, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:52:21.992040Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988341, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:52:21.992124Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988341, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:52:29.364868Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T19:52:29.365224Z TRACE hyper_util::client::legacy::pool: idle interval evicting expired for ("https", jw.xmu.edu.cn)
+2026-01-09T19:52:29.365792Z TRACE hyper_util::client::legacy::pool: idle interval evicting expired for ("https", jw.xmu.edu.cn)
+2026-01-09T19:52:29.366336Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:52:29.366668Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", c-identity.xmu.edu.cn)
+2026-01-09T19:52:29.367463Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", ids.xmu.edu.cn)
+2026-01-09T19:52:51.997120Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988371,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:52:51.997332Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988371,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:52:51.997484Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988371, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:52:51.997745Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988371, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:52:51.997994Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988371, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:52:51.998137Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988371, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:53:00.594938Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T19:53:22.006435Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767988402,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:53:22.006558Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767988402,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:53:22.006698Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767988402, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:53:22.006797Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767988402, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:53:22.006910Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767988402, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:53:22.007037Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767988402, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
