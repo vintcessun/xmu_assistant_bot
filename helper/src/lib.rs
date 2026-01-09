@@ -213,37 +213,7 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
         quote! {
             {
                 let mut ctx = typed_ctx;
-                let msg_body = ctx.get_message();
-                let msg = match &*msg_body {
-                    Message::Group(g) => &g.message,
-                    Message::Private(p) => &p.message,
-                };
-                ctx.send_message_async(message::receive2send_add_prefix(
-                    msg,
-                    match ctx.get_target() {
-                        Target::Group(group_id) => format!(
-                            "来自群({group_id})的{}({} {})命令: ",
-                            ctx.sender
-                                .card
-                                .as_ref()
-                                .unwrap_or(&String::from("未知群昵称")),
-                            &ctx.sender
-                                .nickname
-                                .as_ref()
-                                .unwrap_or(&String::from("未知昵称")),
-                            &ctx.sender.user_id.unwrap_or(0),
-                        ),
-                        Target::Private(user_id) => {
-                            format!(
-                                "用户{user_id}({})的命令: ",
-                                &ctx.sender
-                                    .nickname
-                                    .as_ref()
-                                    .unwrap_or(&String::from("未知昵称"))
-                            )
-                        }
-                    },
-                ));
+                ctx.set_echo();
                 ctx
             }
         }

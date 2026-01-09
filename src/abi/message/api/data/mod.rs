@@ -1,3 +1,11 @@
+mod poke;
+mod send_msg;
+mod title;
+
+pub use poke::*;
+pub use send_msg::*;
+pub use title::*;
+
 use crate::abi::echo::{Echo, EchoPending};
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
@@ -54,29 +62,3 @@ pub enum Status {
     Async,
     Failed,
 }
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct SendMsgData {
-    pub message_id: i64,
-}
-
-impl Data for SendMsgData {}
-
-pub type SendMsgResponse = ApiResponse<SendMsgData>;
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct ForwardMsgData {
-    pub message_id: i64,
-    pub res_id: Option<String>,
-}
-
-impl Data for ForwardMsgData {}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct PokeData {}
-
-impl Data for PokeData {}
-
-pub type ForwardMsgResponse = ApiResponse<ForwardMsgData>;
-
-pub type PokeResponse = ApiResponse<PokeData>;

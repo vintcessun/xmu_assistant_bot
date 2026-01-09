@@ -7327,3 +7327,956 @@
 2026-01-09T16:54:12.433302Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767977652, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
 2026-01-09T16:54:12.433486Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767977652, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
 2026-01-09T16:54:12.433588Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767977652, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:55:48.997219Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T17:55:48.997380Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T17:55:49.000343Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981348,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2026-01-09T17:55:49.000476Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981348,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2026-01-09T17:55:49.000752Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1767981348, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T17:55:49.000838Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1767981348, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T17:55:49.001409Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2026-01-09T17:55:49.002041Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1767981348, self_id: 1363408373, sub_type: Connect })
+2026-01-09T17:55:49.002140Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1767981348, self_id: 1363408373, sub_type: Connect }
+2026-01-09T17:56:10.528495Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767981369,"message_id":273302731,"message_seq":273302731,"real_id":273302731,"real_seq":"690","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"member"},"raw_message":"/logout","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/logout"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T17:56:10.528811Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767981369,\"message_id\":273302731,\"message_seq\":273302731,\"real_id\":273302731,\"real_seq\":\"690\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"member\"},\"raw_message\":\"/logout\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/logout\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T17:56:10.529642Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767981369, self_id: 1363408373, sub_type: Normal, message_id: 273302731, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Member, title: None } }))
+2026-01-09T17:56:10.529955Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767981369, self_id: 1363408373, sub_type: Normal, message_id: 273302731, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Member, title: None } }))
+2026-01-09T17:56:10.530312Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767981369, self_id: 1363408373, sub_type: Normal, message_id: 273302731, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Member, title: None } })
+2026-01-09T17:56:10.554747Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共2条
+2026-01-09T17:56:10.554873Z TRACE xmu_assistant_bot::abi::router::context: messages=[Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/logout" })]), Array([Text(Data { text: "已删除登录数据" })])]
+2026-01-09T17:56:10.555137Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T17:56:10.555283Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/logout" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "已删除登录数据" })]) }))]) }, echo: Echo(1) }
+2026-01-09T17:56:11.586628Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":926321008},"message":"","wording":"","echo":"1","stream":"normal-action"}
+2026-01-09T17:56:11.586830Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":926321008},\"message\":\"\",\"wording\":\"\",\"echo\":\"1\",\"stream\":\"normal-action\"}"
+2026-01-09T17:56:11.586994Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(1)
+2026-01-09T17:56:11.587652Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 926321008, res_id: None }), echo: Echo(1), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T17:56:14.501616Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981374,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T17:56:14.501988Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981374,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T17:56:14.502393Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981374, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:56:14.502689Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981374, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:56:14.503011Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981374, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T17:56:14.503222Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981374, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:56:15.026103Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767981374,"message_id":1806426701,"message_seq":1806426701,"real_id":1806426701,"real_seq":"692","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"member"},"raw_message":"/login","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/login"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T17:56:15.026364Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767981374,\"message_id\":1806426701,\"message_seq\":1806426701,\"real_id\":1806426701,\"real_seq\":\"692\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"member\"},\"raw_message\":\"/login\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/login\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T17:56:15.026592Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767981374, self_id: 1363408373, sub_type: Normal, message_id: 1806426701, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Member, title: None } }))
+2026-01-09T17:56:15.026751Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767981374, self_id: 1363408373, sub_type: Normal, message_id: 1806426701, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Member, title: None } }))
+2026-01-09T17:56:15.026946Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767981374, self_id: 1363408373, sub_type: Normal, message_id: 1806426701, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Member, title: None } })
+2026-01-09T17:56:15.028340Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:15.028630Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T17:56:15.028747Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T17:56:15.029306Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T17:56:15.174551Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T17:56:15.174703Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T17:56:15.174908Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T17:56:15.175007Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:15.227030Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:15.227341Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T17:56:15.227514Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T17:56:15.228169Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T17:56:15.228237Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:15.228387Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:15.369517Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T17:56:15.369638Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T17:56:15.369793Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T17:56:15.369890Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:15.533823Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:15.534104Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:15.535225Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:15.535433Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:15.576962Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:15.577168Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_msg
+2026-01-09T17:56:15.577267Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:15.577424Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_msg", params: SendGroupMessageParams { group_id: 1077220910, message: Array([At(Data { qq: "2218870695" }), Text(Data { text: " " }), Text(Data { text: "将为2218870695登录：\n" }), Text(Data { text: "请使用企业微信扫码登录" }), Image(DataSend { file: Raw("https://ids.xmu.edu.cn/authserver/qrCode/getCode?uuid=QR-B0Bqkx12VgrAchBvfiz"), type: None, cache: Cache(1), proxy: Proxy(1), timeout: None }), Text(Data { text: "\n或者直接点击链接登录：" }), Text(Data { text: "https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid=QR-B0Bqkx12VgrAchBvfiz" })]) }, echo: Echo(2) }
+2026-01-09T17:56:17.183532Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":956693391},"message":"","wording":"","echo":"2","stream":"normal-action"}
+2026-01-09T17:56:17.184211Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":956693391},\"message\":\"\",\"wording\":\"\",\"echo\":\"2\",\"stream\":\"normal-action\"}"
+2026-01-09T17:56:17.184618Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(2)
+2026-01-09T17:56:17.185274Z TRACE xmu_assistant_bot::abi::router::context: res=ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(SendMsgData { message_id: 956693391 }), echo: Echo(2), wording: Some(""), stream: Some(NormalAction) }
+2026-01-09T17:56:17.186261Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:17.186583Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:17.275383Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:17.275606Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:17.275755Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T17:56:18.283031Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:18.283634Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:18.336171Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:18.336239Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T17:56:18.336355Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:19.337655Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:19.337978Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:19.424569Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T17:56:19.424703Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:19.424873Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:20.439663Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:20.440339Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:20.486687Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:20.486816Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T17:56:20.486900Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:21.498862Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:21.498979Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:21.615323Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:21.615504Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T17:56:21.615660Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:22.629381Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:22.629749Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:22.704684Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:22.704946Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码已扫码，等待确认
+2026-01-09T17:56:22.705467Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:23.715563Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:23.715810Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:23.767620Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:23.767720Z DEBUG xmu_assistant_bot::api::xmu_service::login::qrcode: 请求成功
+2026-01-09T17:56:23.767834Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:23.768193Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:23.768322Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:23.867994Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:23.868259Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:23.869152Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:23.869652Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:23.945028Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:23.945782Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T17:56:23.946107Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T17:56:23.947710Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:23.948369Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T17:56:23.948808Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:23.949209Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:24.140083Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T17:56:24.140200Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T17:56:24.140334Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T17:56:24.140440Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:24.140520Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:24.146837Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:24.146949Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:24.147176Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:24.147284Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:24.270516Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.271138Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T17:56:24.271513Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T17:56:24.272894Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T17:56:24.457947Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T17:56:24.458049Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T17:56:24.458184Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T17:56:24.458277Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.545213Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.545359Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T17:56:24.545438Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T17:56:24.546003Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T17:56:24.546061Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.546144Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.546269Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.596268Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:24.596527Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T17:56:24.596645Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T17:56:24.597077Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T17:56:24.597176Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.597267Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.682935Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T17:56:24.683062Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T17:56:24.683175Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T17:56:24.683274Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.683357Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:24.795394Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T17:56:24.795629Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T17:56:24.795775Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T17:56:24.795921Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:24.852715Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:24.852902Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:24.853642Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:24.853830Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:24.891275Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:24.891422Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:24.891782Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:24.891867Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:24.973437Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:24.973673Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:24.974525Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:24.974712Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:25.083493Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:25.083601Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:56:25.084127Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:25.084220Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.186183Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:25.186333Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.186678Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.186840Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.262735Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:25.263468Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.264057Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.264283Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.364109Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:25.364258Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.364644Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.364780Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:25.980669Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:25.981082Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:26.185258Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:26.186528Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:56:26.186742Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:26.186870Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.231247Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.231458Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T17:56:26.231569Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T17:56:26.232162Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T17:56:26.232219Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.232287Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.232371Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.287232Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:26.287404Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:26.287669Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.287776Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.389061Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:26.389621Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:26.390759Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:26.391120Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.399343Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T17:56:26.399520Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T17:56:26.400022Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T17:56:26.400226Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.400502Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.491478Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:26.491945Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.492947Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.493301Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.695268Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:26.695397Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.695627Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.695713Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.901896Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:26.902443Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.903237Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.903722Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.943911Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.944054Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:26.944558Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:26.944667Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:27.019936Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:27.020077Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T17:56:27.020504Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:27.020587Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.106791Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.107047Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.107950Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:27.108247Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.159088Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T17:56:27.159204Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.320343Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.320507Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: set_group_special_title
+2026-01-09T17:56:27.320693Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.320743Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "set_group_special_title", params: SpecialTitle { group_id: 2218870695, user_id: 1077220910, special_title: "2024级转[\"信息学院\"]" }, echo: Echo(3) }
+2026-01-09T17:56:27.320949Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.321053Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T17:56:27.321400Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"failed","retcode":1400,"data":null,"message":"packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！","wording":"packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！","echo":"3","stream":"normal-action"}
+2026-01-09T17:56:27.321538Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"failed\",\"retcode\":1400,\"data\":null,\"message\":\"packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！\",\"wording\":\"packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！\",\"echo\":\"3\",\"stream\":\"normal-action\"}"
+2026-01-09T17:56:27.321668Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(3)
+2026-01-09T17:56:27.321821Z TRACE xmu_assistant_bot::abi::router::context: res=ApiResponse { status: Failed, retcode: 1400, message: Some("packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！"), data: None, echo: Echo(3), wording: Some("packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！"), stream: Some(NormalAction) }
+2026-01-09T17:56:27.321972Z DEBUG xmu_assistant_bot::abi::logic_import: Logic [login] 运行出错: 设置特殊头衔失败: "packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！"
+2026-01-09T17:56:27.322062Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共4条
+2026-01-09T17:56:27.322187Z TRACE xmu_assistant_bot::abi::router::context: messages=[Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/login" })]), Array([Text(Data { text: "登录成功！" })]), Array([Text(Data { text: "信息:2024级 转入学院:[\"信息学院\"]" })]), Array([Text(Data { text: "Logic [login] 运行出现错误: 设置特殊头衔失败: \"packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！\"" })])]
+2026-01-09T17:56:27.322330Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T17:56:27.322480Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/login" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "登录成功！" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "信息:2024级 转入学院:[\"信息学院\"]" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "Logic [login] 运行出现错误: 设置特殊头衔失败: \"packetBackend不可用，请参照文档 https://napneko.github.io/config/advanced 和启动日志检查packetBackend状态或进行配置！错误堆栈信息：undefined\\n[Core] [Packet] PacketBackend 不支持当前QQ版本架构：9.9.22-40990-x64，\\n            请参照 https://github.com/NapNeko/NapCatQQ/releases/tag/v4.8.119 配置正确的QQ版本！\"" })]) }))]) }, echo: Echo(4) }
+2026-01-09T17:56:28.779884Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":2093437285},"message":"","wording":"","echo":"4","stream":"normal-action"}
+2026-01-09T17:56:28.780146Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":2093437285},\"message\":\"\",\"wording\":\"\",\"echo\":\"4\",\"stream\":\"normal-action\"}"
+2026-01-09T17:56:28.780335Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(4)
+2026-01-09T17:56:28.780841Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 2093437285, res_id: None }), echo: Echo(4), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T17:56:44.517574Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981404,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T17:56:44.517951Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981404,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T17:56:44.518182Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981404, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:56:44.518382Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981404, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:56:44.518641Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981404, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T17:56:44.518799Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981404, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:57:14.532173Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981434,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T17:57:14.532554Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981434,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T17:57:14.533177Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981434, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:57:14.533733Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981434, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:57:14.535705Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981434, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T17:57:14.535983Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981434, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:57:44.543198Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981464,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T17:57:44.543581Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981464,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T17:57:44.544002Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981464, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:57:44.544603Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981464, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:57:44.545375Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981464, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T17:57:44.545841Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981464, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:57:45.232507Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T17:57:45.232743Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", ids.xmu.edu.cn)
+2026-01-09T17:57:45.233237Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", c-identity.xmu.edu.cn)
+2026-01-09T17:58:14.550805Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981494,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T17:58:14.551045Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981494,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T17:58:14.551443Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981494, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:58:14.551858Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981494, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:58:14.552550Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981494, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T17:58:14.552867Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981494, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:58:44.557825Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981524,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T17:58:44.558658Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981524,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T17:58:44.559020Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981524, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:58:44.560011Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981524, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:58:44.560341Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981524, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T17:58:44.560574Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981524, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:59:14.562190Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981554,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T17:59:14.563596Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981554,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T17:59:14.564322Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981554, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:59:14.564838Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981554, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T17:59:14.565706Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981554, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T17:59:14.566545Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981554, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T17:59:15.245205Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T17:59:15.245662Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", lnt.xmu.edu.cn)
+2026-01-09T17:59:15.246038Z TRACE hyper_util::client::legacy::pool: idle interval evicting expired for ("https", jw.xmu.edu.cn)
+2026-01-09T17:59:15.246319Z TRACE hyper_util::client::legacy::pool: idle interval evicting expired for ("https", jw.xmu.edu.cn)
+2026-01-09T18:00:45.254986Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T18:02:15.265910Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T18:03:45.276875Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T18:05:08.698614Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T18:05:08.698837Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T18:05:08.709328Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981908,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2026-01-09T18:05:08.709452Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981908,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2026-01-09T18:05:08.709697Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1767981908, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T18:05:08.709852Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1767981908, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T18:05:08.710222Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2026-01-09T18:05:08.710778Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1767981908, self_id: 1363408373, sub_type: Connect })
+2026-01-09T18:05:08.710917Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1767981908, self_id: 1363408373, sub_type: Connect }
+2026-01-09T18:05:11.138788Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981911,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T18:05:11.138959Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981911,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T18:05:11.139127Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981911, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:05:11.139254Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981911, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:05:11.139533Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981911, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T18:05:11.139767Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981911, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T18:05:41.142856Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981941,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T18:05:41.143582Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981941,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T18:05:41.144383Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981941, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:05:41.144807Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981941, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:05:41.145615Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981941, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T18:05:41.146320Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981941, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T18:05:41.864531Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767981941,"message_id":1345021429,"message_seq":1345021429,"real_id":1345021429,"real_seq":"695","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/logout","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/logout"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T18:05:41.865814Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767981941,\"message_id\":1345021429,\"message_seq\":1345021429,\"real_id\":1345021429,\"real_seq\":\"695\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/logout\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/logout\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T18:05:41.867839Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767981941, self_id: 1363408373, sub_type: Normal, message_id: 1345021429, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:05:41.868483Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767981941, self_id: 1363408373, sub_type: Normal, message_id: 1345021429, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:05:41.869318Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767981941, self_id: 1363408373, sub_type: Normal, message_id: 1345021429, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T18:05:41.903818Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共2条
+2026-01-09T18:05:41.905533Z TRACE xmu_assistant_bot::abi::router::context: messages=[Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/logout" })]), Array([Text(Data { text: "已删除登录数据" })])]
+2026-01-09T18:05:41.906444Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T18:05:41.911488Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/logout" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "已删除登录数据" })]) }))]) }, echo: Echo(1) }
+2026-01-09T18:05:42.640274Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":1554301459,"res_id":"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf","forward_id":"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf"},"message":"","wording":"","echo":"1","stream":"normal-action"}
+2026-01-09T18:05:42.640583Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":1554301459,\"res_id\":\"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf\",\"forward_id\":\"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf\"},\"message\":\"\",\"wording\":\"\",\"echo\":\"1\",\"stream\":\"normal-action\"}"
+2026-01-09T18:05:42.640909Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":1363408373,"time":1767981941,"message_id":1554301459,"message_seq":1554301459,"real_id":1554301459,"real_seq":"696","message_type":"group","sender":{"user_id":1363408373,"nickname":"害","card":"","role":"owner"},"raw_message":"[CQ:json,data={\"app\":\"com.tencent.multimsg\"&#44;\"config\":{\"autosize\":1&#44;\"forward\":1&#44;\"round\":1&#44;\"type\":\"normal\"&#44;\"width\":300}&#44;\"desc\":\"&#91;聊天记录&#93;\"&#44;\"extra\":{\"filename\":\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\"&#44;\"tsum\":2}&#44;\"meta\":{\"detail\":{\"news\":&#91;{\"text\":\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /logout\"}&#44;{\"text\":\"聊天转发: 已删除登录数据\"}&#93;&#44;\"resid\":\"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf\"&#44;\"source\":\"群聊的聊天记录\"&#44;\"summary\":\"查看2条转发消息\"&#44;\"uniseq\":\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\"}}&#44;\"prompt\":\"&#91;聊天记录&#93;\"&#44;\"ver\":\"0.0.0.5\"&#44;\"view\":\"contact\"}]","font":14,"sub_type":"normal","message":[{"type":"json","data":{"data":"{\"app\":\"com.tencent.multimsg\",\"config\":{\"autosize\":1,\"forward\":1,\"round\":1,\"type\":\"normal\",\"width\":300},\"desc\":\"[聊天记录]\",\"extra\":{\"filename\":\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\",\"tsum\":2},\"meta\":{\"detail\":{\"news\":[{\"text\":\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /logout\"},{\"text\":\"聊天转发: 已删除登录数据\"}],\"resid\":\"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf\",\"source\":\"群聊的聊天记录\",\"summary\":\"查看2条转发消息\",\"uniseq\":\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\"}},\"prompt\":\"[聊天记录]\",\"ver\":\"0.0.0.5\",\"view\":\"contact\"}"}}],"message_format":"array","post_type":"message_sent","message_sent_type":"self","group_id":1077220910,"group_name":"转专业bot测试群","target_id":1077220910}
+2026-01-09T18:05:42.641173Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":1363408373,\"time\":1767981941,\"message_id\":1554301459,\"message_seq\":1554301459,\"real_id\":1554301459,\"real_seq\":\"696\",\"message_type\":\"group\",\"sender\":{\"user_id\":1363408373,\"nickname\":\"害\",\"card\":\"\",\"role\":\"owner\"},\"raw_message\":\"[CQ:json,data={\\\"app\\\":\\\"com.tencent.multimsg\\\"&#44;\\\"config\\\":{\\\"autosize\\\":1&#44;\\\"forward\\\":1&#44;\\\"round\\\":1&#44;\\\"type\\\":\\\"normal\\\"&#44;\\\"width\\\":300}&#44;\\\"desc\\\":\\\"&#91;聊天记录&#93;\\\"&#44;\\\"extra\\\":{\\\"filename\\\":\\\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\\\"&#44;\\\"tsum\\\":2}&#44;\\\"meta\\\":{\\\"detail\\\":{\\\"news\\\":&#91;{\\\"text\\\":\\\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /logout\\\"}&#44;{\\\"text\\\":\\\"聊天转发: 已删除登录数据\\\"}&#93;&#44;\\\"resid\\\":\\\"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf\\\"&#44;\\\"source\\\":\\\"群聊的聊天记录\\\"&#44;\\\"summary\\\":\\\"查看2条转发消息\\\"&#44;\\\"uniseq\\\":\\\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\\\"}}&#44;\\\"prompt\\\":\\\"&#91;聊天记录&#93;\\\"&#44;\\\"ver\\\":\\\"0.0.0.5\\\"&#44;\\\"view\\\":\\\"contact\\\"}]\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"json\",\"data\":{\"data\":\"{\\\"app\\\":\\\"com.tencent.multimsg\\\",\\\"config\\\":{\\\"autosize\\\":1,\\\"forward\\\":1,\\\"round\\\":1,\\\"type\\\":\\\"normal\\\",\\\"width\\\":300},\\\"desc\\\":\\\"[聊天记录]\\\",\\\"extra\\\":{\\\"filename\\\":\\\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\\\",\\\"tsum\\\":2},\\\"meta\\\":{\\\"detail\\\":{\\\"news\\\":[{\\\"text\\\":\\\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /logout\\\"},{\\\"text\\\":\\\"聊天转发: 已删除登录数据\\\"}],\\\"resid\\\":\\\"JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf\\\",\\\"source\\\":\\\"群聊的聊天记录\\\",\\\"summary\\\":\\\"查看2条转发消息\\\",\\\"uniseq\\\":\\\"84d3cb10-91c7-46b1-9d3f-0d27f90dd0a0\\\"}},\\\"prompt\\\":\\\"[聊天记录]\\\",\\\"ver\\\":\\\"0.0.0.5\\\",\\\"view\\\":\\\"contact\\\"}\"}}],\"message_format\":\"array\",\"post_type\":\"message_sent\",\"message_sent_type\":\"self\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\",\"target_id\":1077220910}"
+2026-01-09T18:05:42.641398Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(1)
+2026-01-09T18:05:42.641628Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 1554301459, res_id: Some("JnWZnwp1sUl1uMyyAoYy8tMb5awyLy61oczqaUtng6LjqbETI3mGYHV/MT7yepEf") }), echo: Echo(1), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T18:05:42.641740Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("unknown variant `message_sent`, expected one of `message`, `notice`, `request`, `meta_event`", line: 1, column: 1855)
+2026-01-09T18:05:44.072127Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767981943,"message_id":1915980668,"message_seq":1915980668,"real_id":1915980668,"real_seq":"697","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/login","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/login"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T18:05:44.072622Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767981943,\"message_id\":1915980668,\"message_seq\":1915980668,\"real_id\":1915980668,\"real_seq\":\"697\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/login\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/login\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T18:05:44.072965Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767981943, self_id: 1363408373, sub_type: Normal, message_id: 1915980668, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:05:44.073179Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767981943, self_id: 1363408373, sub_type: Normal, message_id: 1915980668, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:05:44.073408Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767981943, self_id: 1363408373, sub_type: Normal, message_id: 1915980668, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T18:05:44.081233Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:44.096469Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:05:44.097666Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:05:44.099009Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:05:44.370750Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:05:44.371203Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:05:44.372100Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:05:44.372340Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:44.426754Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:44.428042Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:05:44.431131Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:05:44.439588Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:05:44.465979Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:44.467616Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:44.735141Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:05:44.772141Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:05:44.808130Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:05:44.843021Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:45.023943Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:45.024338Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:45.025483Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:45.025815Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:45.097742Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:45.099095Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_msg
+2026-01-09T18:05:45.100872Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:45.104353Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_msg", params: SendGroupMessageParams { group_id: 1077220910, message: Array([At(Data { qq: "2218870695" }), Text(Data { text: " " }), Text(Data { text: "将为2218870695登录：\n" }), Text(Data { text: "请使用企业微信扫码登录" }), Image(DataSend { file: Raw("https://ids.xmu.edu.cn/authserver/qrCode/getCode?uuid=QR-fP3F1eHfRoXJLUxhrRo"), type: None, cache: Cache(1), proxy: Proxy(1), timeout: None }), Text(Data { text: "\n或者直接点击链接登录：" }), Text(Data { text: "https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid=QR-fP3F1eHfRoXJLUxhrRo" })]) }, echo: Echo(2) }
+2026-01-09T18:05:47.156549Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":1013017519},"message":"","wording":"","echo":"2","stream":"normal-action"}
+2026-01-09T18:05:47.156828Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":1013017519},\"message\":\"\",\"wording\":\"\",\"echo\":\"2\",\"stream\":\"normal-action\"}"
+2026-01-09T18:05:47.157192Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":1363408373,"time":1767981946,"message_id":1013017519,"message_seq":1013017519,"real_id":1013017519,"real_seq":"698","message_type":"group","sender":{"user_id":1363408373,"nickname":"害","card":"","role":"owner"},"raw_message":"[CQ:at,qq=2218870695] 将为2218870695登录：\n请使用企业微信扫码登录[CQ:image,file=BFAB15137B2C13D9868CDFB52D623222.png,sub_type=0,url=https://multimedia.nt.qq.com.cn/download?appid=1407&amp;fileid=EhQLmWw3iSSEjRsL4Zn8zFWifR_v0hjcGCD_Cijx8LH-hf-RAzIEcHJvZFCAvaMBWhCXUcsjGtZABy3vp8JIk70wegKlLoIBAmd6&amp;rkey=CAISMKVpB1LYc1kzqSQfF4vxHZVKTZNTE7CTxIzuPwIIqv4_uDDakk95aWmwvSYHA5_M2g,file_size=3164]\n或者直接点击链接登录：https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid=QR-fP3F1eHfRoXJLUxhrRo","font":14,"sub_type":"normal","message":[{"type":"at","data":{"qq":"2218870695"}},{"type":"text","data":{"text":" "}},{"type":"text","data":{"text":"将为2218870695登录：\n"}},{"type":"text","data":{"text":"请使用企业微信扫码登录"}},{"type":"image","data":{"summary":"","file":"BFAB15137B2C13D9868CDFB52D623222.png","sub_type":0,"url":"https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhQLmWw3iSSEjRsL4Zn8zFWifR_v0hjcGCD_Cijx8LH-hf-RAzIEcHJvZFCAvaMBWhCXUcsjGtZABy3vp8JIk70wegKlLoIBAmd6&rkey=CAISMKVpB1LYc1kzqSQfF4vxHZVKTZNTE7CTxIzuPwIIqv4_uDDakk95aWmwvSYHA5_M2g","file_size":"3164"}},{"type":"text","data":{"text":"\n或者直接点击链接登录："}},{"type":"text","data":{"text":"https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid=QR-fP3F1eHfRoXJLUxhrRo"}}],"message_format":"array","post_type":"message_sent","message_sent_type":"self","group_id":1077220910,"group_name":"转专业bot测试群","target_id":1077220910}
+2026-01-09T18:05:47.157453Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(2)
+2026-01-09T18:05:47.157873Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":1363408373,\"time\":1767981946,\"message_id\":1013017519,\"message_seq\":1013017519,\"real_id\":1013017519,\"real_seq\":\"698\",\"message_type\":\"group\",\"sender\":{\"user_id\":1363408373,\"nickname\":\"害\",\"card\":\"\",\"role\":\"owner\"},\"raw_message\":\"[CQ:at,qq=2218870695] 将为2218870695登录：\\n请使用企业微信扫码登录[CQ:image,file=BFAB15137B2C13D9868CDFB52D623222.png,sub_type=0,url=https://multimedia.nt.qq.com.cn/download?appid=1407&amp;fileid=EhQLmWw3iSSEjRsL4Zn8zFWifR_v0hjcGCD_Cijx8LH-hf-RAzIEcHJvZFCAvaMBWhCXUcsjGtZABy3vp8JIk70wegKlLoIBAmd6&amp;rkey=CAISMKVpB1LYc1kzqSQfF4vxHZVKTZNTE7CTxIzuPwIIqv4_uDDakk95aWmwvSYHA5_M2g,file_size=3164]\\n或者直接点击链接登录：https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid=QR-fP3F1eHfRoXJLUxhrRo\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"at\",\"data\":{\"qq\":\"2218870695\"}},{\"type\":\"text\",\"data\":{\"text\":\" \"}},{\"type\":\"text\",\"data\":{\"text\":\"将为2218870695登录：\\n\"}},{\"type\":\"text\",\"data\":{\"text\":\"请使用企业微信扫码登录\"}},{\"type\":\"image\",\"data\":{\"summary\":\"\",\"file\":\"BFAB15137B2C13D9868CDFB52D623222.png\",\"sub_type\":0,\"url\":\"https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=EhQLmWw3iSSEjRsL4Zn8zFWifR_v0hjcGCD_Cijx8LH-hf-RAzIEcHJvZFCAvaMBWhCXUcsjGtZABy3vp8JIk70wegKlLoIBAmd6&rkey=CAISMKVpB1LYc1kzqSQfF4vxHZVKTZNTE7CTxIzuPwIIqv4_uDDakk95aWmwvSYHA5_M2g\",\"file_size\":\"3164\"}},{\"type\":\"text\",\"data\":{\"text\":\"\\n或者直接点击链接登录：\"}},{\"type\":\"text\",\"data\":{\"text\":\"https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid=QR-fP3F1eHfRoXJLUxhrRo\"}}],\"message_format\":\"array\",\"post_type\":\"message_sent\",\"message_sent_type\":\"self\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\",\"target_id\":1077220910}"
+2026-01-09T18:05:47.157994Z TRACE xmu_assistant_bot::abi::router::context: res=ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(SendMsgData { message_id: 1013017519 }), echo: Echo(2), wording: Some(""), stream: Some(NormalAction) }
+2026-01-09T18:05:47.158411Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("unknown variant `message_sent`, expected one of `message`, `notice`, `request`, `meta_event`", line: 1, column: 1637)
+2026-01-09T18:05:47.158717Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:47.159245Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:47.242953Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:47.243259Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:47.243463Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T18:05:48.256147Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:48.256978Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:48.315290Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T18:05:48.323426Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:48.370982Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:49.336115Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:49.336832Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:49.401454Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码已扫码，等待确认
+2026-01-09T18:05:49.408653Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:49.412309Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:50.412218Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:50.413142Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:50.453721Z DEBUG xmu_assistant_bot::api::xmu_service::login::qrcode: 请求成功
+2026-01-09T18:05:50.454708Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:50.455334Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:50.455941Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:50.456384Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:50.542967Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:50.543817Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:50.546392Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:50.547633Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.633273Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.634031Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:05:50.635215Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:05:50.641663Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:05:50.645628Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.646253Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.647913Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.835222Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:05:50.835542Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:05:50.835752Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:05:50.835901Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.836057Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.836791Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:50.837096Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.837487Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:50.837626Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:51.035937Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.036698Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:05:51.037183Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:05:51.038903Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:05:51.245961Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:05:51.249864Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:05:51.250636Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:05:51.251194Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.340577Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.341574Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:05:51.351320Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:05:51.353617Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:05:51.354321Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.354917Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.356539Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.448061Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:51.449412Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:05:51.451848Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:05:51.456047Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:05:51.460330Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.463580Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.533942Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:05:51.536356Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:05:51.543940Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:05:51.548514Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.553268Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:51.697694Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:05:51.698022Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:05:51.698575Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:05:51.699094Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:51.797571Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:51.798378Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:51.799573Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:51.799764Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:51.900504Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:51.901771Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:51.903081Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:51.903541Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:52.056854Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:52.057376Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:52.058884Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:52.059905Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:52.181931Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:52.182350Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:05:52.184470Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:52.185194Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.297740Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:52.298046Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.298656Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.298914Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.374740Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:52.390164Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.395055Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.400998Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.467637Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:52.468105Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.469310Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.469723Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:52.996483Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:53.001429Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:53.183946Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:53.184229Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:05:53.184542Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:53.184892Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.284974Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.285508Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:05:53.286167Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:05:53.287869Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:05:53.288219Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.289166Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.289800Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.333327Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:53.334032Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:53.334993Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.335396Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.439955Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:05:53.440836Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:05:53.441702Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:05:53.442189Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.442953Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.492860Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:53.493730Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:53.496034Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:53.497263Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.593491Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:53.593836Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.594638Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.595112Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.798574Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:53.799006Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.800150Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:53.800753Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.002486Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:54.002978Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.004190Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.004703Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.059491Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.060177Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.062426Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:54.063659Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:54.207769Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:54.208142Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:05:54.210364Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:54.210611Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.315125Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.315584Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.316769Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:54.317834Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.411356Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:05:54.411780Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.514404Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.514750Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: set_group_special_title
+2026-01-09T18:05:54.515004Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.515337Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "set_group_special_title", params: SpecialTitle { group_id: 2218870695, user_id: 1077220910, special_title: "2024级转[\"信息学院\"]" }, echo: Echo(3) }
+2026-01-09T18:05:54.515998Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.516400Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:05:54.663700Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"failed","retcode":1200,"data":null,"message":"User not found","wording":"User not found","echo":"3","stream":"normal-action"}
+2026-01-09T18:05:54.664146Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"failed\",\"retcode\":1200,\"data\":null,\"message\":\"User not found\",\"wording\":\"User not found\",\"echo\":\"3\",\"stream\":\"normal-action\"}"
+2026-01-09T18:05:54.665250Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(3)
+2026-01-09T18:05:54.666036Z TRACE xmu_assistant_bot::abi::router::context: res=ApiResponse { status: Failed, retcode: 1200, message: Some("User not found"), data: None, echo: Echo(3), wording: Some("User not found"), stream: Some(NormalAction) }
+2026-01-09T18:05:54.666754Z DEBUG xmu_assistant_bot::abi::logic_import: Logic [login] 运行出错: 设置特殊头衔失败: "User not found"
+2026-01-09T18:05:54.667449Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共4条
+2026-01-09T18:05:54.668252Z TRACE xmu_assistant_bot::abi::router::context: messages=[Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/login" })]), Array([Text(Data { text: "登录成功！" })]), Array([Text(Data { text: "信息:2024级 转入学院:[\"信息学院\"]" })]), Array([Text(Data { text: "Logic [login] 运行出现错误: 设置特殊头衔失败: \"User not found\"" })])]
+2026-01-09T18:05:54.669858Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T18:05:54.671649Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/login" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "登录成功！" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "信息:2024级 转入学院:[\"信息学院\"]" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "Logic [login] 运行出现错误: 设置特殊头衔失败: \"User not found\"" })]) }))]) }, echo: Echo(4) }
+2026-01-09T18:05:55.374422Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":1379578787,"res_id":"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm","forward_id":"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm"},"message":"","wording":"","echo":"4","stream":"normal-action"}
+2026-01-09T18:05:55.374836Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":1379578787,\"res_id\":\"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm\",\"forward_id\":\"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm\"},\"message\":\"\",\"wording\":\"\",\"echo\":\"4\",\"stream\":\"normal-action\"}"
+2026-01-09T18:05:55.375608Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":1363408373,"time":1767981954,"message_id":1379578787,"message_seq":1379578787,"real_id":1379578787,"real_seq":"699","message_type":"group","sender":{"user_id":1363408373,"nickname":"害","card":"","role":"owner"},"raw_message":"[CQ:json,data={\"app\":\"com.tencent.multimsg\"&#44;\"config\":{\"autosize\":1&#44;\"forward\":1&#44;\"round\":1&#44;\"type\":\"normal\"&#44;\"width\":300}&#44;\"desc\":\"&#91;聊天记录&#93;\"&#44;\"extra\":{\"filename\":\"d27d9b97-68ee-437a-b502-4ec40d1ae591\"&#44;\"tsum\":4}&#44;\"meta\":{\"detail\":{\"news\":&#91;{\"text\":\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /login\"}&#44;{\"text\":\"聊天转发: 登录成功！\"}&#44;{\"text\":\"聊天转发: 信息:2024级 转入学院:&#91;\\\"信息学院\\\"&#93;\"}&#44;{\"text\":\"聊天转发: Logic &#91;login&#93; 运行出现错误: 设置特殊头衔失败: \\\"User not found\\\"\"}&#93;&#44;\"resid\":\"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm\"&#44;\"source\":\"群聊的聊天记录\"&#44;\"summary\":\"查看4条转发消息\"&#44;\"uniseq\":\"d27d9b97-68ee-437a-b502-4ec40d1ae591\"}}&#44;\"prompt\":\"&#91;聊天记录&#93;\"&#44;\"ver\":\"0.0.0.5\"&#44;\"view\":\"contact\"}]","font":14,"sub_type":"normal","message":[{"type":"json","data":{"data":"{\"app\":\"com.tencent.multimsg\",\"config\":{\"autosize\":1,\"forward\":1,\"round\":1,\"type\":\"normal\",\"width\":300},\"desc\":\"[聊天记录]\",\"extra\":{\"filename\":\"d27d9b97-68ee-437a-b502-4ec40d1ae591\",\"tsum\":4},\"meta\":{\"detail\":{\"news\":[{\"text\":\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /login\"},{\"text\":\"聊天转发: 登录成功！\"},{\"text\":\"聊天转发: 信息:2024级 转入学院:[\\\"信息学院\\\"]\"},{\"text\":\"聊天转发: Logic [login] 运行出现错误: 设置特殊头衔失败: \\\"User not found\\\"\"}],\"resid\":\"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm\",\"source\":\"群聊的聊天记录\",\"summary\":\"查看4条转发消息\",\"uniseq\":\"d27d9b97-68ee-437a-b502-4ec40d1ae591\"}},\"prompt\":\"[聊天记录]\",\"ver\":\"0.0.0.5\",\"view\":\"contact\"}"}}],"message_format":"array","post_type":"message_sent","message_sent_type":"self","group_id":1077220910,"group_name":"转专业bot测试群","target_id":1077220910}
+2026-01-09T18:05:55.375819Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(4)
+2026-01-09T18:05:55.376200Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":1363408373,\"time\":1767981954,\"message_id\":1379578787,\"message_seq\":1379578787,\"real_id\":1379578787,\"real_seq\":\"699\",\"message_type\":\"group\",\"sender\":{\"user_id\":1363408373,\"nickname\":\"害\",\"card\":\"\",\"role\":\"owner\"},\"raw_message\":\"[CQ:json,data={\\\"app\\\":\\\"com.tencent.multimsg\\\"&#44;\\\"config\\\":{\\\"autosize\\\":1&#44;\\\"forward\\\":1&#44;\\\"round\\\":1&#44;\\\"type\\\":\\\"normal\\\"&#44;\\\"width\\\":300}&#44;\\\"desc\\\":\\\"&#91;聊天记录&#93;\\\"&#44;\\\"extra\\\":{\\\"filename\\\":\\\"d27d9b97-68ee-437a-b502-4ec40d1ae591\\\"&#44;\\\"tsum\\\":4}&#44;\\\"meta\\\":{\\\"detail\\\":{\\\"news\\\":&#91;{\\\"text\\\":\\\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /login\\\"}&#44;{\\\"text\\\":\\\"聊天转发: 登录成功！\\\"}&#44;{\\\"text\\\":\\\"聊天转发: 信息:2024级 转入学院:&#91;\\\\\\\"信息学院\\\\\\\"&#93;\\\"}&#44;{\\\"text\\\":\\\"聊天转发: Logic &#91;login&#93; 运行出现错误: 设置特殊头衔失败: \\\\\\\"User not found\\\\\\\"\\\"}&#93;&#44;\\\"resid\\\":\\\"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm\\\"&#44;\\\"source\\\":\\\"群聊的聊天记录\\\"&#44;\\\"summary\\\":\\\"查看4条转发消息\\\"&#44;\\\"uniseq\\\":\\\"d27d9b97-68ee-437a-b502-4ec40d1ae591\\\"}}&#44;\\\"prompt\\\":\\\"&#91;聊天记录&#93;\\\"&#44;\\\"ver\\\":\\\"0.0.0.5\\\"&#44;\\\"view\\\":\\\"contact\\\"}]\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"json\",\"data\":{\"data\":\"{\\\"app\\\":\\\"com.tencent.multimsg\\\",\\\"config\\\":{\\\"autosize\\\":1,\\\"forward\\\":1,\\\"round\\\":1,\\\"type\\\":\\\"normal\\\",\\\"width\\\":300},\\\"desc\\\":\\\"[聊天记录]\\\",\\\"extra\\\":{\\\"filename\\\":\\\"d27d9b97-68ee-437a-b502-4ec40d1ae591\\\",\\\"tsum\\\":4},\\\"meta\\\":{\\\"detail\\\":{\\\"news\\\":[{\\\"text\\\":\\\"聊天转发: 来自群(1077220910)的(恒星 2218870695)命令: /login\\\"},{\\\"text\\\":\\\"聊天转发: 登录成功！\\\"},{\\\"text\\\":\\\"聊天转发: 信息:2024级 转入学院:[\\\\\\\"信息学院\\\\\\\"]\\\"},{\\\"text\\\":\\\"聊天转发: Logic [login] 运行出现错误: 设置特殊头衔失败: \\\\\\\"User not found\\\\\\\"\\\"}],\\\"resid\\\":\\\"6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm\\\",\\\"source\\\":\\\"群聊的聊天记录\\\",\\\"summary\\\":\\\"查看4条转发消息\\\",\\\"uniseq\\\":\\\"d27d9b97-68ee-437a-b502-4ec40d1ae591\\\"}},\\\"prompt\\\":\\\"[聊天记录]\\\",\\\"ver\\\":\\\"0.0.0.5\\\",\\\"view\\\":\\\"contact\\\"}\"}}],\"message_format\":\"array\",\"post_type\":\"message_sent\",\"message_sent_type\":\"self\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\",\"target_id\":1077220910}"
+2026-01-09T18:05:55.376431Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 1379578787, res_id: Some("6PiC3y+89+FjKdZbXmfGNKzOkSVzxta/SLuEJtZPzIS2QfMb0y73ewofvxLukcPm") }), echo: Echo(4), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T18:05:55.376597Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("unknown variant `message_sent`, expected one of `message`, `notice`, `request`, `meta_event`", line: 1, column: 2249)
+2026-01-09T18:06:11.154613Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767981971,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T18:06:11.154773Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767981971,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T18:06:11.154945Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767981971, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:06:11.155266Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767981971, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:06:11.155568Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767981971, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T18:06:11.155733Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767981971, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T18:07:14.475718Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T18:07:14.475918Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", ids.xmu.edu.cn)
+2026-01-09T18:07:14.476032Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:08:44.483757Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T18:08:44.484027Z TRACE hyper_util::client::legacy::pool: idle interval evicting expired for ("https", jw.xmu.edu.cn)
+2026-01-09T18:08:44.484278Z TRACE hyper_util::client::legacy::pool: idle interval evicting expired for ("https", jw.xmu.edu.cn)
+2026-01-09T18:08:44.484525Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:08:58.189536Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T18:08:58.194696Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T18:09:00.250492Z  INFO xmu_assistant_bot::abi::websocket: 已断开与 WebSocket 服务器的连接
+2026-01-09T18:09:00.251034Z  INFO xmu_assistant_bot::abi::network::napcat: 已断开与服务器的连接。
+2026-01-09T18:09:14.284599Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T18:09:14.284732Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T18:09:16.323559Z  INFO xmu_assistant_bot::abi::websocket: 已断开与 WebSocket 服务器的连接
+2026-01-09T18:09:16.323643Z  INFO xmu_assistant_bot::abi::network::napcat: 已断开与服务器的连接。
+2026-01-09T18:10:58.186638Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T18:10:58.186758Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T18:10:58.194961Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767982258,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2026-01-09T18:10:58.195251Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767982258,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2026-01-09T18:10:58.195723Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1767982258, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T18:10:58.195948Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1767982258, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T18:10:58.196653Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2026-01-09T18:10:58.197648Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1767982258, self_id: 1363408373, sub_type: Connect })
+2026-01-09T18:10:58.197765Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1767982258, self_id: 1363408373, sub_type: Connect }
+2026-01-09T18:11:02.552596Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767982261,"message_id":1539719514,"message_seq":1539719514,"real_id":1539719514,"real_seq":"701","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/logout","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/logout"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T18:11:02.552839Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767982261,\"message_id\":1539719514,\"message_seq\":1539719514,\"real_id\":1539719514,\"real_seq\":\"701\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/logout\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/logout\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T18:11:02.553266Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767982261, self_id: 1363408373, sub_type: Normal, message_id: 1539719514, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:11:02.553519Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767982261, self_id: 1363408373, sub_type: Normal, message_id: 1539719514, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:11:02.553818Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767982261, self_id: 1363408373, sub_type: Normal, message_id: 1539719514, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/logout" })]), raw_message: "/logout", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T18:11:02.572517Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共2条
+2026-01-09T18:11:02.572738Z TRACE xmu_assistant_bot::abi::router::context: messages=[Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/logout" })]), Array([Text(Data { text: "已删除登录数据" })])]
+2026-01-09T18:11:02.573047Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T18:11:02.573238Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/logout" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "已删除登录数据" })]) }))]) }, echo: Echo(1) }
+2026-01-09T18:11:03.056377Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":2129673269,"res_id":"otnWaAke35kDllfQwcPx99qMLNtj6wzo2HlxXaJCstbyrEgQ7UUzNUfXNWCWqEh6","forward_id":"otnWaAke35kDllfQwcPx99qMLNtj6wzo2HlxXaJCstbyrEgQ7UUzNUfXNWCWqEh6"},"message":"","wording":"","echo":"1","stream":"normal-action"}
+2026-01-09T18:11:03.056508Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":2129673269,\"res_id\":\"otnWaAke35kDllfQwcPx99qMLNtj6wzo2HlxXaJCstbyrEgQ7UUzNUfXNWCWqEh6\",\"forward_id\":\"otnWaAke35kDllfQwcPx99qMLNtj6wzo2HlxXaJCstbyrEgQ7UUzNUfXNWCWqEh6\"},\"message\":\"\",\"wording\":\"\",\"echo\":\"1\",\"stream\":\"normal-action\"}"
+2026-01-09T18:11:03.056707Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(1)
+2026-01-09T18:11:03.056902Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 2129673269, res_id: Some("otnWaAke35kDllfQwcPx99qMLNtj6wzo2HlxXaJCstbyrEgQ7UUzNUfXNWCWqEh6") }), echo: Echo(1), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T18:11:04.803342Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767982264,"message_id":476153588,"message_seq":476153588,"real_id":476153588,"real_seq":"703","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/login","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/login"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T18:11:04.804039Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767982264,\"message_id\":476153588,\"message_seq\":476153588,\"real_id\":476153588,\"real_seq\":\"703\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/login\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/login\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T18:11:04.805085Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767982264, self_id: 1363408373, sub_type: Normal, message_id: 476153588, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:11:04.805902Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767982264, self_id: 1363408373, sub_type: Normal, message_id: 476153588, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T18:11:04.806555Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767982264, self_id: 1363408373, sub_type: Normal, message_id: 476153588, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T18:11:04.811423Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:04.811885Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:04.812012Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:04.813050Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:05.017893Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:05.018025Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:05.018218Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:05.018308Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:05.097349Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:05.097725Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:05.097989Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:05.098478Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:05.098537Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:05.098625Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:05.309747Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:05.310139Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:05.310589Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:05.310872Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:05.540187Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:05.540478Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:05.541658Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:05.541839Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:05.608642Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:05.608837Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_msg
+2026-01-09T18:11:05.608944Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:05.609139Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_msg", params: SendGroupMessageParams { group_id: 1077220910, message: Array([At(Data { qq: "2218870695" }), Text(Data { text: " " }), Text(Data { text: "将为2218870695登录：\n" }), Text(Data { text: "请使用企业微信扫码登录" }), Image(DataSend { file: Raw("https://ids.xmu.edu.cn/authserver/qrCode/getCode?uuid=QR-tDe9GufcytEcqCxEYvv"), type: None, cache: Cache(1), proxy: Proxy(1), timeout: None }), Text(Data { text: "\n或者直接点击链接登录：" }), Text(Data { text: "https://ids.xmu.edu.cn/authserver/qrCode/qrCodeLogin.do?uuid=QR-tDe9GufcytEcqCxEYvv" })]) }, echo: Echo(2) }
+2026-01-09T18:11:07.482051Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":723792171},"message":"","wording":"","echo":"2","stream":"normal-action"}
+2026-01-09T18:11:07.482469Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":723792171},\"message\":\"\",\"wording\":\"\",\"echo\":\"2\",\"stream\":\"normal-action\"}"
+2026-01-09T18:11:07.482751Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(2)
+2026-01-09T18:11:07.483137Z TRACE xmu_assistant_bot::abi::router::context: res=ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(SendMsgData { message_id: 723792171 }), echo: Echo(2), wording: Some(""), stream: Some(NormalAction) }
+2026-01-09T18:11:07.483649Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:07.483825Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:07.554261Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:07.554489Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T18:11:07.554618Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:08.570947Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:08.571315Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:08.625858Z TRACE xmu_assistant_bot::api::xmu_service::login::qrcode: 二维码未扫码，继续等待
+2026-01-09T18:11:08.625976Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:08.626134Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:09.641473Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:09.642069Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:09.703153Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:09.703262Z DEBUG xmu_assistant_bot::api::xmu_service::login::qrcode: 请求成功
+2026-01-09T18:11:09.703314Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:09.703574Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:09.703699Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:09.807127Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:09.807468Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:09.808583Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:09.808869Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:09.909526Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:09.909863Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:09.910143Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:09.910872Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:09.911057Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:09.911209Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:09.911425Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:10.058993Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:10.059408Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:10.059731Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:10.060115Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:10.060373Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:10.113101Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:10.113303Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:10.113630Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:10.113738Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:10.155153Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.155316Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:10.155416Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:10.155978Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:10.330321Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:10.330709Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:10.331172Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:10.331422Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.420613Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.420762Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:10.420921Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:10.421381Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:10.421431Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.421599Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.421735Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.466795Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.466946Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:10.467080Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:10.467491Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:10.467582Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.467670Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.568441Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:10.568620Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:10.568798Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:10.569065Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.569358Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:10.632296Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:10.632578Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:10.632980Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:10.633331Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.669335Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.669466Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.669854Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:10.669935Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.727140Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.727269Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.727622Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:10.727739Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:10.831033Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:10.831171Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:10.831513Z TRACE hyper_util::client::legacy::pool: take? ("https", c-identity.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:10.831582Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.933399Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.933571Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:11:10.934213Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:10.934322Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.044489Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:11.044665Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.044994Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.045127Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.136914Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:11.137087Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.240069Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.240679Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:11.241134Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:11.241985Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:11.242266Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.242463Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.242876Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.449028Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:11.449315Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:11.449763Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:11.450004Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.450292Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:11.764399Z TRACE hyper_util::client::legacy::pool: take? ("https", lnt.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:11.764638Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:12.059900Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:12.060121Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T18:11:12.060460Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:12.060684Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.162057Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.162795Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T18:11:12.163178Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T18:11:12.164111Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.164384Z TRACE hyper_util::client::legacy::pool: put; found waiter for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.180347Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T18:11:12.181800Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.264482Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:12.264685Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:12.264936Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.265070Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.367226Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:12.367550Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:12.368036Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:12.368183Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.372730Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T18:11:12.373000Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T18:11:12.373276Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T18:11:12.373564Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.373716Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.469361Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:12.469462Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.469629Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.469712Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.674231Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:12.674403Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.674685Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.674823Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.881140Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:12.881752Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.882955Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.883574Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.926410Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.926957Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:12.928375Z TRACE hyper_util::client::legacy::pool: take? ("https", ids.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:12.928814Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:13.084877Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:13.084987Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", ids.xmu.edu.cn)
+2026-01-09T18:11:13.085533Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:13.085785Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.186077Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.186309Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.186727Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:13.186842Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.290093Z TRACE hyper_util::client::legacy::pool: take? ("https", jw.xmu.edu.cn): expiration = Some(90s)
+2026-01-09T18:11:13.290382Z DEBUG hyper_util::client::legacy::pool: reuse idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.391344Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.391445Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.391521Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: set_group_special_title
+2026-01-09T18:11:13.391623Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "set_group_special_title", params: SpecialTitle { group_id: 1077220910, user_id: 2218870695, special_title: "2024级转[\"信息学院\"]" }, echo: Echo(3) }
+2026-01-09T18:11:13.391772Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.391853Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", jw.xmu.edu.cn)
+2026-01-09T18:11:13.422036Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"message":"","wording":"","echo":"3","stream":"normal-action"}
+2026-01-09T18:11:13.422261Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"message\":\"\",\"wording\":\"\",\"echo\":\"3\",\"stream\":\"normal-action\"}"
+2026-01-09T18:11:13.422418Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(3)
+2026-01-09T18:11:13.422565Z TRACE xmu_assistant_bot::abi::router::context: res=ApiResponse { status: Ok, retcode: 0, message: Some(""), data: None, echo: Echo(3), wording: Some(""), stream: Some(NormalAction) }
+2026-01-09T18:11:13.422811Z DEBUG xmu_assistant_bot::abi::router::context: 发送群转发消息共3条
+2026-01-09T18:11:13.422916Z TRACE xmu_assistant_bot::abi::router::context: messages=[Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/login" })]), Array([Text(Data { text: "登录成功！" })]), Array([Text(Data { text: "信息:2024级 转入学院:[\"信息学院\"]" })])]
+2026-01-09T18:11:13.423041Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T18:11:13.423163Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/login" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "登录成功！" })]) })), Node(Content(DataSend2 { user_id: "114514", nickname: "聊天转发", content: Array([Text(Data { text: "信息:2024级 转入学院:[\"信息学院\"]" })]) }))]) }, echo: Echo(4) }
+2026-01-09T18:11:13.729540Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767982273,"self_id":1363408373,"post_type":"notice","group_id":1077220910,"user_id":2218870695,"notice_type":"notify","sub_type":"title","title":"2024级转[\"信息学院\"]"}
+2026-01-09T18:11:13.729880Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767982273,\"self_id\":1363408373,\"post_type\":\"notice\",\"group_id\":1077220910,\"user_id\":2218870695,\"notice_type\":\"notify\",\"sub_type\":\"title\",\"title\":\"2024级转[\\\"信息学院\\\"]\"}"
+2026-01-09T18:11:13.730057Z ERROR xmu_assistant_bot::abi::network::napcat: 解析事件失败: Error("invalid value: map, expected map with a single key", line: 0, column: 0)
+2026-01-09T18:11:13.906485Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":959426082,"res_id":"bGi6ID48MFbdLzYVwixWtMp2OOWb01XX64TnK+SR/SxQStiMZgdvs2BxASKDbFs0","forward_id":"bGi6ID48MFbdLzYVwixWtMp2OOWb01XX64TnK+SR/SxQStiMZgdvs2BxASKDbFs0"},"message":"","wording":"","echo":"4","stream":"normal-action"}
+2026-01-09T18:11:13.906679Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":959426082,\"res_id\":\"bGi6ID48MFbdLzYVwixWtMp2OOWb01XX64TnK+SR/SxQStiMZgdvs2BxASKDbFs0\",\"forward_id\":\"bGi6ID48MFbdLzYVwixWtMp2OOWb01XX64TnK+SR/SxQStiMZgdvs2BxASKDbFs0\"},\"message\":\"\",\"wording\":\"\",\"echo\":\"4\",\"stream\":\"normal-action\"}"
+2026-01-09T18:11:13.906882Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(4)
+2026-01-09T18:11:13.907104Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 959426082, res_id: Some("bGi6ID48MFbdLzYVwixWtMp2OOWb01XX64TnK+SR/SxQStiMZgdvs2BxASKDbFs0") }), echo: Echo(4), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T18:11:16.284475Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767982276,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T18:11:16.284785Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767982276,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T18:11:16.285150Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767982276, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:11:16.285424Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767982276, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:11:16.285749Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767982276, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T18:11:16.285997Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767982276, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T18:11:46.295053Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767982306,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T18:11:46.295755Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767982306,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T18:11:46.296405Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767982306, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:11:46.296713Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767982306, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:11:46.297005Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767982306, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T18:11:46.297208Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767982306, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T18:12:16.304898Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767982336,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T18:12:16.305212Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767982336,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T18:12:16.305564Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767982336, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:12:16.305965Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767982336, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T18:12:16.306467Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767982336, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T18:12:16.306701Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767982336, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T18:12:35.110492Z TRACE hyper_util::client::legacy::pool: idle interval checking for expired
+2026-01-09T18:12:35.110751Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", c-identity.xmu.edu.cn)
+2026-01-09T18:12:35.110949Z TRACE hyper_util::client::legacy::pool: idle interval evicting closed for ("https", ids.xmu.edu.cn)
+2026-01-09T19:17:10.203849Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T19:17:10.204090Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T19:17:10.207178Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767986230,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2026-01-09T19:17:10.207285Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767986230,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2026-01-09T19:17:10.207577Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2026-01-09T19:17:10.207638Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1767986230, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T19:17:10.207749Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1767986230, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T19:17:10.208248Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1767986230, self_id: 1363408373, sub_type: Connect })
+2026-01-09T19:17:10.208345Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1767986230, self_id: 1363408373, sub_type: Connect }
+2026-01-09T19:17:12.241605Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767986231,"message_id":590786494,"message_seq":590786494,"real_id":590786494,"real_seq":"706","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/login","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/login"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T19:17:12.241962Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767986231,\"message_id\":590786494,\"message_seq\":590786494,\"real_id\":590786494,\"real_seq\":\"706\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/login\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/login\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T19:17:12.242752Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767986231, self_id: 1363408373, sub_type: Normal, message_id: 590786494, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:17:12.243029Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767986231, self_id: 1363408373, sub_type: Normal, message_id: 590786494, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:17:12.243427Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767986231, self_id: 1363408373, sub_type: Normal, message_id: 590786494, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T19:17:12.259029Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T19:17:12.259333Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T19:17:12.259531Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T19:17:12.260920Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T19:17:12.551956Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T19:17:12.552089Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T19:17:12.552285Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T19:17:12.552398Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:17:12.739660Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:17:12.739963Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:17:17.604213Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767986237,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:17:17.604533Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767986237,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:17:17.604889Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767986237, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:17:17.605098Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767986237, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:17:17.605431Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767986237, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:17:17.605648Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767986237, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:17:34.873487Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767986254,"message_id":1494540130,"message_seq":1494540130,"real_id":1494540130,"real_seq":"707","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/echo 哈哈","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/echo 哈哈"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T19:17:34.873792Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767986254,\"message_id\":1494540130,\"message_seq\":1494540130,\"real_id\":1494540130,\"real_seq\":\"707\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/echo 哈哈\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/echo 哈哈\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T19:17:34.873996Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767986254, self_id: 1363408373, sub_type: Normal, message_id: 1494540130, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 哈哈" })]), raw_message: "/echo 哈哈", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:17:34.874104Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767986254, self_id: 1363408373, sub_type: Normal, message_id: 1494540130, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 哈哈" })]), raw_message: "/echo 哈哈", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:17:34.874240Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767986254, self_id: 1363408373, sub_type: Normal, message_id: 1494540130, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 哈哈" })]), raw_message: "/echo 哈哈", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T19:17:47.615414Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767986267,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:17:47.615685Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767986267,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:17:47.615939Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767986267, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:17:47.616110Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767986267, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:17:47.616448Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767986267, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:17:47.616792Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767986267, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:18:17.633712Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767986297,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:18:17.633926Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767986297,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:18:17.634046Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767986297, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:18:17.634189Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767986297, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:18:17.634395Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767986297, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:18:17.634521Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767986297, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:20:26.725124Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T19:20:26.725283Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T19:20:26.728814Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767986426,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2026-01-09T19:20:26.728914Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767986426,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2026-01-09T19:20:26.729198Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1767986426, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T19:20:26.729269Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1767986426, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T19:20:26.730093Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2026-01-09T19:20:26.730949Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1767986426, self_id: 1363408373, sub_type: Connect })
+2026-01-09T19:20:26.731081Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1767986426, self_id: 1363408373, sub_type: Connect }
+2026-01-09T19:20:41.136125Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767986440,"message_id":1512083424,"message_seq":1512083424,"real_id":1512083424,"real_seq":"708","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/echo 哈哈","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/echo 哈哈"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T19:20:41.136399Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767986440,\"message_id\":1512083424,\"message_seq\":1512083424,\"real_id\":1512083424,\"real_seq\":\"708\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/echo 哈哈\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/echo 哈哈\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T19:20:41.136797Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767986440, self_id: 1363408373, sub_type: Normal, message_id: 1512083424, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 哈哈" })]), raw_message: "/echo 哈哈", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:20:41.136973Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767986440, self_id: 1363408373, sub_type: Normal, message_id: 1512083424, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 哈哈" })]), raw_message: "/echo 哈哈", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:20:41.137163Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767986440, self_id: 1363408373, sub_type: Normal, message_id: 1512083424, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/echo 哈哈" })]), raw_message: "/echo 哈哈", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T19:20:41.138447Z DEBUG xmu_assistant_bot::abi::message::api::params::send_msg: 发送转发消息共1条
+2026-01-09T19:20:41.139363Z TRACE xmu_assistant_bot::abi::message::api::params::send_msg: messages=[Array([Text(Data { text: "你说的是: /echo 哈哈" })])]
+2026-01-09T19:20:41.140392Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T19:20:41.140932Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "2218870695", nickname: "恒星", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/echo 哈哈" })]) })), Node(Content(DataSend2 { user_id: "1363408373", nickname: "指令回复", content: Array([Text(Data { text: "你说的是: /echo 哈哈" })]) }))]) }, echo: Echo(1) }
+2026-01-09T19:20:41.661255Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":1661157317,"res_id":"kdFwMw6ZekQVrYj98S3niZG0lN+ktH56CHBrllMq5M/EPKSoixQr7VrbYIYChJWI","forward_id":"kdFwMw6ZekQVrYj98S3niZG0lN+ktH56CHBrllMq5M/EPKSoixQr7VrbYIYChJWI"},"message":"","wording":"","echo":"1","stream":"normal-action"}
+2026-01-09T19:20:41.661724Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":1661157317,\"res_id\":\"kdFwMw6ZekQVrYj98S3niZG0lN+ktH56CHBrllMq5M/EPKSoixQr7VrbYIYChJWI\",\"forward_id\":\"kdFwMw6ZekQVrYj98S3niZG0lN+ktH56CHBrllMq5M/EPKSoixQr7VrbYIYChJWI\"},\"message\":\"\",\"wording\":\"\",\"echo\":\"1\",\"stream\":\"normal-action\"}"
+2026-01-09T19:20:41.662292Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(1)
+2026-01-09T19:20:41.662874Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 1661157317, res_id: Some("kdFwMw6ZekQVrYj98S3niZG0lN+ktH56CHBrllMq5M/EPKSoixQr7VrbYIYChJWI") }), echo: Echo(1), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T19:20:47.703334Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767986447,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:20:47.703640Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767986447,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:20:47.704051Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767986447, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:20:47.704322Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767986447, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:20:47.704688Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767986447, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:20:47.704983Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767986447, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:20:54.172606Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"self_id":1363408373,"user_id":2218870695,"time":1767986453,"message_id":1716903979,"message_seq":1716903979,"real_id":1716903979,"real_seq":"710","message_type":"group","sender":{"user_id":2218870695,"nickname":"恒星","card":"","role":"admin"},"raw_message":"/login","font":14,"sub_type":"normal","message":[{"type":"text","data":{"text":"/login"}}],"message_format":"array","post_type":"message","group_id":1077220910,"group_name":"转专业bot测试群"}
+2026-01-09T19:20:54.172863Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"self_id\":1363408373,\"user_id\":2218870695,\"time\":1767986453,\"message_id\":1716903979,\"message_seq\":1716903979,\"real_id\":1716903979,\"real_seq\":\"710\",\"message_type\":\"group\",\"sender\":{\"user_id\":2218870695,\"nickname\":\"恒星\",\"card\":\"\",\"role\":\"admin\"},\"raw_message\":\"/login\",\"font\":14,\"sub_type\":\"normal\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"/login\"}}],\"message_format\":\"array\",\"post_type\":\"message\",\"group_id\":1077220910,\"group_name\":\"转专业bot测试群\"}"
+2026-01-09T19:20:54.173306Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: Message(Group(Group { time: 1767986453, self_id: 1363408373, sub_type: Normal, message_id: 1716903979, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:20:54.173498Z TRACE xmu_assistant_bot::abi::network::napcat: evt=Message(Group(Group { time: 1767986453, self_id: 1363408373, sub_type: Normal, message_id: 1716903979, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } }))
+2026-01-09T19:20:54.173792Z DEBUG xmu_assistant_bot::abi::router::handler: 处理消息事件: Group(Group { time: 1767986453, self_id: 1363408373, sub_type: Normal, message_id: 1716903979, group_id: 1077220910, user_id: 2218870695, anonymous: None, message: Array([Text(Data { text: "/login" })]), raw_message: "/login", font: 14, sender: SenderGroup { user_id: Some(2218870695), nickname: Some("恒星"), card: Some(""), sex: None, age: None, area: None, level: None, role: Admin, title: None } })
+2026-01-09T19:20:54.185869Z TRACE hyper_util::client::legacy::pool: checkout waiting for idle connection: ("https", lnt.xmu.edu.cn)
+2026-01-09T19:20:54.186128Z TRACE hyper_util::client::legacy::connect::http: Http::connect; scheme=Some("http"), host=Some("127.0.0.1"), port=Some(Port(7890))
+2026-01-09T19:20:54.186256Z DEBUG hyper_util::client::legacy::connect::http: connecting to 127.0.0.1:7890
+2026-01-09T19:20:54.187034Z DEBUG hyper_util::client::legacy::connect::http: connected to 127.0.0.1:7890
+2026-01-09T19:20:54.386239Z TRACE hyper_util::client::legacy::client: http1 handshake complete, spawning background dispatcher task
+2026-01-09T19:20:54.386366Z TRACE hyper_util::client::legacy::client: waiting for connection to be ready
+2026-01-09T19:20:54.386569Z TRACE hyper_util::client::legacy::client: connection is ready
+2026-01-09T19:20:54.386674Z TRACE hyper_util::client::legacy::pool: checkout dropped for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:20:54.644126Z TRACE hyper_util::client::legacy::pool: put; add idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:20:54.644346Z DEBUG xmu_assistant_bot::abi::message::api::params::send_msg: 发送转发消息共1条
+2026-01-09T19:20:54.644538Z TRACE xmu_assistant_bot::abi::message::api::params::send_msg: messages=[Array([Text(Data { text: "已登录，请用其他命令查询" })])]
+2026-01-09T19:20:54.644801Z DEBUG hyper_util::client::legacy::pool: pooling idle connection for ("https", lnt.xmu.edu.cn)
+2026-01-09T19:20:54.644920Z DEBUG xmu_assistant_bot::abi::network::napcat: 调用 API: send_group_forward_msg
+2026-01-09T19:20:54.645267Z TRACE xmu_assistant_bot::abi::network::napcat: api_send=ApiSend { action: "send_group_forward_msg", params: SendGroupForwardMessageParams { group_id: 1077220910, messages: Array([Node(Content(DataSend2 { user_id: "2218870695", nickname: "恒星", content: Array([Text(Data { text: "来自群(1077220910)的(恒星 2218870695)命令: " }), Text(Data { text: "/login" })]) })), Node(Content(DataSend2 { user_id: "1363408373", nickname: "指令回复", content: Array([Text(Data { text: "已登录，请用其他命令查询" })]) }))]) }, echo: Echo(2) }
+2026-01-09T19:20:55.155813Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到API返回: {"status":"ok","retcode":0,"data":{"message_id":323734118,"res_id":"lmXJQV92g3JoK9HYa7fBFoRFHVpZVDgzYCOpUhmyQKnDvb7qXbDxZOpGC6vV9cb1","forward_id":"lmXJQV92g3JoK9HYa7fBFoRFHVpZVDgzYCOpUhmyQKnDvb7qXbDxZOpGC6vV9cb1"},"message":"","wording":"","echo":"2","stream":"normal-action"}
+2026-01-09T19:20:55.156391Z TRACE xmu_assistant_bot::abi::network::napcat: "{\"status\":\"ok\",\"retcode\":0,\"data\":{\"message_id\":323734118,\"res_id\":\"lmXJQV92g3JoK9HYa7fBFoRFHVpZVDgzYCOpUhmyQKnDvb7qXbDxZOpGC6vV9cb1\",\"forward_id\":\"lmXJQV92g3JoK9HYa7fBFoRFHVpZVDgzYCOpUhmyQKnDvb7qXbDxZOpGC6vV9cb1\"},\"message\":\"\",\"wording\":\"\",\"echo\":\"2\",\"stream\":\"normal-action\"}"
+2026-01-09T19:20:55.156921Z DEBUG xmu_assistant_bot::abi::echo: 清理 Echo: Echo(2)
+2026-01-09T19:20:55.157144Z TRACE xmu_assistant_bot::abi::router::context: res=Ok(ApiResponse { status: Ok, retcode: 0, message: Some(""), data: Some(ForwardMsgData { message_id: 323734118, res_id: Some("lmXJQV92g3JoK9HYa7fBFoRFHVpZVDgzYCOpUhmyQKnDvb7qXbDxZOpGC6vV9cb1") }), echo: Echo(2), wording: Some(""), stream: Some(NormalAction) })
+2026-01-09T19:31:30.914980Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-09T19:31:30.915130Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-09T19:31:30.920848Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767987090,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2026-01-09T19:31:30.920995Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767987090,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}"
+2026-01-09T19:31:30.921201Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1767987090, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T19:31:30.921315Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1767987090, self_id: 1363408373, sub_type: Connect }))
+2026-01-09T19:31:30.922288Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2026-01-09T19:31:30.922601Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1767987090, self_id: 1363408373, sub_type: Connect })
+2026-01-09T19:31:30.922678Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1767987090, self_id: 1363408373, sub_type: Connect }
+2026-01-09T19:31:45.167725Z TRACE axum::serve: connection 127.0.0.1:7417 accepted
+2026-01-09T19:31:45.168721Z TRACE axum::serve: connection 127.0.0.1:9107 accepted
+2026-01-09T19:31:47.899458Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767987107,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:31:47.899656Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767987107,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:31:47.899875Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767987107, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:31:47.900044Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767987107, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:31:47.900409Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767987107, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:31:47.900718Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767987107, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:32:17.916308Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767987137,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:32:17.916889Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767987137,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:32:17.917387Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767987137, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:32:17.917851Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767987137, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:32:17.918388Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767987137, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:32:17.918820Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767987137, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:32:47.921707Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767987167,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:32:47.921837Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767987167,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:32:47.921932Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767987167, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:32:47.922086Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767987167, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:32:47.922275Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767987167, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:32:47.922391Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767987167, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-09T19:33:11.471647Z TRACE axum::serve: connection 127.0.0.1:8983 accepted
+2026-01-09T19:33:12.144095Z TRACE axum::serve: connection 127.0.0.1:8312 accepted
+2026-01-09T19:33:15.145804Z TRACE axum::serve: connection 127.0.0.1:8314 accepted
+2026-01-09T19:33:17.928972Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1767987197,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"heartbeat","status":{"online":true,"good":true},"interval":30000}
+2026-01-09T19:33:17.929177Z TRACE xmu_assistant_bot::abi::network::napcat: event="{\"time\":1767987197,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"heartbeat\",\"status\":{\"online\":true,\"good\":true},\"interval\":30000}"
+2026-01-09T19:33:17.929264Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Heartbeat(Heartbeat { time: 1767987197, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:33:17.929341Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1767987197, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
+2026-01-09T19:33:17.929479Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1767987197, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
+2026-01-09T19:33:17.929552Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1767987197, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }

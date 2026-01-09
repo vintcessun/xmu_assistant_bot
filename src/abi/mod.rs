@@ -29,8 +29,8 @@ pub mod logic_import {
         fn_name: &'static str,
         err: anyhow::Error,
     ) where
-        T: BotClient + BotHandler + std::fmt::Debug + 'static,
-        M: message::MessageType + std::fmt::Debug + 'static,
+        T: BotClient + BotHandler + std::fmt::Debug + Send + Sync + 'static,
+        M: message::MessageType + std::fmt::Debug + Send + Sync + 'static,
     {
         ctx.send_message_async(message::from_str(format!(
             "Logic [{}] 运行出现错误: {}",

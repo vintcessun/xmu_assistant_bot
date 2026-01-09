@@ -51,9 +51,12 @@
 项目高度依赖自研过程宏来自动化重复代码、确保运行时性能和安全。
 
 - **`#[handler]` / `register_handlers!`**:
+    - **指令与消息类型隔离**: 新增 `echo_cmd` 标记，用于区分**指令回复**和**聊天消息流**。宏自动调用 `Context::set_echo()` 设置上下文标记，彻底重构了聊天转发和指令回答的逻辑，不再依赖内部生成巨大的代码字符串。
     - **统一异常屏障**: 自动包装 Handler 逻辑，捕获并异步处理所有 `anyhow::Result` 错误。
     - **零成本 Context 转换**: 确保了高性能消息路由。
-- **API 客户端抽象**: 核心 API Client 逻辑（如获取 `SessionClient`）已被重构，从宏中剥离出可复用的 `castgc` 和 `session` 模块，大幅减少了重复代码。`logic/helper` 模块的引入，也为一键获取 `SessionClient` 提供了便利。
+- **API 框架与客户端抽象**: 针对 OneBot v11 接口进行了彻底的框架重构。使用 `#[api]` 宏配合分离的 `Params` 结构体（`src/abi/message/api/params/`），实现 API 客户端的声明式定义和自动化封装，彻底解耦了不同 API 的实现。
+- **新增特殊头衔 API**: 实现了 `set_group_special_title` 接口的封装，支持在群聊中设置特殊头衔。
+- **核心 Client 抽象**: 核心 API Client 逻辑（如获取 `SessionClient`）已被重构，从宏中剥离出可复用的 `castgc` 和 `session` 模块，大幅减少了重复代码。`logic/helper` 模块的引入，也为一键获取 `SessionClient` 提供了便利。
 - **`#[jw_api]` (教务系统)**: 智能适配教务系统非标准的 JSON 嵌套结构。
 - **`#[lnt_get_api]` / `#[session_client_helper]` (畅课系统)**: 实现了包括 `activities`、`file_url`、`my_courses`、`profile` 修正等在内的多项 LNT API 封装，利用 URL 模板和客户端辅助宏提升开发效率。
 - **`#[derive(LlmPrompt)]`**:
@@ -86,7 +89,7 @@
 | **`/login`**    | 身份认证 -> 持久化      | 自动维护教务会话，多端登录不冲突    |
 | **`/download`** | 触发 Expose -> 返回链接 | 支持文件分块下载，链接 24h 有效      |
 | **`/logout`**   | 缓存注销 -> 状态回滚    | $O(1)$ 时间复杂度快速清理热数据     |
-| **`/echo`**     | 消息回传                | 用于端到端延迟测试                  |
+| **`/echo`**     | 消息回传                | 继承 `is_echo` 标记，用于端到端延迟测试和指令流判断 |
 
 ------
 
@@ -96,7 +99,7 @@ Plaintext
 
 ```
 ├── helper/         # 过程宏定义：实现元编程与 API 自动化封装
-├── src/abi/        # 自研 ABI 层：包含路由、消息体解析与网络适配
+├── src/abi/        # 自研 ABI 层：包含路由、消息体解析、网络适配，以及重构后的 OneBot v11 API 声明
 ├── src/api/        # 核心业务接口：存储(Storage)、教务服务(XMU Service)、LLM
 ├── src/logic/      # 业务逻辑实现：登录流程、下载处理、客户端辅助
 ├── src/web/        # Web 服务：Expose 文件暴露系统，弥补文件传输不足

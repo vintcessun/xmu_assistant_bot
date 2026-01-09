@@ -9,8 +9,8 @@ use std::fmt;
 
 pub async fn get_client_or_err<T, M>(ctx: &Context<T, M>) -> Result<SessionClient>
 where
-    T: BotClient + BotHandler + fmt::Debug,
-    M: MessageType + fmt::Debug,
+    T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
+    M: MessageType + fmt::Debug + Send + Sync + 'static,
 {
     let sender = ctx.message.get_sender();
     let id = sender.user_id.ok_or(anyhow!("获取用户ID失败"))?;

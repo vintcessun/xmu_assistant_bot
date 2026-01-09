@@ -16,8 +16,8 @@ use tracing::{debug, trace};
 #[async_trait]
 pub trait Handler<T, M>: Send + Sync
 where
-    T: BotClient + BotHandler + fmt::Debug,
-    M: MessageType + fmt::Debug,
+    T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
+    M: MessageType + fmt::Debug + Send + Sync + 'static,
 {
     async fn handle(&self, ctx: Context<T, M>) -> Result<()>;
 }
@@ -25,7 +25,7 @@ where
 #[async_trait]
 pub trait Router<T>
 where
-    T: BotClient + BotHandler + fmt::Debug,
+    T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
 {
     fn new(subscribe: mpsc::UnboundedReceiver<Event>, client: BotWebsocketClient<T>) -> Self;
     fn get_client(&self) -> Arc<T>;
@@ -34,7 +34,7 @@ where
 
 pub trait SpawnContext<T, R>
 where
-    T: BotClient + BotHandler + fmt::Debug,
+    T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
     R: Router<T>,
 {
     fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: Arc<M>);
@@ -42,7 +42,7 @@ where
 
 impl<T, R> SpawnContext<T, R> for R
 where
-    T: BotClient + BotHandler + fmt::Debug,
+    T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
     R: Router<T>,
 {
     fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: Arc<M>) {

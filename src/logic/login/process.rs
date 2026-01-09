@@ -78,5 +78,11 @@ pub async fn process_login<T: BotClient + BotHandler + fmt::Debug>(
         zzy_profile.entry_year, zzy_profile.trans_dept
     )));
 
+    ctx.set_title(format!(
+        "{}转{:?}",
+        zzy_profile.entry_year, zzy_profile.trans_dept
+    ))
+    .await?;
+
     Ok(())
 }
