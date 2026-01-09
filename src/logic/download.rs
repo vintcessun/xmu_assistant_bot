@@ -1,17 +1,74 @@
-use crate::abi::logic_import::*;
+use std::sync::Arc;
+
+use anyhow::{anyhow, bail};
+use tracing::trace;
+
+use crate::{
+    abi::{logic_import::*, message::from_str},
+    api::xmu_service::{
+        llm::{ChooseCourse, ChooseFiles},
+        lnt::FileUrl,
+    },
+    logic::helper::get_client_or_err,
+    web::file::task::ExposeFileTask,
+};
 
 #[handler(msg_type=Message,command="download",echo_cmd=true)]
 pub async fn download(ctx: Context) -> Result<()> {
-    let msg = ctx.get_message();
-    let raw_message = match &*msg {
-        Message::Group(g) => g.raw_message.clone(),
-        Message::Private(p) => p.raw_message.clone(),
-    };
-    let content = format!("你说的是: {}", raw_message);
+    let msg_text = ctx.get_message_text();
+    let client = get_client_or_err(&ctx).await?;
+    let course = ChooseCourse::get_from_client(&client, msg_text).await?;
+    trace!("返回课程选择结果：");
+    trace!(?course);
+    let course_id = course
+        .course_id
+        .ok_or(anyhow!("未找到课程，请更加清晰的阐释课程的名称"))?;
+    trace!("选择课程 ID: {}", course_id);
+    let files = ChooseFiles::get_from_client(&client, msg_text, course_id).await?;
+    trace!("返回文件选择结果：");
+    trace!(?files);
+    let files = files.files;
+    if files.is_empty() {
+        bail!("未找到符合条件的文件，请更加清晰的阐释文件的名称");
+    }
 
-    let message = message::from_str(content);
+    let mut tasks = Vec::with_capacity(files.len());
 
-    ctx.send_message_async(message);
+    let client = Arc::new(client);
+
+    for file in files {
+        let c = client.clone();
+        tasks.push(tokio::spawn(async move {
+            for _ in 0..3 {
+                match FileUrl::get_from_client(c.clone(), file.reference_id, &file.name).await {
+                    Ok(f) => return Ok(f),
+                    Err(e) => {
+                        trace!("下载文件 {:?} 失败，重试中... 错误信息: {}", file, e);
+                    }
+                }
+            }
+            Err(anyhow!("多次尝试后下载文件 {:?} 失败", file))
+        }));
+    }
+
+    let mut files = Vec::with_capacity(tasks.len());
+    for res in futures_util::future::join_all(tasks).await {
+        let file = res?;
+        match file {
+            Ok(f) => {
+                files.push(f);
+            }
+            Err(e) => ctx.send_message_async(from_str(format!("下载文件失败: {}", e))),
+        }
+    }
+
+    let task = ExposeFileTask::new(files);
+
+    let url = task.get_url();
+
+    ctx.send_message_async(from_str(format!("文件准备好了在地址 {url}")));
+
+    task.finish().await?;
 
     Ok(())
 }

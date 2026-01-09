@@ -171,7 +171,7 @@ mod tests {
 
         println!("登录成功！");
 
-        let profile = Profile::get_profile(&login_data.lnt).await?;
+        let profile = Profile::get(&login_data.lnt).await?;
 
         println!("用户信息：{:?}", profile);
 

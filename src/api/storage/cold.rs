@@ -1,4 +1,4 @@
-const BASE: &str = "cold";
+const BASE: &str = "cold.redb";
 
 use super::BASE_DATA_DIR;
 use super::BINCODE_CONFIG;

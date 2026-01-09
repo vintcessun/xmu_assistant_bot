@@ -1,7 +1,7 @@
 use anyhow::Result;
 use axum::{Router, routing::get};
 
-mod file;
+pub mod file;
 
 use file::file_router;
 

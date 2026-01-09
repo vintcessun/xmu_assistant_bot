@@ -1,9 +1,8 @@
 use crate::{
-    api::storage::{FileStorage, HotTable},
-    web::URL,
+    api::storage::{self, FileStorage, HotTable},
+    web::{URL, file::expose::ON_QUEUE},
 };
 use anyhow::Result;
-use futures_util::future::BoxFuture;
 use serde::{Deserialize, Serialize};
 use std::{
     path::PathBuf,
@@ -67,39 +66,26 @@ impl ExposeFileList {
 pub struct ExposeFileTask {
     pub id: String,
     pub list: Vec<File>,
-    // 暂存所有待处理的 flush 任务
-    pending_ios: Vec<BoxFuture<'static, Result<()>>>,
 }
 
 impl ExposeFileTask {
-    pub fn new() -> Self {
-        Self {
-            id: uuid::Uuid::new_v4().to_string(),
-            list: Vec::new(),
-            pending_ios: Vec::new(),
+    pub fn new(files: Vec<Arc<storage::File>>) -> Self {
+        let id = uuid::Uuid::new_v4().to_string();
+        ON_QUEUE.insert(id.clone());
+        let mut list = Vec::with_capacity(files.len());
+        for file in files {
+            list.push(File::new(&*file));
         }
+
+        Self { id, list }
     }
 
-    /// O(1) 复杂度：只移动权，不等待 IO
-    pub fn add<T: FileStorage + Send + Sync + 'static>(&mut self, file: Arc<T>) {
-        // 1. 构造元数据并存入 list
-        let f = File::new(file.as_ref());
-        self.list.push(f);
-
-        // 2. 将 wait_flush 转化为一个 Future 存起来，不在这里 await
-        let fut = Box::pin(async move { file.wait_flush().await });
-        self.pending_ios.push(fut);
-    }
-
-    /// 阻塞等待所有文件完成并写入 HotTable
     pub async fn finish(self) -> Result<()> {
-        // 1. 等待所有文件写入完成
-        futures::future::try_join_all(self.pending_ios).await?;
-
-        // 2. 构造 ExposeFileList
+        // 1. 构造 ExposeFileList
         let expose_list = ExposeFileList::new(self.list.clone());
 
-        // 3. 生成唯一 ID 并写入 HotTable
+        // 2. 生成唯一 ID 并写入 HotTable
+        ON_QUEUE.remove(&self.id);
         DATA.insert(self.id, Arc::new(expose_list))?;
 
         Ok(())

@@ -19,7 +19,7 @@ pub async fn update_db_and_login_base(
 
     DATA.insert(id, login_data_insert)?;
 
-    let profile = Profile::get_profile(&login_data.lnt).await?;
+    let profile = Profile::get(&login_data.lnt).await?;
 
     let data = Zzy::get(&login_data.castgc, &profile.user_no).await?;
 

@@ -133,6 +133,7 @@ impl SessionClient {
         mut method: reqwest::Method,
         mut url: Url,
         mut body: Option<String>,
+        headers: Option<reqwest::header::HeaderMap>, // 新增参数
     ) -> Result<Response> {
         let mut redirect_count = 0;
 
@@ -145,6 +146,13 @@ impl SessionClient {
             let mut builder = GLOBAL_CLIENT
                 .request(method.clone(), url.clone())
                 .header(USER_AGENT, &self.ua);
+
+            // 注入传入的自定义 Headers (如 Range)
+            if let Some(ref h) = headers {
+                for (key, value) in h.iter() {
+                    builder = builder.header(key, value);
+                }
+            }
 
             // 2. 极致路径：直接从缓存取 HeaderValue (Arc clone)
             if let Some(c) = self
@@ -206,7 +214,8 @@ impl SessionClient {
 
     pub async fn get<U: IntoUrl>(&self, url: U) -> Result<Response> {
         let url = url.into_url()?;
-        self.request_internal(reqwest::Method::GET, url, None).await
+        self.request_internal(reqwest::Method::GET, url, None, None)
+            .await
     }
 
     pub async fn post<U: IntoUrl, T: serde::Serialize + ?Sized>(
@@ -216,7 +225,7 @@ impl SessionClient {
     ) -> Result<Response> {
         let url = url.into_url()?;
         let body = serde_urlencoded::to_string(data)?;
-        self.request_internal(reqwest::Method::POST, url, Some(body))
+        self.request_internal(reqwest::Method::POST, url, Some(body), None)
             .await
     }
 
@@ -228,5 +237,124 @@ impl SessionClient {
     pub fn get_cookie(&self, key: &str, url: &url::Url) -> Option<Arc<str>> {
         self.cookie_store
             .get(url.host_str().unwrap_or_default(), key)
+    }
+
+    pub async fn get_range<U: IntoUrl>(&self, url: U, start: u64, end: u64) -> Result<Response> {
+        let mut h = reqwest::header::HeaderMap::new();
+        h.insert(
+            reqwest::header::RANGE,
+            format!("bytes={}-{}", start, end).parse()?,
+        );
+        self.request_internal(reqwest::Method::GET, url.into_url()?, None, Some(h))
+            .await
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use futures_util::StreamExt;
+    use std::time::Instant;
+    use std::{sync::Arc, time::Duration};
+    use tokio::io::{AsyncSeekExt, AsyncWriteExt};
+    use tokio::time::sleep;
+
+    // 找一个稍大的公开链接，或者校园网内链
+    //const TEST_URL: &str = "https://c-media.xmu.edu.cn:443/download/file/0423f4696d8880f17688a04d228d3912fa957bf2?timestamp=1767970800&token=0dd1a323d17aea01b4d8d09a34cbce96&name=1.0%20%E6%95%B0%E7%90%86%E9%80%BB%E8%BE%91%E5%BC%95%E8%A8%80.mp4";
+    const TEST_URL: &str = "https://c-media.xmu.edu.cn:443/download/file/3f5dee7e7348f2f24c3fef1e8758d0517acc3944?timestamp=1767938400&token=ceb41a79d0b5b8eee2bc3fbd377a17ea&name=1.1%20%E5%91%BD%E9%A2%98%E7%AC%A6%E5%8F%B7%E5%8C%96%E5%8F%8A%E8%81%94%E7%BB%93%E8%AF%8D.ppt";
+
+    async fn get_client() -> Result<Arc<SessionClient>> {
+        let client = Arc::new(SessionClient::new());
+
+        // 1. 获取文件总大小 (复用 request_internal)
+        let head_resp = client.get(TEST_URL).await?;
+        let total_size = head_resp
+            .content_length()
+            .ok_or_else(|| anyhow::anyhow!("No length"))?;
+        println!("File Size: {} MB", total_size / 1024 / 1024);
+
+        // --- 单协程下载预热 ---
+        let start_single = Instant::now();
+        let resp = client.get(TEST_URL).await?;
+        let mut stream = resp.bytes_stream();
+        let mut file_single = tokio::fs::File::create("single.tmp").await?;
+        while let Some(item) = stream.next().await {
+            file_single.write_all(&item?).await?;
+        }
+        let dur_single = start_single.elapsed();
+
+        println!("单协程预热耗时: {:?}", dur_single);
+        let _ = tokio::fs::remove_file("single.tmp").await;
+
+        Ok(client)
+    }
+
+    async fn test_n_download(chunks: u64, client: Arc<SessionClient>) -> Result<Duration> {
+        let start_multi = Instant::now();
+
+        let head_resp = client.get(TEST_URL).await?;
+        let total_size = head_resp
+            .content_length()
+            .ok_or_else(|| anyhow::anyhow!("No length"))?;
+        let chunk_size = total_size / chunks;
+
+        // 关键：预分配空间以复用 request_internal 的高性能
+        let f_placeholder = tokio::fs::File::create("multi.tmp").await?;
+        f_placeholder.set_len(total_size).await?;
+        drop(f_placeholder);
+
+        let mut tasks = vec![];
+        for i in 0..chunks {
+            let start = i * chunk_size;
+            let end = if i == chunks - 1 {
+                total_size - 1
+            } else {
+                (i + 1) * chunk_size - 1
+            };
+            let c = client.clone();
+
+            tasks.push(tokio::spawn(async move {
+                let resp = c.get_range(TEST_URL, start, end).await?;
+                let mut s = resp.bytes_stream();
+
+                let mut f = tokio::fs::OpenOptions::new()
+                    .write(true)
+                    .open("multi.tmp")
+                    .await?;
+                f.seek(std::io::SeekFrom::Start(start)).await?;
+
+                while let Some(chunk) = s.next().await {
+                    f.write_all(&chunk?).await?;
+                }
+                Ok::<(), anyhow::Error>(())
+            }));
+        }
+
+        for task in futures_util::future::join_all(tasks).await {
+            task??;
+        }
+        let dur_multi = start_multi.elapsed();
+        // --- 清理与输出 ---
+        let _ = tokio::fs::remove_file("multi.tmp").await;
+
+        Ok(dur_multi)
+    }
+
+    #[tokio::test]
+    async fn bench_download_mode() -> Result<()> {
+        let test_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
+        let client = get_client().await?;
+
+        for n in test_list {
+            let mut total = Duration::new(0, 0);
+
+            sleep(Duration::from_secs(10)).await; // 避免过快请求被限速
+            total += test_n_download(n, client.clone()).await?;
+
+            println!("多协程下载 ({}): 耗时: {:?}", n, total);
+        }
+
+        Ok(())
     }
 }

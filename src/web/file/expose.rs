@@ -1,3 +1,5 @@
+use std::sync::LazyLock;
+
 use axum::{
     Router,
     extract::Path,
@@ -5,6 +7,7 @@ use axum::{
     response::{Html, IntoResponse, Response},
     routing::get,
 };
+use dashmap::DashSet;
 use serde::Deserialize;
 use tokio_util::io::ReaderStream;
 
@@ -23,12 +26,17 @@ pub struct DownloadParams {
     pub index: usize,
 }
 
+pub static ON_QUEUE: LazyLock<DashSet<String>> = LazyLock::new(DashSet::new);
+
 /// 任务状态处理器：返回 HTML 文件列表
 async fn task_status_handler(Path(params): Path<ListParams>) -> impl IntoResponse {
     // 1. 调用你提供的查询函数
+    if ON_QUEUE.contains(&params.id) {
+        return (StatusCode::OK, "任务正在处理中，请稍后刷新页面").into_response();
+    }
     let list = match query(&params.id) {
         Some(l) => l,
-        None => return (StatusCode::NOT_FOUND, "该任务已过期或不存在").into_response(),
+        None => return (StatusCode::NOT_FOUND, "该任务不存在或已过期").into_response(),
     };
 
     // 2. 构造 HTML 视图内容
@@ -67,7 +75,7 @@ async fn task_status_handler(Path(params): Path<ListParams>) -> impl IntoRespons
     .into_response()
 }
 
-/// 文件下载处理器：根据索引返回文件流
+/// 文件下载处理器：根据索引返回文件流d
 async fn file_download_handler(Path(params): Path<DownloadParams>) -> impl IntoResponse {
     // 1. 检索列表
     let list = match query(&params.id) {
@@ -108,7 +116,7 @@ async fn file_download_handler(Path(params): Path<DownloadParams>) -> impl IntoR
 
 pub fn task_router(router: Router) -> Router {
     router // 捕获任务 ID，显示 HTML 列表
-        .route("/task/:id", get(task_status_handler))
+        .route("/task/{id}", get(task_status_handler))
         // 捕获 ID 和 Index，执行下载
-        .route("/task/:id/:index", get(file_download_handler))
+        .route("/task/{id}/{index}", get(file_download_handler))
 }

@@ -2,6 +2,7 @@ use crate::abi::logic_import::*;
 
 mod download;
 mod echo;
+mod helper;
 mod login;
 
 register_handlers!(

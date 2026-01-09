@@ -3,6 +3,8 @@ pub mod task;
 
 use axum::{Router, routing::get};
 
+pub use expose::*;
+
 pub fn file_router() -> Router {
     let router = Router::new();
     let router = expose::task_router(router);

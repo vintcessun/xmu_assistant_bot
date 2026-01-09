@@ -1,6 +1,4 @@
-use super::IDS_URL;
 use super::JwAPI;
-use crate::api::network::SessionClient;
 use anyhow::Result;
 use anyhow::bail;
 use helper::jw_api;
@@ -158,6 +156,7 @@ pub struct ZzyRequest<'a> {
 
 #[cfg(test)]
 mod tests {
+
     use super::*;
     use anyhow::Result;
 

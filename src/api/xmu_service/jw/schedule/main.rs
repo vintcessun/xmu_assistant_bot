@@ -1,6 +1,4 @@
-use super::IDS_URL;
 use super::JwAPI;
-use crate::api::network::SessionClient;
 use anyhow::Result;
 use helper::jw_api;
 //use serde::de::IgnoredAny;
@@ -135,8 +133,7 @@ mod tests {
     #[tokio::test]
     async fn test_detail() -> Result<()> {
         let castgc = "TGT-3689523-tqSGK8uMKkyZVNAjG5H1ss4yc0Rsbdeac8Cwq7T5YKUxMQ3XU2L0cCe5FGiYHO6Z7EUnull_main";
-        let client = SessionClient::new();
-        client.set_cookie("CASTGC", castgc, IDS_URL.clone());
+        let client = crate::api::xmu_service::jw::get_castgc_client(castgc);
         client.get(Schedule::APP_ENTRANCE).await?;
         let data = ScheduleRequest {
             semester: "20251",

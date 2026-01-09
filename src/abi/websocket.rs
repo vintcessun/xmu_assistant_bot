@@ -113,7 +113,7 @@ impl<T: BotHandler> BotWebsocketClient<T> {
         Ok(())
     }
 
-    pub async fn disconnect(&mut self) {
+    pub fn disconnect(&mut self) {
         if let Some(task) = self.event_read_task.take() {
             task.abort();
         }
@@ -126,16 +126,17 @@ impl<T: BotHandler> BotWebsocketClient<T> {
         if let Some(task) = self.api_write_task.take() {
             task.abort();
         }
-        self.handler.on_disconnect().await;
+        // Cannot await in drop; try to call on_disconnect if runtime allows elsewhere.
+        let handler = self.handler.clone();
+        tokio::spawn(async move {
+            handler.on_disconnect().await;
+        });
         info!("已断开与 WebSocket 服务器的连接");
     }
 }
 
 impl<T: BotHandler> Drop for BotWebsocketClient<T> {
     fn drop(&mut self) {
-        let rt = tokio::runtime::Handle::current();
-        rt.block_on(async {
-            self.disconnect().await;
-        });
+        self.disconnect();
     }
 }

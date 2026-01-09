@@ -37,7 +37,7 @@ const_format = "0.2.35"
 redb = "3.1.0"
 bytes = "1.11.0"
 bincode = { version = "2.0.1", features = ["serde"] }
-reqwest = { version = "0.12.28", features = ["cookies", "json"] }
+reqwest = { version = "0.12.28", features = ["cookies", "json", "stream"] }
 fake_user_agent = "0.2.3"
 url-macro = "0.2.3"
 url = "2.5.7"
@@ -55,6 +55,8 @@ mime_guess = "2.0.5"
 futures = "0.3.31"
 uuid = { version = "1.19.0", features = ["v4"] }
 tokio-util = "0.7.18"
+genai = "0.4.4"
+quick-xml = { version = "0.38.4", features = ["serde", "serialize", "tokio"] }
 
 [dev-dependencies]
 regex = "1.12.2"

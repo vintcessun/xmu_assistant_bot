@@ -1,5 +1,4 @@
-use crate::api::network::SessionClient;
-use crate::api::xmu_service::lnt::LNT_URL;
+use crate::api::xmu_service::lnt::get_session_client;
 use anyhow::Result;
 use dashmap::DashMap;
 use serde::Deserialize;
@@ -30,6 +29,7 @@ pub struct ProfileResponse {
     pub id: i64,
     pub name: String,
     pub user_no: String,
+    pub department: Department,
     //pub active: IgnoredAny,
     //pub audit: IgnoredAny,
     //pub avatar_big_url: IgnoredAny,
@@ -37,7 +37,6 @@ pub struct ProfileResponse {
     //pub comment: IgnoredAny,
     //pub created_at: IgnoredAny,
     //pub created_by: IgnoredAny,
-    //pub department: Department,
     //pub education: IgnoredAny,
     //pub email: IgnoredAny,
     //pub end_at: IgnoredAny,
@@ -85,8 +84,7 @@ impl ProfileStruct {
             return Ok((*entry.value()).clone());
         }
 
-        let client = SessionClient::new();
-        client.set_cookie("session", session, LNT_URL.clone());
+        let client = get_session_client(session);
 
         let res = client.get("https://lnt.xmu.edu.cn/api/profile").await?;
         let user_info = res.json::<ProfileResponse>().await?;
@@ -101,12 +99,12 @@ impl ProfileStruct {
 pub struct Profile;
 
 impl Profile {
-    pub async fn get_profile(session: &str) -> Result<Arc<ProfileResponse>> {
+    pub async fn get(session: &str) -> Result<Arc<ProfileResponse>> {
         PROFILE.get_profile(session).await
     }
 
     pub async fn check(session: &str) -> bool {
-        (Self::get_profile(session).await).is_ok()
+        (Self::get(session).await).is_ok()
     }
 }
 
@@ -121,7 +119,7 @@ mod tests {
     async fn test() -> Result<()> {
         let castgc = "TGT-2287042-KTGUC02s8q1yH06BAFT1cT6bV01mv3-M9MOczLVnOzMesYVhCZcU8-VMD6d2ZFBgRBcnull_main";
         let session = castgc_get_session(castgc).await?;
-        let profile = Profile::get_profile(&session).await?;
+        let profile = Profile::get(&session).await?;
         println!("Profile: {:?}", profile);
         let check_result = Profile::check(&session).await;
         println!("Check Result: {}", check_result);

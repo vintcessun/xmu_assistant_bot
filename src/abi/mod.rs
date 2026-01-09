@@ -34,8 +34,7 @@ pub mod logic_import {
     {
         ctx.send_message_async(message::from_str(format!(
             "Logic [{}] 运行出现错误: {}",
-            stringify!(#fn_name),
-            err
+            fn_name, err
         )));
         tracing::debug!("Logic [{}] 运行出错: {:?}", fn_name, err);
     }
