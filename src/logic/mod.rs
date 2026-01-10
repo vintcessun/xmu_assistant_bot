@@ -4,6 +4,7 @@ mod download;
 mod echo;
 mod helper;
 mod login;
+mod search;
 
 register_handlers!(
     echo::EchoHandler,

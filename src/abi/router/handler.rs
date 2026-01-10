@@ -1,6 +1,9 @@
 use crate::{
     abi::{
-        message::{Event, MessageType, event_message::Message, event_meta::MetaEvent},
+        message::{
+            Event, MessageType, event_body::message_sent::MessageSent, event_message::Message,
+            event_meta::MetaEvent,
+        },
         network::BotClient,
         router::context::Context,
         websocket::{BotHandler, BotWebsocketClient},
@@ -92,6 +95,18 @@ impl<T: BotHandler + BotClient + fmt::Debug> Router<T> for NapcatRouter<T> {
                         }
                         MetaEvent::Lifecycle(lc) => {
                             trace!("收到生命周期事件: {:?}", lc);
+                        }
+                    }
+                }
+                Event::MessageSent(message_sent) => {
+                    debug!("处理消息发送事件: {:?}", message_sent);
+
+                    match *message_sent {
+                        MessageSent::Private(p) => {
+                            trace!("私人消息已发送: {:?}", p);
+                        }
+                        MessageSent::Group(g) => {
+                            trace!("群消息已发送: {:?}", g);
                         }
                     }
                 }
