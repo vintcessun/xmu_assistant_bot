@@ -162,10 +162,10 @@ mod tests {
 
     #[tokio::test]
     async fn test() -> Result<()> {
-        let castgc = "TGT-2288325-P177wkI8xWr8WNjs6QfA23HpnFTZH6Ac8U-zUHtVbWsxx5vVxWOTZ3VifZiELK0EDSInull_main";
+        let castgc = "TGT-2435869-O8Wwbqik8mV2AiaFWm2RKkKG8nq1zARLvjuN2XWuYtBMaXNrSUaZDng4bJZj-3FfQrsnull_main";
         let data = ZzyRequest {
             batch_code: "01",
-            student_id: "34520242201240",
+            student_id: "13720192200474",
             tag: "-CZSJ,+ZYXH",
             page_size: 10,
             page_number: 1,

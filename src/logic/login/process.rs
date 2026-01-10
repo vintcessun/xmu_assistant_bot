@@ -1,11 +1,12 @@
 use super::main::DATA;
 use crate::abi::message::MessageSend;
-use crate::api::xmu_service::jw::{Zzy, ZzyProfile};
+use crate::api::xmu_service::jw::{UserInfo, Zzy, ZzyProfile};
 use crate::api::xmu_service::lnt::Profile;
 use crate::api::xmu_service::login::{LoginRequest, get_qrcode_id, request_qrcode, wait_qrcode};
 use crate::{abi::logic_import::*, api::network::SessionClient};
 use anyhow::Result;
 use std::sync::Arc;
+use tracing::warn;
 
 #[inline(never)]
 pub async fn update_db_and_login_base(
@@ -19,9 +20,19 @@ pub async fn update_db_and_login_base(
 
     DATA.insert(id, login_data_insert)?;
 
-    let profile = Profile::get(&login_data.lnt).await?;
+    let user_id = match Profile::get(&login_data.lnt).await {
+        Ok(p) => p.user_no.clone(),
+        Err(e) => {
+            warn!(
+                "获取 LNT 用户信息失败，尝试使用 JW 用户信息登录，错误信息: {}",
+                e
+            );
+            let userinfo = UserInfo::get_userinfo(&login_data.castgc).await?;
+            userinfo.user_id
+        }
+    };
 
-    let data = Zzy::get(&login_data.castgc, &profile.user_no).await?;
+    let data = Zzy::get(&login_data.castgc, &user_id).await?;
 
     let zzy_profile = data.get_profile()?;
 

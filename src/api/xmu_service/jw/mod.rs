@@ -1,9 +1,11 @@
 mod schedule;
+mod userinfo;
 mod zzy;
 
 use std::sync::LazyLock;
 
 pub use schedule::*;
+pub use userinfo::*;
 pub use zzy::*;
 
 use async_trait::async_trait;

@@ -116,8 +116,19 @@ mod tests {
     use anyhow::Result;
 
     #[tokio::test]
-    async fn test() -> Result<()> {
-        let castgc = "TGT-2287042-KTGUC02s8q1yH06BAFT1cT6bV01mv3-M9MOczLVnOzMesYVhCZcU8-VMD6d2ZFBgRBcnull_main";
+    async fn test_error() -> Result<()> {
+        let castgc = "TGT-2435869-O8Wwbqik8mV2AiaFWm2RKkKG8nq1zARLvjuN2XWuYtBMaXNrSUaZDng4bJZj-3FfQrsnull_main";
+        let session = castgc_get_session(castgc).await?;
+        let profile = Profile::get(&session).await?;
+        println!("Profile: {:?}", profile);
+        let check_result = Profile::check(&session).await;
+        println!("Check Result: {}", check_result);
+        Ok(())
+    }
+
+    #[tokio::test]
+    async fn test_success() -> Result<()> {
+        let castgc = "TGT-4073508-WHsRVSCV2-j9q5z3D2VXbcR8-ZFkHzsltAKa7aioXRvKY8fRACTJatRxjSdJtdbsRiInull_main";
         let session = castgc_get_session(castgc).await?;
         let profile = Profile::get(&session).await?;
         println!("Profile: {:?}", profile);

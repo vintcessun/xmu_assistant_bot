@@ -310,12 +310,19 @@ enum WrapState {
     Query,
 }
 
+enum CallType {
+    Get,
+    Post,
+}
+
 struct JwApiArgs {
     url: String,
     app: String,
     field_name: String,
     wrapper_name: String,
     wrap_response: WrapState,
+    auto_row: bool,
+    call_type: CallType,
 }
 
 impl Parse for JwApiArgs {
@@ -325,6 +332,8 @@ impl Parse for JwApiArgs {
         let mut app: Option<String> = None;
         let mut wrap_response = WrapState::Normal;
         let mut wrapper_name: Option<String> = None;
+        let mut auto_row = true;
+        let mut call_type = CallType::Post;
 
         for meta in vars {
             if let Meta::NameValue(nv) = meta {
@@ -352,10 +361,36 @@ impl Parse for JwApiArgs {
                     {
                         wrapper_name = Some(s.value());
                     }
+                } else if nv.path.is_ident("auto_row") {
+                    if let syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Bool(b),
+                        ..
+                    }) = nv.value
+                    {
+                        auto_row = b.value;
+                    }
+                } else if nv.path.is_ident("call_type") {
+                    if let syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Str(s),
+                        ..
+                    }) = nv.value
+                    {
+                        let val = s.value();
+                        match val.as_str() {
+                            "GET" | "get" => call_type = CallType::Get,
+                            "POST" | "post" => call_type = CallType::Post,
+                            _ => {
+                                return Err(syn::Error::new_spanned(
+                                    nv.path,
+                                    "Invalid value for 'call_type', expected 'GET' or 'POST'",
+                                ));
+                            }
+                        }
+                    }
                 } else {
                     return Err(syn::Error::new_spanned(
                         nv.path,
-                        "Unknown attribute key, expected 'url', 'app', 'wrap_response', or 'wrapper_name'",
+                        "Unknown attribute key, expected 'url', 'app', 'wrap_response', 'wrapper_name', 'auto_row', or 'call_type'",
                     ));
                 }
             }
@@ -410,6 +445,8 @@ impl Parse for JwApiArgs {
             field_name,
             wrap_response,
             wrapper_name,
+            auto_row,
+            call_type,
         })
     }
 }
@@ -436,18 +473,12 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
 
     let dynamic_field_ident = format_ident!("{}", field_name_from_url);
 
-    let expanded = match args.wrap_response {
-        WrapState::Normal => quote! {
+    let field_quote = if args.auto_row {
+        quote! {
             #[derive(Deserialize, Debug, Clone, Default)]
             #[serde(rename_all = "UPPERCASE")]
             #vis struct #response_item_ident
             #fields
-
-            #[async_trait::async_trait]
-            impl JwAPI for #original_ident {
-                const URL_DATA: &'static str = #url_val;
-                const APP_ENTRANCE: &'static str = #app_val;
-            }
 
             #[derive(Deserialize, Debug, Clone, Default)]
             #[serde(rename_all = "camelCase")]
@@ -458,7 +489,26 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
                 // pub page_size: serde::de::IgnoredAny,
                 // pub total_size: serde::de::IgnoredAny,
             }
+        }
+    } else {
+        quote! {
+            #[derive(Deserialize, Debug, Clone, Default)]
+            #[serde(rename_all = "camelCase")]
+            #vis struct #data_api_ident
+            #fields
+        }
+    };
 
+    let trait_quote = quote! {
+            #[async_trait::async_trait]
+            impl JwAPI for #original_ident {
+                const URL_DATA: &'static str = #url_val;
+                const APP_ENTRANCE: &'static str = #app_val;
+            }
+    };
+
+    let original_quote = match args.wrap_response {
+        WrapState::Normal => quote! {
             #[derive(Deserialize, Debug, Clone, Default)]
             #vis struct #datas_ident {
                 pub #dynamic_field_ident: #data_api_ident,
@@ -469,46 +519,55 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
                 pub code: String,
                 pub #data_name: #datas_ident,
             }
+        },
+        WrapState::Query => {
+            if args.auto_row {
+                quote! {
+                    #[derive(Deserialize, Debug, Clone, Default)]
+                    #vis struct #original_ident {
+                        pub #data_name: Vec<#response_item_ident>,
+                    }
+                }
+            } else {
+                quote! {
+                    #[derive(Deserialize, Debug, Clone, Default)]
+                    #vis struct #original_ident #fields
+                }
+            }
+        }
+    };
 
+    let impl_quote = match args.call_type {
+        CallType::Get => quote! {
+            impl #original_ident {
+                pub async fn call(castgc: &str) -> Result<#original_ident> {
+                    let client = crate::api::xmu_service::jw::get_castgc_client(castgc);
+                    let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
+                    let resp = client.get(#original_ident::URL_DATA).await?.json().await?;
+                    Ok(resp)
+                }
+            }
+        },
+        CallType::Post => quote! {
             impl #original_ident {
                 pub async fn call<D: Serialize + Sync>(castgc: &str, data: &D) -> Result<#original_ident> {
                     let client = crate::api::xmu_service::jw::get_castgc_client(castgc);
                     let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
-
                     let resp = client.post(#original_ident::URL_DATA, data).await?.json().await?;
                     Ok(resp)
                 }
             }
         },
-        WrapState::Query => quote! {
-            #[derive(Deserialize, Debug, Clone, Default)]
-            #[serde(rename_all = "UPPERCASE")]
-            #vis struct #response_item_ident
-            #fields
+    };
 
-            #[async_trait::async_trait]
-            impl JwAPI for #original_ident {
-                const URL_DATA: &'static str = #url_val;
-                const APP_ENTRANCE: &'static str = #app_val;
-            }
+    let expanded = quote! {
+        #field_quote
 
-            #[derive(Deserialize, Debug, Clone, Default)]
-            #vis struct #original_ident {
-                pub #data_name: Vec<#response_item_ident>,
-                // pub success: serde::de::IgnoredAny,
-                // pub ttbList: serde::de::IgnoredAny,
-            }
+        #trait_quote
 
-            impl #original_ident {
-                async fn call<D: Serialize + Sync>(castgc: &str, data: &D) -> Result<#original_ident> {
-                    let client = crate::api::xmu_service::jw::get_castgc_client(castgc);
-                    let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
+        #original_quote
 
-                    let resp = client.post(#original_ident::URL_DATA, data).await?.json().await?;
-                    Ok(resp)
-                }
-            }
-        },
+        #impl_quote
     };
 
     TokenStream::from(expanded)
