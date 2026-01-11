@@ -1,6 +1,6 @@
+use crate::abi::utils::SmartJsonExt;
 use helper::lnt_get_api;
 use serde::{Deserialize, Serialize};
-//use serde::de::IgnoredAny;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct RecentlyVisitedCourse {

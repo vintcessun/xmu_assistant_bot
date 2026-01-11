@@ -5,7 +5,10 @@ use futures_util::StreamExt;
 use futures_util::sink::SinkExt;
 use std::sync::Arc;
 use tokio::sync::mpsc;
-use tokio_tungstenite::{connect_async, tungstenite::Message};
+use tokio_tungstenite::{
+    connect_async,
+    tungstenite::{Message, Utf8Bytes},
+};
 use tracing::{debug, error, info};
 
 #[async_trait]
@@ -15,8 +18,8 @@ pub trait BotHandler: Send + Sync + 'static {
         event: mpsc::UnboundedSender<String>,
         api: mpsc::UnboundedSender<String>,
     ) -> Result<()>;
-    async fn handle_api(&self, message: String);
-    async fn handle_event(&self, event: String);
+    async fn handle_api(&self, message: Utf8Bytes);
+    async fn handle_event(&self, event: Utf8Bytes);
     async fn on_connect(&self);
     async fn on_disconnect(&self);
 }
@@ -62,7 +65,7 @@ impl<T: BotHandler> BotWebsocketClient<T> {
                 if let Ok(Message::Text(msg)) = message {
                     let h = handler.clone();
                     tokio::spawn(async move {
-                        h.handle_event(msg.to_string()).await;
+                        h.handle_event(msg).await;
                     });
                 }
             }
@@ -90,7 +93,7 @@ impl<T: BotHandler> BotWebsocketClient<T> {
                 if let Ok(Message::Text(msg)) = message {
                     let h = handler.clone();
                     tokio::spawn(async move {
-                        h.handle_api(msg.to_string()).await;
+                        h.handle_api(msg).await;
                     });
                 }
             }

@@ -1,3 +1,4 @@
+use ahash::RandomState;
 use anyhow::Result;
 use dashmap::{DashMap, DashSet};
 use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
@@ -7,14 +8,16 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Duration;
 use tokio::sync::oneshot;
 use tokio::time;
+use tokio_tungstenite::tungstenite::Utf8Bytes;
 use tracing::debug;
 
 static COUNTER: AtomicU64 = AtomicU64::new(1);
 static TIMEOUT: Duration = Duration::from_secs(600);
 
-static ACTIVE_ECHOS: LazyLock<DashSet<u64>> = LazyLock::new(DashSet::new);
-static RESPONSE_REGISTRY: LazyLock<DashMap<u64, oneshot::Sender<String>>> =
-    LazyLock::new(DashMap::new);
+static ACTIVE_ECHOS: LazyLock<DashSet<u64, RandomState>> =
+    LazyLock::new(|| DashSet::with_hasher(RandomState::default()));
+static RESPONSE_REGISTRY: LazyLock<DashMap<u64, oneshot::Sender<Utf8Bytes>, RandomState>> =
+    LazyLock::new(|| DashMap::with_hasher(RandomState::default()));
 
 #[derive(Debug, Clone, Copy, Hash, Eq, PartialEq)]
 pub struct Echo(u64);
@@ -74,7 +77,7 @@ impl<'de> Deserialize<'de> for Echo {
     }
 }
 
-pub fn echo_send_result(echo: &str, response: String) {
+pub fn echo_send_result(echo: &str, response: Utf8Bytes) {
     if let Ok(echo_id) = echo.parse::<u64>()
         && let Some(entry) = RESPONSE_REGISTRY.remove(&echo_id)
     {
@@ -85,7 +88,7 @@ pub fn echo_send_result(echo: &str, response: String) {
 
 pub struct EchoPending {
     echo: Echo,
-    receiver: oneshot::Receiver<String>,
+    receiver: oneshot::Receiver<Utf8Bytes>,
 }
 
 impl EchoPending {
@@ -95,7 +98,7 @@ impl EchoPending {
         Self { echo, receiver: rx }
     }
 
-    pub async fn wait(self) -> Result<String> {
+    pub async fn wait(self) -> Result<Utf8Bytes> {
         let ret = match time::timeout(TIMEOUT, self.receiver).await {
             Ok(Ok(response)) => Ok(response),
             Ok(Err(_)) => Err(anyhow::anyhow!("收到的响应通道已关闭")),

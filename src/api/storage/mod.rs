@@ -12,4 +12,7 @@ pub use file::FileStorage;
 pub use hot::HotTable;
 pub use temp::TempFile;
 
-const BINCODE_CONFIG: bincode::config::Configuration = bincode::config::standard();
+const BINCODE_CONFIG: bincode::config::Configuration<
+    bincode::config::LittleEndian,
+    bincode::config::Fixint,
+> = bincode::config::standard().with_fixed_int_encoding();

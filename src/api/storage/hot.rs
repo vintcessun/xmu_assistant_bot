@@ -2,6 +2,7 @@ const BASE: &str = "hot.redb";
 
 use super::BASE_DATA_DIR;
 use super::BINCODE_CONFIG;
+use ahash::RandomState;
 use anyhow::Result;
 use bytes::Bytes;
 use const_format::concatcp;
@@ -112,12 +113,12 @@ impl StorageEngine {
         Ok(())
     }
 
-    pub fn read_table<K, V>(&self, table_name: &'static str) -> DashMap<K, Arc<V>>
+    pub fn read_table<K, V>(&self, table_name: &'static str) -> DashMap<K, Arc<V>, RandomState>
     where
         K: Serialize + DeserializeOwned + std::hash::Hash + Eq,
         V: Serialize + DeserializeOwned,
     {
-        let cache = DashMap::new();
+        let cache = DashMap::with_hasher(RandomState::default());
 
         let read_txn = match self.db.begin_read() {
             Ok(txn) => txn,
@@ -137,7 +138,10 @@ impl StorageEngine {
             }
         };
 
-        const BINCODE_CONFIG: bincode::config::Configuration = bincode::config::standard();
+        const BINCODE_CONFIG: bincode::config::Configuration<
+            bincode::config::LittleEndian,
+            bincode::config::Fixint,
+        > = bincode::config::standard().with_fixed_int_encoding();
 
         // 获取迭代器
         if let Ok(iter) = table.iter() {
@@ -185,7 +189,7 @@ where
     V: Serialize + DeserializeOwned,
 {
     table_name: &'static str,
-    cache: DashMap<K, Arc<V>>,
+    cache: DashMap<K, Arc<V>, RandomState>,
 }
 
 impl<K, V> HotTable<K, V>

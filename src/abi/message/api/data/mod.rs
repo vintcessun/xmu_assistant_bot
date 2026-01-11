@@ -27,8 +27,8 @@ impl<R: ApiResponseTrait + for<'de> Deserialize<'de>> ApiResponsePending<R> {
     }
 
     pub async fn wait_echo(self) -> Result<R> {
-        let response_str = self.echo.wait().await?;
-        let response = serde_json::from_str::<R>(&response_str)?;
+        let response_bytes = self.echo.wait().await?;
+        let response = serde_json::from_slice::<R>(response_bytes.as_bytes())?;
         Ok(response)
     }
 }

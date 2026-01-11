@@ -103,12 +103,10 @@ pub fn define_default_type(input: TokenStream) -> TokenStream {
 
 #[derive(Debug, FromMeta)]
 struct HandlerArgs {
-    #[darling(default)]
     msg_type: Option<Ident>,
-    #[darling(default)]
     command: Option<LitStr>,
-    #[darling(default)]
     echo_cmd: bool,
+    help_msg: Option<String>,
 }
 
 impl Parse for HandlerArgs {
@@ -116,14 +114,7 @@ impl Parse for HandlerArgs {
         let mut msg_type = None;
         let mut command = None;
         let mut echo_cmd = false;
-
-        if input.is_empty() {
-            return Ok(HandlerArgs {
-                msg_type,
-                command,
-                echo_cmd,
-            });
-        }
+        let mut help_msg = None;
 
         let pairs = Punctuated::<Meta, Token![,]>::parse_terminated(input)?;
         for meta in pairs {
@@ -145,10 +136,16 @@ impl Parse for HandlerArgs {
                     let lit: LitBool = syn::parse2(quote!(#expr))?;
                     echo_cmd = lit.value;
                 }
+            } else if path.is_ident("help_msg") {
+                if let Meta::NameValue(nv) = meta {
+                    let expr = nv.value;
+                    let val = syn::parse2::<LitStr>(quote!(#expr))?;
+                    help_msg = Some(val.value());
+                }
             } else {
                 return Err(syn::Error::new_spanned(
                     path,
-                    "Unknown attribute key, expected 'msg_type', 'command', or 'echo_cmd'",
+                    "Unknown attribute key, expected 'msg_type', 'command', 'echo_cmd', 'help_msg'",
                 ));
             }
         }
@@ -166,10 +163,20 @@ impl Parse for HandlerArgs {
             }
         }
 
+        if command.is_some() {
+            if help_msg.is_none() {
+                return Err(syn::Error::new_spanned(
+                    &msg_type,
+                    "The 'help_msg' attribute is required because the help message is necessary for the handler.",
+                ));
+            }
+        }
+
         Ok(HandlerArgs {
             msg_type,
             command,
             echo_cmd,
+            help_msg,
         })
     }
 }
@@ -232,6 +239,20 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
         )
     };
 
+    let help_trait = if args.command.is_some() {
+        let cmd_val = args.command.as_ref().unwrap().value();
+        let help_val = args.help_msg.as_ref().unwrap();
+        let help_msg = format!("指令: {}\n{}\n\n", cmd_val, help_val);
+
+        quote! {
+            impl BuildHelp for #struct_name {
+                const HELP_MSG: &'static str = #help_msg;
+            }
+        }
+    } else {
+        quote! {}
+    };
+
     let expanded = quote! {
         #[allow(non_upper_case_globals)]
         #vis const #fn_name: #struct_name = #struct_name;
@@ -261,12 +282,17 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
                         std::mem::transmute::<Context<T, M>, Context<T, #target_type_ident>>(ctx)
                     };
                     let handle_ctx = #echo_logic;
-                    #hidden_impl(handle_ctx).await
+
+                    tokio::spawn(#hidden_impl(handle_ctx));
+
+                    Ok(())
                 } else {
                     Ok(())
                 }
             }
         }
+
+        #help_trait
     };
 
     TokenStream::from(expanded)
@@ -281,24 +307,24 @@ pub fn register_handlers(input: TokenStream) -> TokenStream {
         quote! {
             {
                 let ctx = context.clone();
-                let handler_instance = #handler;
-                tokio::spawn(async move {
+                async move {
+                    let handler_instance = #handler;
                     if let Err(e) = handler_instance.handle(ctx).await {
                         tracing::error!("Handler [{}] 运行时错误: {:?}", stringify!(#handler), e);
                     }
-                });
+                }
             }
         }
     });
 
     let expanded = quote! {
         #[allow(non_snake_case, dead_code)]
-        pub fn dispatch_all_handlers<T, M>(context: Context<T, M>)
+        pub async fn dispatch_all_handlers<T, M>(context: Context<T, M>)
         where
             T: BotClient + BotHandler + std::fmt::Debug + Sync + Send + 'static,
             M: MessageType + std::fmt::Debug + Sync + Send + 'static,
         {
-            #(#spawns)*
+            tokio::join!(#(#spawns),*);
         }
     };
 
@@ -543,7 +569,7 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
                 pub async fn call(castgc: &str) -> Result<#original_ident> {
                     let client = crate::api::xmu_service::jw::get_castgc_client(castgc);
                     let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
-                    let resp = client.get(#original_ident::URL_DATA).await?.json().await?;
+                    let resp = client.get(#original_ident::URL_DATA).await?.json_smart().await?;
                     Ok(resp)
                 }
             }
@@ -553,7 +579,7 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
                 pub async fn call<D: Serialize + Sync>(castgc: &str, data: &D) -> Result<#original_ident> {
                     let client = crate::api::xmu_service::jw::get_castgc_client(castgc);
                     let res_auth = client.get(#original_ident::APP_ENTRANCE).await?;
-                    let resp = client.post(#original_ident::URL_DATA, data).await?.json().await?;
+                    let resp = client.post(#original_ident::URL_DATA, data).await?.json_smart().await?;
                     Ok(resp)
                 }
             }
@@ -791,7 +817,7 @@ pub fn lnt_get_api(args: TokenStream, input: TokenStream) -> TokenStream {
                 }
 
                 // 4. 反序列化
-                let data = res.json::<#response_type>().await
+                let data = res.json_smart::<#response_type>().await
                     .map_err(|e| anyhow::anyhow!(
                         "Deserialization Error: Failed to parse {} from {}. Error: {}",
                         stringify!(#response_type),

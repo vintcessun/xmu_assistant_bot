@@ -1,7 +1,7 @@
 use super::JwAPI;
+use crate::abi::utils::SmartJsonExt;
 use anyhow::Result;
 use helper::jw_api;
-//use serde::de::IgnoredAny;
 use serde::{Deserialize, Serialize};
 
 #[jw_api(
@@ -45,7 +45,10 @@ pub struct ScheduleRequest<'a> {
 
 #[cfg(test)]
 mod tests {
-    use crate::api::xmu_service::jw::{ScheduleCourseTime, ScheduleList, ScheduleListRequest};
+    use crate::{
+        abi::utils::SmartJsonExt,
+        api::xmu_service::jw::{ScheduleCourseTime, ScheduleList, ScheduleListRequest},
+    };
 
     use super::*;
     use anyhow::Result;
@@ -142,7 +145,7 @@ mod tests {
         let resp = client
             .post(Schedule::URL_DATA, &data)
             .await?
-            .json::<Schedule>()
+            .json_smart::<Schedule>()
             .await?;
         println!("Schedule Detail Response: {:?}", resp);
         Ok(())

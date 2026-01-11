@@ -1,0 +1,20 @@
+[build]
+rustflags = [
+    "-C",
+    "target-cpu=native",
+    # 真正的内联阈值设置：将默认值大幅提升（例如提升至 500）
+    # 这会强制编译器将更多函数内联，消除调用开销
+    "-C",
+    "llvm-args=-inline-threshold=500",
+
+    # 开启循环的自动向量化 (SIMD)
+    "-C",
+    "llvm-args=-vectorize-loops",
+
+    # 允许编译器进行更激进的分支预测优化
+    "-C",
+    "llvm-args=-enable-gvn-hoist",
+
+    # 如果你使用 mold 链接器（极力推荐）
+    # "-C", "link-arg=-fuse-ld=mold",
+]

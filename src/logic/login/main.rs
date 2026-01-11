@@ -1,14 +1,16 @@
-use std::sync::LazyLock;
-
+use super::super::BuildHelp;
 use super::process::process_login;
 use crate::api::storage::HotTable;
 use crate::api::xmu_service::login::LoginData;
 use crate::{abi::logic_import::*, api::xmu_service::lnt::Profile};
 use anyhow::anyhow;
+use std::sync::LazyLock;
 
 pub static DATA: LazyLock<HotTable<i64, LoginData>> = LazyLock::new(|| HotTable::new("login"));
 
-#[handler(msg_type=Message,command="login",echo_cmd=true)]
+#[handler(msg_type=Message,command="login",echo_cmd=true,
+help_msg=r#"用法:/login
+功能:使用扫码方式登录学校系统"#)]
 pub async fn login(ctx: Context) -> Result<()> {
     let sender = ctx.message.get_sender();
     let id = sender.user_id.ok_or(anyhow!("获取用户ID失败"))?;
@@ -31,7 +33,9 @@ pub async fn login(ctx: Context) -> Result<()> {
     Ok(())
 }
 
-#[handler(msg_type=Message,command="logout",echo_cmd=true)]
+#[handler(msg_type=Message,command="logout",echo_cmd=true,
+help_msg=r#"用法:/logout
+功能:删除登录数据"#)]
 pub async fn logout(ctx: Context) -> Result<()> {
     let sender = ctx.message.get_sender();
     let id = sender.user_id.ok_or(anyhow!("获取用户ID失败"))?;

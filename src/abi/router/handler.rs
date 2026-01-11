@@ -52,7 +52,7 @@ where
         let client_arc = self.get_client();
         let context = Context::new(client_arc, msg);
 
-        dispatch_all_handlers(context);
+        tokio::spawn(dispatch_all_handlers(context));
     }
 }
 

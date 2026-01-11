@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "snake_case")]
 pub enum Sex {
     Male,
@@ -8,7 +8,7 @@ pub enum Sex {
     Unknown,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SenderPrivate {
     pub user_id: Option<i64>,
     pub nickname: Option<String>,
@@ -17,7 +17,7 @@ pub struct SenderPrivate {
     pub age: Option<i32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "snake_case")]
 pub enum Role {
     Owner,
@@ -25,7 +25,7 @@ pub enum Role {
     Member,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SenderGroup {
     pub user_id: Option<i64>,
     pub nickname: Option<String>,
@@ -38,7 +38,7 @@ pub struct SenderGroup {
     pub title: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum SenderRole {
     GroupAdmin,
     GroupOwner,
@@ -46,7 +46,7 @@ pub enum SenderRole {
     Friend,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Sender {
     pub nickname: Option<String>,
     pub user_id: Option<i64>,

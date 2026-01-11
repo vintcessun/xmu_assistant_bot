@@ -5,11 +5,19 @@ edition = "2024"
 license = "AGPL-3.0-only"
 
 [[bench]]
-name = "context_clone"
+name = "storage_concurrency"
 harness = false
 
 [[bench]]
-name = "storage_concurrency"
+name = "serialization"
+harness = false
+
+[[bench]]
+name = "cold_storage"
+harness = false
+
+[[bench]]
+name = "routing"
 harness = false
 
 [dependencies]
@@ -23,8 +31,13 @@ tokio = { version = "1.48.0", features = ["full"] }
 tokio-tungstenite = "0.28.0"
 tracing = "0.1.30"
 tracing-appender = "0.2.4"
-tracing-subscriber = { version = "0.3.22", default-features = false, features = ["fmt", "ansi", "registry", "std"] }
-helper = {path = "./helper"}
+tracing-subscriber = { version = "0.3.22", default-features = false, features = [
+    "fmt",
+    "ansi",
+    "registry",
+    "std",
+] }
+helper = { path = "./helper" }
 const_format = "0.2.35"
 redb = "3.1.0"
 bytes = "1.11.0"
@@ -53,3 +66,10 @@ quick-xml = { version = "0.38.4", features = ["serde", "serialize", "tokio"] }
 [dev-dependencies]
 regex = "1.12.2"
 criterion = { version = "0.8.1", features = ["async_tokio"] }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+debug = true      # 保留符号信息以便性能分析，不影响运行速度

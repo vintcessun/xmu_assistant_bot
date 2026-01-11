@@ -1,6 +1,6 @@
-use std::sync::Arc;
-
+use super::BuildHelp;
 use anyhow::{anyhow, bail};
+use std::sync::Arc;
 use tracing::trace;
 
 use crate::{
@@ -13,7 +13,10 @@ use crate::{
     web::file::task::ExposeFileTask,
 };
 
-#[handler(msg_type=Message,command="download",echo_cmd=true)]
+#[handler(msg_type=Message,command="download",echo_cmd=true,
+help_msg=r#"用法:/download <描述>
+<描述>:描述课程及文件，后端使用LLM进行智能识别查询，如果没有提到使用哪个 文件那么就会下载这门课的全部文件
+功能: 下载指定课程文件"#)]
 pub async fn download(ctx: Context) -> Result<()> {
     let msg_text = ctx.get_message_text();
     let client = get_client_or_err(&ctx).await?;

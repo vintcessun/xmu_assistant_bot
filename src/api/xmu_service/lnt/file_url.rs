@@ -1,3 +1,4 @@
+use crate::abi::utils::SmartJsonExt;
 use crate::api::{
     network::{SessionClient, download_to_file},
     storage::{ColdTable, File},

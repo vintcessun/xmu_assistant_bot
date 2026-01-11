@@ -1,8 +1,6 @@
 /target
 /data
 /src/api/llm/tool/config.rs
-/data/hot.redb
-/data/cold.redb
 /helper/target
 /napcat
 /frpc

@@ -3,6 +3,7 @@ pub mod echo;
 pub mod message;
 pub mod network;
 pub mod router;
+pub mod utils;
 pub mod websocket;
 
 use anyhow::Result;

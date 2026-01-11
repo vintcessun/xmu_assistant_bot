@@ -3,6 +3,7 @@ use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 use tokio::sync::{OnceCell, mpsc};
+use tokio_tungstenite::tungstenite::Utf8Bytes;
 use tracing::{debug, error, info, trace};
 
 use crate::abi::{
@@ -81,11 +82,11 @@ impl BotHandler for NapcatAdapter {
         Ok(())
     }
 
-    async fn handle_api(&self, message: String) {
+    async fn handle_api(&self, message: Utf8Bytes) {
         debug!("收到API返回: {}", message);
         trace!(?message);
 
-        let echo_only = serde_json::from_str::<EchoOnly>(&message).ok();
+        let echo_only = serde_json::from_slice::<EchoOnly>(message.as_bytes()).ok();
 
         let echo = match echo_only {
             None => {
@@ -98,11 +99,11 @@ impl BotHandler for NapcatAdapter {
         echo_send_result(&echo, message);
     }
 
-    async fn handle_event(&self, event: String) {
+    async fn handle_event(&self, event: Utf8Bytes) {
         debug!("收到事件: {}", event);
         trace!(?event);
 
-        let data = serde_json::from_str::<Event>(&event);
+        let data = serde_json::from_slice::<Event>(event.as_bytes());
         match data {
             Ok(evt) => {
                 debug!("解析事件成功: {:?}", evt);

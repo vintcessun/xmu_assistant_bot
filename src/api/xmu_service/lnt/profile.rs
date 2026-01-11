@@ -1,4 +1,5 @@
-use crate::api::xmu_service::lnt::get_session_client;
+use crate::{abi::utils::SmartJsonExt, api::xmu_service::lnt::get_session_client};
+use ahash::RandomState;
 use anyhow::Result;
 use dashmap::DashMap;
 use serde::Deserialize;
@@ -63,7 +64,7 @@ pub struct ProfileResponse {
 static PROFILE: LazyLock<ProfileStruct> = LazyLock::new(ProfileStruct::new);
 
 pub struct ProfileStruct {
-    pub profile_data: DashMap<String, Arc<ProfileResponse>>,
+    pub profile_data: DashMap<String, Arc<ProfileResponse>, RandomState>,
 }
 
 impl Default for ProfileStruct {
@@ -75,7 +76,7 @@ impl Default for ProfileStruct {
 impl ProfileStruct {
     pub fn new() -> Self {
         ProfileStruct {
-            profile_data: DashMap::new(),
+            profile_data: DashMap::with_hasher(RandomState::default()),
         }
     }
 
@@ -87,7 +88,7 @@ impl ProfileStruct {
         let client = get_session_client(session);
 
         let res = client.get("https://lnt.xmu.edu.cn/api/profile").await?;
-        let user_info = res.json::<ProfileResponse>().await?;
+        let user_info = res.json_smart::<ProfileResponse>().await?;
         let user_info = Arc::new(user_info);
 
         self.profile_data
