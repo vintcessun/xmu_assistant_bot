@@ -149,6 +149,15 @@ jobs:
             - name: Install macOS target
               run: rustup target add ${{ matrix.target }}
 
+            - name: Install and configure dependencies for native crates
+              # Ensure openssl is installed and configure environment variables for native crates
+              run: |
+                  brew install openssl
+                  OPENSSL_DIR=$(brew --prefix openssl)
+                  echo "OPENSSL_INCLUDE_DIR=$OPENSSL_DIR/include" >> $GITHUB_ENV
+                  echo "OPENSSL_LIB_DIR=$OPENSSL_DIR/lib" >> $GITHUB_ENV
+                  echo "PKG_CONFIG_PATH=$OPENSSL_DIR/lib/pkgconfig" >> $GITHUB_ENV
+
             - name: Build release binary
               run: cargo build --release --target ${{ matrix.target }} --verbose
 
