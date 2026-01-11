@@ -158,6 +158,13 @@ jobs:
                   echo "OPENSSL_LIB_DIR=$OPENSSL_DIR/lib" >> $GITHUB_ENV
                   echo "PKG_CONFIG_PATH=$OPENSSL_DIR/lib/pkgconfig" >> $GITHUB_ENV
 
+            - name: RUSTFLAGS workaround for ring on aarch64-apple-darwin
+              if: matrix.target == 'aarch64-apple-darwin'
+              run: |
+                  # The 'ring' crate can fail when target-cpu=native is implicitly used on Apple Silicon runners.
+                  # Setting a specific target-cpu often fixes the const evaluation failure (E0080).
+                  echo "RUSTFLAGS=-C target-cpu=apple-m1" >> $GITHUB_ENV
+
             - name: Build release binary
               run: cargo build --release --target ${{ matrix.target }} --verbose
 
