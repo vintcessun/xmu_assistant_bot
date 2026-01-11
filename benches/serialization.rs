@@ -1,3 +1,5 @@
+use std::hint::black_box;
+
 use criterion::{Criterion, criterion_group, criterion_main};
 
 use xmu_assistant_bot::abi::message::message_body::MessageReceive;
@@ -43,7 +45,7 @@ fn get_message_receive_object() -> MessageReceive {
 fn bench_serde_json_deserialization(c: &mut Criterion) {
     c.bench_function("json_deserialize_message_receive", |b| {
         b.iter(|| {
-            let _: MessageReceive = serde_json::from_str(COMPLEX_MESSAGE_JSON).unwrap();
+            let _: MessageReceive = serde_json::from_str(black_box(COMPLEX_MESSAGE_JSON)).unwrap();
         })
     });
 }
@@ -52,7 +54,7 @@ fn bench_serde_json_serialization(c: &mut Criterion) {
     let msg_obj = get_message_receive_object();
     c.bench_function("json_serialize_message_receive", |b| {
         b.iter(|| {
-            let _ = serde_json::to_string(&msg_obj).unwrap();
+            let _ = serde_json::to_string(black_box(&msg_obj)).unwrap();
         })
     });
 }
@@ -77,9 +79,13 @@ fn bench_message_get_text(c: &mut Criterion) {
     }"#;
     let msg_single: MessageReceive = serde_json::from_str(SINGLE_TEXT_MESSAGE).unwrap();
 
-    c.bench_function("get_text_array", |b| b.iter(|| msg_array.get_text()));
+    c.bench_function("get_text_array", |b| {
+        b.iter(|| black_box(msg_array.get_text()))
+    });
 
-    c.bench_function("get_text_single", |b| b.iter(|| msg_single.get_text()));
+    c.bench_function("get_text_single", |b| {
+        b.iter(|| black_box(msg_single.get_text()))
+    });
 }
 
 criterion_group!(

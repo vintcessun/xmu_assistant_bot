@@ -152,7 +152,10 @@ jobs:
             - name: Install and configure dependencies for native crates
               # Ensure openssl is installed and configure environment variables for native crates
               run: |
-                  brew install openssl
+                  # Check if openssl is installed before attempting installation to avoid warnings about already being installed.
+                  if ! brew list openssl &>/dev/null; then
+                      brew install openssl
+                  fi
                   OPENSSL_DIR=$(brew --prefix openssl)
                   echo "OPENSSL_INCLUDE_DIR=$OPENSSL_DIR/include" >> $GITHUB_ENV
                   echo "OPENSSL_LIB_DIR=$OPENSSL_DIR/lib" >> $GITHUB_ENV
