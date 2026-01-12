@@ -1,4 +1,7 @@
+use std::ops::Deref;
+
 use serde::{Deserialize, Serialize};
+use tokio_tungstenite::tungstenite::Utf8Bytes;
 
 use crate::abi::message::Sender;
 
@@ -22,7 +25,20 @@ pub trait MessageType {
     fn get_sender(&self) -> Sender;
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug)]
+pub struct EventWithUtf8Bytes {
+    pub event: Event,
+    pub raw_bytes: Utf8Bytes,
+}
+
+impl Deref for EventWithUtf8Bytes {
+    type Target = Event;
+    fn deref(&self) -> &Self::Target {
+        &self.event
+    }
+}
+
+#[derive(Deserialize, Debug)]
 #[serde(tag = "post_type", rename_all = "snake_case")]
 pub enum Event {
     Message(Box<message::Message>),
@@ -40,7 +56,7 @@ pub mod message {
 
     use super::*;
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Deserialize, Debug)]
     #[serde(tag = "message_type", rename_all = "snake_case")]
     pub enum Message {
         Private(Private),
@@ -95,7 +111,7 @@ pub mod message {
         Other,
     }
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Deserialize, Debug)]
     pub struct Private {
         pub time: i64,
         pub self_id: i64,
@@ -123,7 +139,7 @@ pub mod message {
         pub flag: String,
     }
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Deserialize, Debug)]
     pub struct Group {
         pub time: i64,
         pub self_id: i64,
@@ -569,7 +585,7 @@ pub mod message_sent {
 
     use super::*;
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Deserialize, Debug)]
     #[serde(tag = "message_type", rename_all = "snake_case")]
     pub enum MessageSent {
         Group(Group),
@@ -591,7 +607,7 @@ pub mod message_sent {
         String,
     }
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Deserialize, Debug)]
     pub struct Group {
         pub real_seq: Option<i64>,
         pub temp_source: Option<i64>,
@@ -613,7 +629,7 @@ pub mod message_sent {
         pub font: i64,
     }
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Deserialize, Debug)]
     pub struct Private {
         pub real_seq: Option<i64>,
         pub temp_source: Option<i64>,

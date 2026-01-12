@@ -1,4 +1,5 @@
 use crate::abi::echo::Echo;
+use crate::abi::message::ArcWith;
 use crate::abi::message::MessageSend;
 use crate::abi::message::Sender;
 use crate::abi::message::api;
@@ -16,7 +17,7 @@ pub struct Context<
     M: MessageType + fmt::Debug + Send + Sync + 'static,
 > {
     pub client: Arc<T>,
-    pub message: Arc<M>,
+    pub message: ArcWith<M>,
     pub sender: Arc<Sender>,
     pub message_list: Vec<MessageSend>,
     pub message_text: Arc<str>,
@@ -47,7 +48,7 @@ impl<
     M: MessageType + fmt::Debug + Send + Sync + 'static,
 > Context<T, M>
 {
-    pub fn new(client: Arc<T>, message: Arc<M>) -> Self {
+    pub fn new(client: Arc<T>, message: ArcWith<M>) -> Self {
         let target = message.get_target();
         let message_text = message.get_text();
         let sender = message.get_sender();
@@ -104,7 +105,7 @@ impl<
         self.message_list.push(message);
     }
 
-    pub fn get_message(&self) -> Arc<M> {
+    pub fn get_message(&self) -> ArcWith<M> {
         self.message.clone()
     }
 

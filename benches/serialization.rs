@@ -2,7 +2,7 @@ use std::hint::black_box;
 
 use criterion::{Criterion, criterion_group, criterion_main};
 
-use xmu_assistant_bot::abi::message::message_body::MessageReceive;
+use xmu_assistant_bot::abi::message::{MessageSend, message_body::MessageReceive};
 
 // 包含多种类型段落的复杂消息 JSON 字符串
 const COMPLEX_MESSAGE_JSON: &str = r#"[
@@ -38,7 +38,7 @@ const COMPLEX_MESSAGE_JSON: &str = r#"[
     ]"#;
 
 // 辅助函数：反序列化一次以获取用于序列化测试的对象
-fn get_message_receive_object() -> MessageReceive {
+fn get_message_send_object() -> MessageSend {
     serde_json::from_str(COMPLEX_MESSAGE_JSON).expect("Failed to deserialize mock JSON")
 }
 
@@ -51,8 +51,8 @@ fn bench_serde_json_deserialization(c: &mut Criterion) {
 }
 
 fn bench_serde_json_serialization(c: &mut Criterion) {
-    let msg_obj = get_message_receive_object();
-    c.bench_function("json_serialize_message_receive", |b| {
+    let msg_obj = get_message_send_object();
+    c.bench_function("json_serialize_message_send", |b| {
         b.iter(|| {
             let _ = serde_json::to_string(black_box(&msg_obj)).unwrap();
         })

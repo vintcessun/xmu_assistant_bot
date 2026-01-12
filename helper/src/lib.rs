@@ -276,8 +276,9 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
             T: BotClient + BotHandler + std::fmt::Debug + 'static,
             M: MessageType + std::fmt::Debug + Send + Sync + 'static,
         {
-            async fn handle(&self, ctx: Context<T, M>) -> anyhow::Result<()> {
+            async fn handle(&self, ctx: &Context<T, M>) -> anyhow::Result<()> {
                 if #type_filter && #command_filter {
+                    let ctx = ctx.clone();
                     let typed_ctx = unsafe {
                         std::mem::transmute::<Context<T, M>, Context<T, #target_type_ident>>(ctx)
                     };
@@ -306,10 +307,9 @@ pub fn register_handlers(input: TokenStream) -> TokenStream {
     let spawns = handlers.iter().map(|handler| {
         quote! {
             {
-                let ctx = context.clone();
-                async move {
+                async {
                     let handler_instance = #handler;
-                    if let Err(e) = handler_instance.handle(ctx).await {
+                    if let Err(e) = handler_instance.handle(&context).await {
                         tracing::error!("Handler [{}] 运行时错误: {:?}", stringify!(#handler), e);
                     }
                 }
