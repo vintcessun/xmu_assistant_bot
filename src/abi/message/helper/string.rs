@@ -1,3 +1,4 @@
+use genai::chat::MessageContent;
 use serde::{Deserialize, Deserializer};
 use serde_json::value::RawValue;
 use std::fmt::Debug;
@@ -47,6 +48,12 @@ impl From<LazyString> for String {
             // 如果没物化，则进行解析
             serde_json::from_str(lazy.inner.get()).expect("LazyString: Failed to deserialize")
         })
+    }
+}
+
+impl From<LazyString> for MessageContent {
+    fn from(value: LazyString) -> Self {
+        MessageContent::from_text(value.get())
     }
 }
 

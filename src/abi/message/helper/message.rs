@@ -69,13 +69,13 @@ impl MessageSendBuilder {
     }
 
     pub fn image(self, url: file::FileUrl) -> Self {
-        self.add_seg(SegmentSend::Image(image::DataSend {
+        self.add_seg(SegmentSend::Image(box_new!(image::DataSend, {
             file: url,
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
             r#type: None,
-        }))
+        })))
     }
 
     pub fn flash_image_url<S: Into<String>>(self, url: S) -> Self {
@@ -83,13 +83,13 @@ impl MessageSendBuilder {
     }
 
     pub fn flash_image(self, url: file::FileUrl) -> Self {
-        self.add_seg(SegmentSend::Image(image::DataSend {
+        self.add_seg(SegmentSend::Image(box_new!(image::DataSend, {
             file: url,
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
             r#type: Some("flash".to_string()),
-        }))
+        })))
     }
 
     pub fn record_url<S: Into<String>>(self, url: S) -> Self {
@@ -97,13 +97,13 @@ impl MessageSendBuilder {
     }
 
     pub fn record(self, url: file::FileUrl) -> Self {
-        self.add_seg(SegmentSend::Record(box_new!(record::DataSend, {
+        self.add_seg(SegmentSend::Record(record::DataSend {
             file: url,
             magic: Magic::default(),
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
-        })))
+        }))
     }
 
     pub fn record_magic_url<S: Into<String>>(self, url: S) -> Self {
@@ -111,13 +111,13 @@ impl MessageSendBuilder {
     }
 
     pub fn record_magic(self, url: file::FileUrl) -> Self {
-        self.add_seg(SegmentSend::Record(box_new!(record::DataSend, {
+        self.add_seg(SegmentSend::Record(record::DataSend {
             file: url,
             magic: Magic(1),
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
-        })))
+        }))
     }
 
     pub fn video_url<S: Into<String>>(self, url: S) -> Self {
@@ -125,12 +125,12 @@ impl MessageSendBuilder {
     }
 
     pub fn video(self, url: file::FileUrl) -> Self {
-        self.add_seg(SegmentSend::Video(box_new!(video::DataSend, {
+        self.add_seg(SegmentSend::Video(video::DataSend {
             file: url,
             cache: Cache::default(),
             proxy: Proxy::default(),
             timeout: None,
-        })))
+        }))
     }
 
     pub fn at<S: Into<String>>(self, qq: S) -> Self {
@@ -171,18 +171,16 @@ impl MessageSendBuilder {
     }
 
     pub fn contact_friend<S: Into<String>>(self, qq: S) -> Self {
-        self.add_seg(SegmentSend::Contact(box_new!(
-            contact::DataSend,
-            contact::DataSend::Qq(contact::QqSend { id: qq.into() },)
+        self.add_seg(SegmentSend::Contact(contact::DataSend::Qq(
+            contact::QqSend { id: qq.into() },
         )))
     }
 
     pub fn contact_group<S: Into<String>>(self, group_id: S) -> Self {
-        self.add_seg(SegmentSend::Contact(box_new!(
-            contact::DataSend,
-            contact::DataSend::Group(contact::GroupSend {
+        self.add_seg(SegmentSend::Contact(contact::DataSend::Group(
+            contact::GroupSend {
                 id: group_id.into(),
-            },)
+            },
         )))
     }
 
@@ -245,10 +243,9 @@ impl MessageSendBuilder {
     }
 
     pub fn node_id<S: Into<String>>(self, node_id: S) -> Self {
-        self.add_seg(SegmentSend::Node(box_new!(
-            node::DataSend,
-            node::DataSend::Id(node::DataSend1 { id: node_id.into() },)
-        )))
+        self.add_seg(SegmentSend::Node(node::DataSend::Id(node::DataSend1 {
+            id: node_id.into(),
+        })))
     }
 
     pub fn node_content<S1: Into<String>, S2: Into<String>>(
@@ -257,13 +254,12 @@ impl MessageSendBuilder {
         nickname: S2,
         content: MessageSend,
     ) -> Self {
-        self.add_seg(SegmentSend::Node(box_new!(
-            node::DataSend,
-            node::DataSend::Content(node::DataSend2 {
+        self.add_seg(SegmentSend::Node(node::DataSend::Content(
+            node::DataSend2 {
                 user_id: user_id.into(),
                 nickname: nickname.into(),
                 content: box_new!(MessageSend, content),
-            },)
+            },
         )))
     }
 

@@ -14,8 +14,8 @@
 
 | 场景 | 核心指标 | 最新耗时 | 性能变化 |
 |---|---|---|---|
-| 命令命中路由 (`routing_hit_first`) | 核心命令处理前置过滤与路由时长 | `507.21 ns` | 显著优化 |
-| 命令未命中路由 (`routing_miss_all`) | 未匹配消息的过滤与退出时长 | `510.28 ns` | 显著优化 |
+| 命令命中路由 (`routing_hit_first`) | 核心命令处理前置过滤与路由时长 | `497.94 ns` | 显著优化 |
+| 命令未命中路由 (`routing_miss_all`) | 未匹配消息的过滤与退出时长 | `500.71 ns` | 显著优化 |
 | 轻量化 Context 克隆 | 精简 Context 结构的复制开销 | `41.39 ns` | (维持超低) |
 | 并发 Handler 分发 (x10) | 模拟 10 个 Handler 同时并行运行的系统级开销 | `20.10 µs` | (维持超低) |
 
@@ -25,18 +25,18 @@
 
 | 场景 | 核心指标 | 最新耗时 | 性能变化 |
 |---|---|---|---|
-| 冷存储读取命中 (`cold_get_hit`) | 从 Redb 冷存储中读取单个 Key 的耗时 | `11.472 µs` | 改进 |
-| 高并发热存储吞吐 (`hottable_concurrent_read_write_x100`) | 100路并发读写 DashMap 耗时 | `49.290 µs` | 改进 |
-| 冷存储写入 (`cold_insert`) | 写入 Redb 冷存储耗时 | `2.1858 ms` | 改进 |
+| 冷存储读取命中 (`cold_get_hit`) | 从 Redb 冷存储中读取单个 Key 的耗时 | `11.432 µs` | 改进 |
+| 高并发热存储吞吐 (`hottable_concurrent_read_write_x100_90_10`) | 100路并发读写 DashMap 耗时 | `47.067 µs` | 改进 |
+| 冷存储写入 (`cold_insert`) | 写入 Redb 冷存储耗时 | `2.2484 ms` | 改进 |
 
 ### 3. 序列化与协议解析 (Zero-Copy Optimization)
 
 | 场景 | 核心指标 | 最新耗时 | 性能变化 |
 |---|---|---|---|
-| 零拷贝接收反序列化 (`json_deserialize_message_receive`) | 消息体 JSON 反序列化耗时（LazyString） | `1.1546 µs` | 改进 |
-| 消息体序列化 (`json_serialize_message_send`) | 消息体 JSON 序列化耗时 | `357.22 ns` | 改进 |
-| 文本段数组获取 (`get_text_array`) | 文本段数组获取耗时 | `93.236 ns` | 改进 |
-| 定长文本获取 (`get_text_single`) | 优化后定长字符串获取耗时 | `27.283 ns` | 无变化 |
+| 零拷贝接收反序列化 (`json_deserialize_message_receive`) | 消息体 JSON 反序列化耗时（LazyString） | `1.1458 µs` | 改进 |
+| 消息体序列化 (`json_serialize_message_send`) | 消息体 JSON 序列化耗时 | `330.83 ns` | 改进 |
+| 文本段数组获取 (`get_text_array`) | 文本段数组获取耗时 | `91.174 ns` | 改进 |
+| 定长文本获取 (`get_text_single`) | 优化后定长字符串获取耗时 | `24.822 ns` | 无变化 |
 
 ------
 

@@ -34,7 +34,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             qq: p.qq.clone().into(),
         }),
         SegmentReceive::Contact(p) => {
-            let val = match &**p {
+            let val = match p {
                 message_body::contact::DataReceive::Qq(e) => {
                     message_body::contact::DataSend::Qq(message_body::contact::QqSend {
                         id: e.id.clone().into(),
@@ -46,7 +46,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
                     })
                 }
             };
-            SegmentSend::Contact(box_new!(message_body::contact::DataSend, val))
+            SegmentSend::Contact(val)
         }
         SegmentReceive::Dice(p) => SegmentSend::Dice(p.clone()),
         SegmentReceive::Face(p) => {
@@ -55,19 +55,18 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             };
             SegmentSend::Face(val)
         }
-        SegmentReceive::Forward(p) => SegmentSend::Node(box_new!(
-            message_body::node::DataSend,
-            message_body::node::DataSend::Id(message_body::node::DataSend1 {
-                id: p.id.clone().into()
-            })
+        SegmentReceive::Forward(p) => SegmentSend::Node(message_body::node::DataSend::Id(
+            message_body::node::DataSend1 {
+                id: p.id.clone().into(),
+            },
         )),
-        SegmentReceive::Image(p) => SegmentSend::Image(message_body::image::DataSend {
+        SegmentReceive::Image(p) => SegmentSend::Image(box_new!(message_body::image::DataSend, {
             file: file::FileUrl::new(p.url.clone().into()),
             r#type: LazyString::into_opt_string(p.r#type.clone()),
             cache: message_body::Cache::default(),
             proxy: message_body::Proxy::default(),
             timeout: None,
-        }),
+        })),
         SegmentReceive::Json(p) => SegmentSend::Json(message_body::json::DataSend {
             data: p.data.clone().into(),
         }),
@@ -108,27 +107,24 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             };
             SegmentSend::Music(box_new!(message_body::music::DataSend, val))
         }
-        SegmentReceive::Node() => SegmentSend::Node(box_new!(
-            message_body::node::DataSend,
-            message_body::node::DataSend::Content(message_body::node::DataSend2 {
+        SegmentReceive::Node() => SegmentSend::Node(message_body::node::DataSend::Content(
+            message_body::node::DataSend2 {
                 user_id: "".to_string(),
                 nickname: "".to_string(),
-                content: box_new!(MessageSend, MessageSend::Array(Vec::new()))
-            })
+                content: box_new!(MessageSend, MessageSend::Array(Vec::new())),
+            },
         )),
         SegmentReceive::Poke(p) => SegmentSend::Poke(message_body::poke::DataSend {
             r#type: p.r#type.clone().into(),
             id: p.id.clone().into(),
         }),
-        SegmentReceive::Record(p) => {
-            SegmentSend::Record(box_new!(message_body::record::DataSend, {
-                file: file::FileUrl::new(p.url.clone().into()),
-                magic: message_body::Magic::default(),
-                cache: message_body::Cache::default(),
-                proxy: message_body::Proxy::default(),
-                timeout: None,
-            }))
-        }
+        SegmentReceive::Record(p) => SegmentSend::Record(message_body::record::DataSend {
+            file: file::FileUrl::new(p.url.clone().into()),
+            magic: message_body::Magic::default(),
+            cache: message_body::Cache::default(),
+            proxy: message_body::Proxy::default(),
+            timeout: None,
+        }),
         SegmentReceive::Reply(p) => SegmentSend::Reply(message_body::reply::DataSend {
             id: p.id.clone().into(),
         }),
@@ -143,12 +139,12 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
         SegmentReceive::Text(p) => SegmentSend::Text(message_body::text::DataSend {
             text: p.text.clone().into(),
         }),
-        SegmentReceive::Video(p) => SegmentSend::Video(box_new!(message_body::video::DataSend, {
+        SegmentReceive::Video(p) => SegmentSend::Video(message_body::video::DataSend {
             file: file::FileUrl::new(p.url.clone().into()),
             cache: message_body::Cache::default(),
             proxy: message_body::Proxy::default(),
             timeout: None,
-        })),
+        }),
         SegmentReceive::Xml(p) => SegmentSend::Xml(message_body::xml::DataSend {
             data: p.data.clone().into(),
         }),

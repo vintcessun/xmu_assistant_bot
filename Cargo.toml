@@ -60,8 +60,13 @@ mime_guess = "2.0.5"
 futures = "0.3.31"
 uuid = { version = "1.19.0", features = ["v4"] }
 tokio-util = "0.7.18"
-genai = "0.4.4"
+genai = "0.5.0"
 quick-xml = { version = "0.38.4", features = ["serde", "serialize", "tokio"] }
+phf = "0.13.1"
+
+[build-dependencies]
+base64 = "0.22.1"
+phf_codegen = "0.13.1"
 
 [dev-dependencies]
 regex = "1.12.2"

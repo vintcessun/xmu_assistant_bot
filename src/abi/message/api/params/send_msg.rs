@@ -153,8 +153,7 @@ where
                     }
                 },
             );
-            message.push(message_body::SegmentSend::Node(box_new!(
-                message_body::node::DataSend,
+            message.push(message_body::SegmentSend::Node(
                 message_body::node::DataSend::Content(message_body::node::DataSend2 {
                     user_id: format!("{}", sender.user_id.unwrap_or(114514)),
                     nickname: sender
@@ -163,8 +162,8 @@ where
                         .unwrap_or(&"用户指令".to_string())
                         .to_owned(),
                     content: box_new!(MessageSend, msg_add),
-                })
-            )))
+                }),
+            ))
         }
     };
 
@@ -172,14 +171,13 @@ where
     debug!("发送转发消息共{}条", messages.len());
     trace!(?messages);
     for msg in messages {
-        message.push(message_body::SegmentSend::Node(box_new!(
-            message_body::node::DataSend,
+        message.push(message_body::SegmentSend::Node(
             message_body::node::DataSend::Content(message_body::node::DataSend2 {
                 user_id: "1363408373".to_string(),
                 nickname: "指令回复".to_string(),
                 content: box_new!(MessageSend, msg.clone()),
-            })
-        )))
+            }),
+        ))
     }
     message
 }
