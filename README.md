@@ -25,18 +25,18 @@
 
 | 场景 | 核心指标 | 最新耗时 | 性能变化 |
 |---|---|---|---|
-| 冷存储读取命中 (`cold_get_hit`) | 从 Redb 冷存储中读取单个 Key 的耗时 | `11.432 µs` | 改进 |
-| 高并发热存储吞吐 (`hottable_concurrent_read_write_x100_90_10`) | 100路并发读写 DashMap 耗时 | `47.067 µs` | 改进 |
-| 冷存储写入 (`cold_insert`) | 写入 Redb 冷存储耗时 | `2.2484 ms` | 改进 |
+| 冷存储读取命中 (`cold_get_hit`) | 从 Redb 冷存储中读取单个 Key 的耗时 | `11.910 µs` | 轻微退化 (+4%) |
+| 高并发热存储吞吐 (`hottable_concurrent_read_write_x100_90_10`) | 100路并发读写 DashMap 耗时 | `51.941 µs` | 轻微退化 (+10%) |
+| 冷存储写入 (`cold_insert`) | 写入 Redb 冷存储耗时 | `2.2644 ms` | 无变化 |
 
 ### 3. 序列化与协议解析 (Zero-Copy Optimization)
 
 | 场景 | 核心指标 | 最新耗时 | 性能变化 |
 |---|---|---|---|
-| 零拷贝接收反序列化 (`json_deserialize_message_receive`) | 消息体 JSON 反序列化耗时（LazyString） | `1.1458 µs` | 改进 |
-| 消息体序列化 (`json_serialize_message_send`) | 消息体 JSON 序列化耗时 | `330.83 ns` | 改进 |
-| 文本段数组获取 (`get_text_array`) | 文本段数组获取耗时 | `91.174 ns` | 改进 |
-| 定长文本获取 (`get_text_single`) | 优化后定长字符串获取耗时 | `24.822 ns` | 无变化 |
+| 零拷贝接收反序列化 (`json_deserialize_message_receive`) | 消息体 JSON 反序列化耗时（LazyString） | `1.2562 µs` | 轻微退化 (+10%) |
+| 消息体序列化 (`json_serialize_message_send`) | 消息体 JSON 序列化耗时 | `372.11 ns` | 轻微退化 (+12%) |
+| 文本段数组获取 (`get_text_array`) | 文本段数组获取耗时 | `95.196 ns` | 轻微退化 (+4%) |
+| 定长文本获取 (`get_text_single`) | 优化后定长字符串获取耗时 | `26.565 ns` | 轻微退化 (+7%) |
 
 ------
 
@@ -68,13 +68,24 @@
     - **零成本过滤**: 宏在 `handle` 方法中加入前置同步检查 (`type_filter` 和 `command_filter`)，只有当命中指令时，才调用 `tokio::spawn` 启动异步 Handler 协程。**此优化避免了为不匹配消息创建昂贵的 `tokio::spawn` 协程，显著降低了路由开销**，同时**减少了 Context 对象的克隆**。
     - **自动化 Help 文档**: `#[handler(command = "cmd", help_msg = "描述")]` 现在强制要求提供帮助信息。宏会自动实现 `BuildHelp` trait，结合 `register_handler_with_help!` 宏，**实现了编译时自动聚合所有指令的帮助信息，无需手动维护 Help 命令**。
     - **消息传递优化**: 实现了修改传递 `Uft8Bytes` 替代 `String`，以减少序列化开销。
-- **API 框架与客户端抽象**: 针对 OneBot v11 接口进行了彻底的框架重构。使用 `#[api]` 宏配合分离的 `Params` 结构体（`src/abi/message/api/params/`），实现 API 客户端的声明式定义和自动化封装，彻底解耦了不同 API 的实现。
+- **OneBot v11 API 框架与宏简化**:
+    - **宏简化**: `#[api]` 宏提供了更简洁的声明式语法 `#[api("/action", ResponseType)]`，自动化实现 API 参数结构体、动作名称和响应类型绑定。同时，`#[session_client_helper]` 宏进一步简化了业务逻辑层对 `SessionClient` 的调用。
+    - **API 扩展**: 新增对 OneBot V11 的多个核心 API 接入，包括：**获取合并转发消息 (`get_forward_msg`)、获取群信息 (`get_group_info`)、获取群成员信息 (`group_member_info`)、戳一戳 (`send_group_poke`)**，极大地增强了机器人的群管理和消息处理能力。
+    - **消息结构精简**: 严格遵守 OneBot V11 协议标准，对消息结构体进行了精简和修复，移除了协议未提及的冗余字段（如在序列化时跳过内部 `MessageReceive` 字段），确保了消息接收与发送的兼容性和健壮性。
 - **新增特殊头衔 API**: 实现了 `set_group_special_title` 接口的封装，支持在群聊中设置特殊头衔。
 - **核心 Client 抽象**: 核心 API Client 逻辑（如获取 `SessionClient`）已被重构，从宏中剥离出可复用的 `castgc` 和 `session` 模块，大幅减少了重复代码。`logic/helper` 模块的引入，也为一键获取 `SessionClient` 提供了便利。
 - **`#[jw_api]` (教务系统)**: 智能适配教务系统非标准的 JSON 嵌套结构，**现已支持配置 `call_type = "GET"` 或 `"POST"`**，以适应教务系统复杂的接口请求方式。
 - **教务系统新增路径 (JW Schedule)**: 在 `src/api/xmu_service/jw/` 下新增 `schedule` 模块，提供了包括**课表列表、时间、可读格式**等在内的多项教务系统信息获取路径。
 
 ### 4. 异步 I/O 与分层存储架构
+
+- **消息流自动归档**: 实现了消息和通知的自动存储（持久化），作为 LLM 聊天历史的上下文来源。同时，通过调用 OneBot API 实现了**群组和人员身份信息**的自动归档与更新。
+- **消息到 ChatMessage 的高级转换**: 深度集成了 `genai` 库的 `ChatMessage` 格式。实现了复杂的 OneBot 消息段转换，包括：
+    - **多模态支持**: 将图片、语音、视频、Face 表情转换为 LLM 可理解的 `Binary`（URL 或 Base64 嵌入）。
+    - **上下文重建**: 自动处理 `Reply` 和 `Forward` 消息，通过归档系统获取原始消息内容，并注入到当前消息的上下文流中。
+    - **结构化身份注入**: 对于 `@At` 和 `Contact` 消息，查询归档的身份信息（如昵称、群名），并以结构化 XML 格式注入到消息体中，供 LLM 精确识别和使用。
+
+### 5. Lnt API 深度集成
 
 项目实现了 **Hot-Cold-File** 语义化分层存储系统：
 
@@ -84,21 +95,29 @@
 - **RAII 临时文件管理**: 自研 `TempFile` 系统，利用 `Drop` 钩子自动触发异步清理，确保存储空间整洁。
 - **ABI & WebSocket 健壮性**: Handler 异常屏障在显示错误时会显示出错函数，在 WebSocket 生命周期结束时会自动断连。
 
-### 5. Lnt API 深度集成
+### 6. 强大的 LLM 上下文与归档系统
+
+- **消息流自动归档**: 实现了消息和通知的自动存储（持久化），作为 LLM 聊天历史的上下文来源。同时，通过调用 OneBot API 实现了**群组和人员身份信息**的自动归档与更新。
+- **消息到 ChatMessage 的高级转换**: 深度集成了 `genai` 库的 `ChatMessage` 格式。实现了复杂的 OneBot 消息段转换，包括：
+    - **多模态支持**: 将图片、语音、视频、Face 表情转换为 LLM 可理解的 `Binary`（URL 或 Base64 嵌入）。
+    - **上下文重建**: 自动处理 `Reply` 和 `Forward` 消息，通过归档系统获取原始消息内容，并注入到当前消息的上下文流中。
+    - **结构化身份注入**: 对于 `@At` 和 `Contact` 消息，查询归档的身份信息（如昵称、群名），并以结构化 XML 格式注入到消息体中，供 LLM 精确识别和使用。
+
+### 7. Lnt API 深度集成
 
 - **Lnt API 深度集成**: 实现了包括 `activities`、`file_url`、`my_courses`、`profile` 修正等在内的 LNT API 封装，并**新增了考试查询、成绩与试题分发等关键接口**：`distribute` (获取试题)、`exams` (考试列表)、`submissions` (提交记录) 和 `submission_id` (查询答案)。
 
-### 6. LLM 工具驱动
+### 8. LLM 工具驱动
 
 - **`#[derive(LlmPrompt)]`**:
     - **LLM 工具描述生成**: 自动从 Rust 结构体和自定义类型（`tool/type` 下的 `LlmVec`, `LlmOption` 等）中提取信息，生成 LLM 函数调用所需的精确 Schema。该自定义类型系统是为了解决模型返回格式不精确的问题，**实现了实测高准确率的工具化调用**。
 
-### 7. 其他核心优化
+### 9. 其他核心优化
 
 - **编译优化**: 升级了编译优化配置，生成效率更高的二进制文件。
 - **智能 JSON**: 提供了更加智能的 JSON 解析函数，在 Release 模式下等效于原本的快速 JSON 函数，同时提升了开发和报错体验。
 
-### 8. Expose 模块：带上下文的文件暴露
+### 10. Expose 模块：带上下文的文件暴露
 
 - **目标**: 弥补 OneBot v11 等消息平台对大文件/多文件的支持不足。
 - **流式下载与零拷贝**: 基于 `axum` 的 `ReaderStream` 实现从磁盘到浏览器的零拷贝直传。

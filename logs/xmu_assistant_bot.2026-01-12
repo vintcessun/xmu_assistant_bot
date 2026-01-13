@@ -3621,3 +3621,12 @@
 2026-01-12T05:00:44.898567Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Heartbeat(Heartbeat { time: 1768194044, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }))
 2026-01-12T05:00:44.898669Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Heartbeat(Heartbeat { time: 1768194044, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 })
 2026-01-12T05:00:44.898731Z TRACE xmu_assistant_bot::abi::router::handler: 收到心跳事件: Heartbeat { time: 1768194044, self_id: 1363408373, status: Status { online: true, good: true }, interval: 30000 }
+2026-01-12T17:37:05.341360Z  INFO xmu_assistant_bot::abi::websocket: 正在连接到 WebSocket 服务器... 127.0.0.1:3008
+2026-01-12T17:37:05.341518Z DEBUG xmu_assistant_bot::abi::websocket: self.config=ServerConfig { host: "127.0.0.1", port: 3008, access_token: None, reconnect_interval_secs: 10 }
+2026-01-12T17:37:05.346997Z DEBUG xmu_assistant_bot::abi::network::napcat: 收到事件: {"time":1768239425,"self_id":1363408373,"post_type":"meta_event","meta_event_type":"lifecycle","sub_type":"connect"}
+2026-01-12T17:37:05.347141Z TRACE xmu_assistant_bot::abi::network::napcat: event=Utf8Bytes(b"{\"time\":1768239425,\"self_id\":1363408373,\"post_type\":\"meta_event\",\"meta_event_type\":\"lifecycle\",\"sub_type\":\"connect\"}")
+2026-01-12T17:37:05.347288Z DEBUG xmu_assistant_bot::abi::network::napcat: 解析事件成功: MetaEvent(Lifecycle(Lifecycle { time: 1768239425, self_id: 1363408373, sub_type: Connect }))
+2026-01-12T17:37:05.347405Z TRACE xmu_assistant_bot::abi::network::napcat: evt=MetaEvent(Lifecycle(Lifecycle { time: 1768239425, self_id: 1363408373, sub_type: Connect }))
+2026-01-12T17:37:05.349419Z  INFO xmu_assistant_bot::abi::network::napcat: 连接到服务器。
+2026-01-12T17:37:05.350015Z DEBUG xmu_assistant_bot::abi::router::handler: 处理元事件: Lifecycle(Lifecycle { time: 1768239425, self_id: 1363408373, sub_type: Connect })
+2026-01-12T17:37:05.350100Z TRACE xmu_assistant_bot::abi::router::handler: 收到生命周期事件: Lifecycle { time: 1768239425, self_id: 1363408373, sub_type: Connect }

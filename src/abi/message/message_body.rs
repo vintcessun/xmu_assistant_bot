@@ -7,7 +7,7 @@ pub struct CQ {
     pub message: String,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(tag = "type", content = "data", rename_all = "snake_case")]
 pub enum SegmentReceive {
     Text(text::DataReceive),
@@ -18,16 +18,12 @@ pub enum SegmentReceive {
     At(at::DataReceive),
     Rps(rps::Data),
     Dice(dice::Data),
-    Shake(shake::Data),
     Poke(Box<poke::DataReceive>),
-    Anonymous(anonymous::DataReceive),
-    Music(Box<music::DataReceive>),
     Share(Box<share::DataReceive>),
     Contact(contact::DataReceive),
     Location(Box<location::DataReceive>),
     Reply(reply::DataReceive),
     Forward(forward::DataReceive),
-    Node(),
     Xml(xml::DataReceive),
     Json(json::DataReceive),
 }
@@ -51,7 +47,6 @@ pub enum SegmentSend {
     Contact(contact::DataSend),
     Location(Box<location::DataSend>),
     Reply(reply::DataSend),
-    Forward(),
     Node(node::DataSend),
     Xml(xml::DataSend),
     Json(json::DataSend),
@@ -60,7 +55,7 @@ pub enum SegmentSend {
 type ArraySend = Vec<SegmentSend>;
 type ArrayReceive = Vec<SegmentReceive>;
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 pub enum MessageReceive {
     Array(ArrayReceive),
     Single(SegmentReceive),
@@ -259,7 +254,7 @@ pub mod text {
 
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub text: LazyString,
     }
@@ -273,7 +268,7 @@ pub mod text {
 pub mod face {
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub id: LazyString,
     }
@@ -294,7 +289,7 @@ pub mod image {
 
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub file: LazyString,
         pub r#type: Option<LazyString>,
@@ -320,7 +315,7 @@ pub mod record {
 
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub file: LazyString,
         pub magic: Magic,
@@ -344,7 +339,7 @@ pub mod video {
 
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub file: LazyString,
         pub url: LazyString,
@@ -362,7 +357,7 @@ pub mod video {
 pub mod at {
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub qq: LazyString,
     }
@@ -397,7 +392,7 @@ pub mod shake {
 pub mod poke {
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub r#type: LazyString,
         pub id: LazyString,
@@ -414,7 +409,7 @@ pub mod poke {
 pub mod anonymous {
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {}
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -426,7 +421,7 @@ pub mod anonymous {
 pub mod share {
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub url: LazyString,
         pub title: LazyString,
@@ -463,19 +458,19 @@ pub mod contact {
         pub id: String,
     }
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     #[serde(tag = "type", rename_all = "snake_case")]
     pub enum DataReceive {
         Qq(QqReceive),
         Group(GroupReceive),
     }
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct QqReceive {
         pub id: LazyString,
     }
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct GroupReceive {
         pub id: LazyString,
     }
@@ -484,7 +479,7 @@ pub mod contact {
 pub mod location {
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub lat: LazyString,
         pub lon: LazyString,
@@ -526,7 +521,7 @@ pub mod music {
         },
     }
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     #[serde(tag = "type", rename_all = "snake_case")]
     pub enum DataReceive {
         Qq {
@@ -557,7 +552,7 @@ pub mod reply {
         pub id: String,
     }
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub id: LazyString,
     }
@@ -566,7 +561,7 @@ pub mod reply {
 pub mod forward {
     use super::*;
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub id: LazyString,
     }
@@ -603,7 +598,7 @@ pub mod xml {
         pub data: String,
     }
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub data: LazyString,
     }
@@ -617,7 +612,7 @@ pub mod json {
         pub data: String,
     }
 
-    #[derive(Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
         pub data: LazyString,
     }

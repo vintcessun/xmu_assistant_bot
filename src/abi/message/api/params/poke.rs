@@ -3,7 +3,6 @@ use crate::abi::message::api::data;
 use helper::api;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
 #[api("/group_poke", data::PokeResponse)]
 pub struct GroupPoke {
     group_id: i64,
@@ -16,7 +15,6 @@ impl GroupPoke {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
 #[api("/friend_poke", data::PokeResponse)]
 pub struct FriendPoke {
     user_id: i64,

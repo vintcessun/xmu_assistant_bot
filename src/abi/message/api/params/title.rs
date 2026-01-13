@@ -3,7 +3,6 @@ use crate::abi::message::api::data;
 use helper::api;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
 #[api("/set_group_special_title", data::SpecialTitleResponse)]
 pub struct SpecialTitle {
     group_id: i64,

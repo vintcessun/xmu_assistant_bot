@@ -50,6 +50,7 @@ pub fn api(attr: TokenStream, item: TokenStream) -> TokenStream {
     let name = &input.ident;
 
     let expanded = quote! {
+        #[derive(Serialize, Deserialize, Debug)]
         #input
 
         impl Params for #name {

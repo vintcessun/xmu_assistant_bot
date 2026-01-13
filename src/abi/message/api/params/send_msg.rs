@@ -31,7 +31,6 @@ pub struct ApiSend<T: Params + Serialize> {
     pub echo: Echo,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
 #[api("/send_group_msg", data::SendMsgResponse)]
 pub struct SendGroupMessageParams {
     pub group_id: i64,
@@ -44,8 +43,7 @@ impl SendGroupMessageParams {
     }
 }
 
-#[derive(Serialize, Debug)]
-#[api("/send_group_forward_msg", data::ForwardMsgResponse)]
+#[api("/send_group_forward_msg", data::GetForwardMsgResponse)]
 pub struct SendGroupForwardMessageParams {
     pub group_id: i64,
     pub messages: MessageSend,
@@ -70,7 +68,6 @@ impl SendGroupForwardMessageParams {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
 #[api("/send_private_msg", data::SendMsgResponse)]
 pub struct SendPrivateMessageParams {
     pub user_id: i64,
@@ -83,8 +80,7 @@ impl SendPrivateMessageParams {
     }
 }
 
-#[derive(Serialize, Debug)]
-#[api("/send_private_forward_msg", data::ForwardMsgResponse)]
+#[api("/send_private_forward_msg", data::GetForwardMsgResponse)]
 pub struct SendPrivateForwardMessageParams {
     pub user_id: i64,
     pub messages: MessageSend,

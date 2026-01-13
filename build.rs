@@ -38,7 +38,7 @@ fn main() {
     }
 
     let code = format!(
-        "static FACES: phf::Map<&'static str, (&'static str, &'static str, &'static str>> = {};\n",
+        "static FACES: phf::Map<&'static str, (&'static str, &'static str, &'static str)> = {};\n",
         builder.build()
     );
 

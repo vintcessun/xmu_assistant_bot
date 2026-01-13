@@ -77,4 +77,4 @@ opt-level = 3
 lto = "fat"
 codegen-units = 1
 panic = "abort"
-debug = true      # 保留符号信息以便性能分析，不影响运行速度
+debug = true

@@ -3,6 +3,7 @@ use crate::register_handler_with_help;
 mod download;
 mod echo;
 mod helper;
+mod llm;
 mod login;
 
 pub trait BuildHelp {
@@ -16,5 +17,5 @@ register_handler_with_help!(
         login::LogoutHandler,
         download::DownloadHandler,
     ],
-    other = []
+    other = [llm::LlmMessageHandler, llm::LlmNoticeHandler,]
 );

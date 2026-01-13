@@ -27,9 +27,6 @@ pub fn from_str<S: Into<String>>(s: S) -> MessageSend {
 
 fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
     match seq {
-        SegmentReceive::Anonymous(_) => {
-            SegmentSend::Anonymous(message_body::anonymous::DataSend { ignore: None })
-        }
         SegmentReceive::At(p) => SegmentSend::At(message_body::at::DataSend {
             qq: p.qq.clone().into(),
         }),
@@ -78,42 +75,6 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
                 content: Some(p.content.clone().into()),
             }))
         }
-        SegmentReceive::Music(p) => {
-            let val = match &&**p {
-                message_body::music::DataReceive::Custom {
-                    url,
-                    audio,
-                    title,
-                    content,
-                    image,
-                } => message_body::music::DataSend::Custom {
-                    url: url.clone().into(),
-                    audio: audio.clone().into(),
-                    title: title.clone().into(),
-                    content: LazyString::into_opt_string(content.clone()),
-                    image: LazyString::into_opt_string(image.clone()),
-                },
-                message_body::music::DataReceive::NetEase163 { id } => {
-                    message_body::music::DataSend::NetEase163 {
-                        id: id.clone().into(),
-                    }
-                }
-                message_body::music::DataReceive::Qq { id } => message_body::music::DataSend::Qq {
-                    id: id.clone().into(),
-                },
-                message_body::music::DataReceive::Xm { id } => message_body::music::DataSend::Xm {
-                    id: id.clone().into(),
-                },
-            };
-            SegmentSend::Music(box_new!(message_body::music::DataSend, val))
-        }
-        SegmentReceive::Node() => SegmentSend::Node(message_body::node::DataSend::Content(
-            message_body::node::DataSend2 {
-                user_id: "".to_string(),
-                nickname: "".to_string(),
-                content: box_new!(MessageSend, MessageSend::Array(Vec::new())),
-            },
-        )),
         SegmentReceive::Poke(p) => SegmentSend::Poke(message_body::poke::DataSend {
             r#type: p.r#type.clone().into(),
             id: p.id.clone().into(),
@@ -129,7 +90,6 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             id: p.id.clone().into(),
         }),
         SegmentReceive::Rps(p) => SegmentSend::Rps(p.clone()),
-        SegmentReceive::Shake(p) => SegmentSend::Shake(p.clone()),
         SegmentReceive::Share(p) => SegmentSend::Share(box_new!(message_body::share::DataSend, {
             url: p.url.clone().into(),
             title: p.title.clone().into(),

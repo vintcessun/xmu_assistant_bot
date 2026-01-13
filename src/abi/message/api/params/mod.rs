@@ -1,7 +1,11 @@
+mod get_group_info;
+mod group_member_info;
 mod poke;
 mod send_msg;
 mod title;
 
+pub use get_group_info::*;
+pub use group_member_info::*;
 pub use poke::*;
 pub use send_msg::*;
 pub use title::*;

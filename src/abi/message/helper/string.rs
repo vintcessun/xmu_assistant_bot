@@ -1,5 +1,5 @@
 use genai::chat::MessageContent;
-use serde::{Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::value::RawValue;
 use std::fmt::Debug;
 use std::ops::Deref;
@@ -58,6 +58,13 @@ impl From<LazyString> for MessageContent {
 }
 
 impl LazyString {
+    pub fn into_string(self) -> String {
+        let ret: String = self.into();
+        ret
+    }
+}
+
+impl LazyString {
     /// 专门为 Option 转换准备的快捷方法
     pub fn into_opt_string(lazy: Option<Self>) -> Option<String> {
         lazy.map(String::from)
@@ -104,5 +111,16 @@ impl<'de> Deserialize<'de> for LazyString {
             inner,
             cache: OnceLock::new(),
         })
+    }
+}
+
+impl Serialize for LazyString {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        // 1. 调用 get() 确保 OnceLock 已初始化并完成 JSON 转义处理
+        // 2. 直接序列化内部的 &str，这样在 JSON 中它就是一个正常的 String
+        serializer.serialize_str(self.get())
     }
 }

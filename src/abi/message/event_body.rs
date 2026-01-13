@@ -111,13 +111,15 @@ pub mod message {
         Other,
     }
 
-    #[derive(Deserialize, Debug)]
+    #[derive(Serialize, Deserialize, Debug)]
     pub struct Private {
         pub time: i64,
         pub self_id: i64,
         pub sub_type: SubTypePrivate,
         pub message_id: i32,
         pub user_id: i64,
+        /// 此字段已被 `serde` 忽略。
+        #[serde(skip_serializing)]
         pub message: MessageReceive,
         pub raw_message: String,
         pub font: i32,
@@ -139,7 +141,7 @@ pub mod message {
         pub flag: String,
     }
 
-    #[derive(Deserialize, Debug)]
+    #[derive(Serialize, Deserialize, Debug)]
     pub struct Group {
         pub time: i64,
         pub self_id: i64,
@@ -148,6 +150,8 @@ pub mod message {
         pub group_id: i64,
         pub user_id: i64,
         pub anonymous: Option<Anonymous>,
+        /// 此字段已被 `serde` 忽略。
+        #[serde(skip_serializing)]
         pub message: MessageReceive,
         pub raw_message: String,
         pub font: i32,
