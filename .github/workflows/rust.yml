@@ -27,7 +27,9 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Prepare LLM tool config
-              run: cp src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
+              run: |
+                  cp src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
+                  cp src/api/llm/chat/config-template.rs src/api/llm/chat/config.rs
 
             - name: Set up Rust
               uses: dtolnay/rust-toolchain@stable
@@ -85,7 +87,9 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Prepare LLM tool config
-              run: Copy-Item src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
+              run: |
+                  Copy-Item src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
+                  Copy-Item src/api/llm/chat/config-template.rs src/api/llm/chat/config.rs
 
             - name: Set up Rust
               uses: dtolnay/rust-toolchain@stable
@@ -138,7 +142,9 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Prepare LLM tool config
-              run: cp src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
+              run: |
+                  cp src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
+                  cp src/api/llm/chat/config-template.rs src/api/llm/chat/config.rs
 
             - name: Set up Rust
               uses: dtolnay/rust-toolchain@stable
