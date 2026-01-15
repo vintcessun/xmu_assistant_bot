@@ -17,6 +17,7 @@ use std::{
 };
 use tokio::{io::AsyncReadExt, sync::watch};
 use tracing::error;
+use url::Url;
 
 pub static DATA_DIR: LazyLock<&'static str> = LazyLock::new(|| {
     let path = concatcp!(BASE_DATA_DIR, "/", BASE);
@@ -217,5 +218,15 @@ impl File {
         self.freeze();
 
         Ok(())
+    }
+}
+
+impl File {
+    pub async fn get_url(&self) -> String {
+        let absolute_path = std::fs::canonicalize(&self.path).unwrap_or_else(|_| self.path.clone());
+
+        Url::from_file_path(absolute_path)
+            .map(|url| url.into())
+            .unwrap_or_default()
     }
 }

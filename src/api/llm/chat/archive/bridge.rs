@@ -6,12 +6,17 @@ use crate::{
             message_body::{SegmentReceive, contact},
         },
     },
-    api::llm::chat::archive::{
-        identity::{IdentityGroup, IdentityPerson},
-        message_storage::MessageStorage,
+    api::llm::chat::{
+        archive::{
+            file::embedding_llm_file,
+            identity::{IdentityGroup, IdentityPerson},
+            message_storage::MessageStorage,
+        },
+        file::LlmFile,
     },
 };
 use genai::chat::{Binary, ChatMessage, ContentPart, MessageContent};
+use tracing::trace;
 
 include!(concat!(env!("OUT_DIR"), "/face_data.rs"));
 
@@ -19,11 +24,28 @@ pub fn get_gif_from_exe(id: &str) -> Option<(&'static str, &'static str, &'stati
     FACES.get(id).copied()
 }
 
+pub fn get_face_reference_message() -> ChatMessage {
+    let mut parts = vec![ContentPart::Text(
+        "以下是你可以使用的表情参考图：".to_string(),
+    )];
+
+    for (ct, content, name) in FACES.values() {
+        parts.push(ContentPart::Text(format!("\n表情名: {}\n", name)));
+        parts.push(ContentPart::Binary(Binary::from_base64(
+            *ct,
+            *content,
+            Some(name.to_string()),
+        )));
+    }
+
+    ChatMessage::system(parts) // 作为系统上下文发送
+}
+
 async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
     match segment {
-        SegmentReceive::Text(e) => ChatMessage::user(e.text.get()),
+        SegmentReceive::Text(e) => ChatMessage::user(e.text.clone()),
         SegmentReceive::Face(e) => {
-            let id = e.id.get();
+            let id = &e.id;
             let gif_data = get_gif_from_exe(id);
             match gif_data {
                 Some(data) => {
@@ -43,28 +65,29 @@ async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
         }
         SegmentReceive::Image(e) => {
             let content_type = match &e.r#type {
-                Some(t) => t.get(),
+                Some(t) => t,
                 None => "image/jpeg",
             };
-            let url = e.url.get();
+            let url = &e.url;
+            let name = e.file.clone();
             ChatMessage::user(ContentPart::Binary(Binary::from_url(
                 content_type,
                 url,
-                Some(e.file.get().to_string()),
+                Some(name),
             )))
         }
         SegmentReceive::Record(e) => ChatMessage::user(ContentPart::Binary(Binary::from_url(
             "audio/amr",
-            e.url.get(),
-            Some(e.file.get().to_string()),
+            &e.url,
+            Some(e.file.clone()),
         ))),
         SegmentReceive::Video(e) => ChatMessage::user(ContentPart::Binary(Binary::from_url(
             "video/mp4",
-            e.url.get(),
-            Some(e.file.get().to_string()),
+            &e.url,
+            Some(e.file.clone()),
         ))),
         SegmentReceive::At(e) => {
-            let user_id = e.qq.get();
+            let user_id = &e.qq;
             let qq_i64 = user_id.parse::<i64>().unwrap_or(0);
             let identity = IdentityPerson::get(qq_i64).await;
             let identity_data = match identity {
@@ -76,9 +99,9 @@ async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
         SegmentReceive::Rps(_) => ChatMessage::user("[RPS 猜拳魔法表情]"),
         SegmentReceive::Dice(_) => ChatMessage::user("[Dice 掷骰子魔法表情]"),
         SegmentReceive::Poke(e) => {
-            let type_id = e.r#type.get();
-            let id = e.id.get();
-            let name = e.name.get();
+            let type_id = &e.r#type;
+            let id = &e.id;
+            let name = &e.name;
 
             ChatMessage::user(format!(
                 "[戳一戳消息, ID: ({},{}), 名称: {}]",
@@ -89,21 +112,19 @@ async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
             let content = vec![
                 ContentPart::Text(format!(
                     "[分享链接 标题: {} 链接: {} 内容: {}]",
-                    e.title.get(),
-                    e.url.get(),
-                    e.content.get()
+                    e.title, e.url, e.content,
                 )),
                 ContentPart::Binary(Binary::from_url(
                     "image/jpeg",
-                    e.image.get(),
-                    Some(e.title.get().to_string()),
+                    &e.image,
+                    Some(e.title.clone()),
                 )),
             ];
             ChatMessage::user(content)
         }
         SegmentReceive::Contact(e) => match e {
             contact::DataReceive::Group(g) => {
-                let group_id = g.id.get();
+                let group_id = &g.id;
                 let group_i64 = group_id.parse::<i64>().unwrap_or(0);
                 let identity = IdentityGroup::get(group_i64);
                 let identity_data = match identity.await {
@@ -118,7 +139,7 @@ async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
                 ))
             }
             contact::DataReceive::Qq(q) => {
-                let qq = q.id.get();
+                let qq = &q.id;
                 let qq_i64 = qq.parse::<i64>().unwrap_or(0);
                 let identity = IdentityPerson::get(qq_i64);
                 let identity_data = match identity.await {
@@ -132,15 +153,12 @@ async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
         },
         SegmentReceive::Location(e) => ChatMessage::user(format!(
             "[位置 {} 内容: {} 经度: {} 纬度: {}]",
-            e.title.get(),
-            e.content.get(),
-            e.lon.get(),
-            e.lat.get(),
+            e.title, e.content, e.lon, e.lat,
         )),
         SegmentReceive::Reply(e) => {
-            let msg_id = e.id.get();
+            let msg_id = e.id.clone();
             let content = vec![ContentPart::Text(format!("[回复消息 ID: {}]", msg_id))];
-            let msg_content = match MessageStorage::get(msg_id.to_string()).await {
+            let msg_content = match MessageStorage::get(msg_id).await {
                 Some(c) => {
                     let mut content = MessageContent::from(content);
                     content.extend(c.content);
@@ -151,10 +169,10 @@ async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
             ChatMessage::user(msg_content)
         }
         SegmentReceive::Forward(e) => {
-            let id = e.id.get();
+            let id = e.id.clone();
             let content = vec![ContentPart::Text(format!("[转发消息 id: {id}]"))];
 
-            let msg = MessageStorage::get(id.to_string()).await;
+            let msg = MessageStorage::get(id).await;
 
             let msg_content = match msg {
                 Some(e) => {
@@ -166,8 +184,17 @@ async fn llm_msg_from_segment_receive(segment: &SegmentReceive) -> ChatMessage {
             };
             ChatMessage::user(msg_content)
         }
-        SegmentReceive::Xml(e) => ChatMessage::user(format!("[XML消息 {}]", e.data.get())),
-        SegmentReceive::Json(e) => ChatMessage::user(format!("[JSON消息 {}]", e.data.get())),
+        SegmentReceive::Xml(e) => ChatMessage::user(format!("[XML消息 {}]", e.data)),
+        SegmentReceive::Json(e) => ChatMessage::user(format!("[JSON消息 {}]", e.data)),
+        SegmentReceive::File(e) => {
+            let url = &e.url;
+            let name = "file".to_string();
+            ChatMessage::user(ContentPart::Binary(Binary::from_url(
+                "application/octet-stream",
+                url,
+                Some(name),
+            )))
+        }
     }
 }
 
@@ -187,6 +214,7 @@ pub async fn llm_msg_from_message_receive(message: &MessageReceive) -> Vec<ChatM
 }
 
 pub async fn llm_msg_from_message(message: &Message) -> Vec<ChatMessage> {
+    archive_message_files(message).await;
     match message {
         Message::Private(p) => {
             let data = quick_xml::se::to_string(&p).unwrap_or("未知消息".to_string());
@@ -205,4 +233,55 @@ pub async fn llm_msg_from_message(message: &Message) -> Vec<ChatMessage> {
 
 pub async fn llm_msg_from_notice(notice: &Notice) -> ChatMessage {
     ChatMessage::user(quick_xml::se::to_string(notice).unwrap_or("未知提示".to_string()))
+}
+
+pub async fn archive_message_files(message: &Message) {
+    let segments = match message {
+        Message::Private(p) => &p.message,
+        Message::Group(g) => &g.message,
+    };
+
+    let segments = match segments {
+        MessageReceive::Array(e) => e.iter().collect::<Vec<&SegmentReceive>>(),
+        MessageReceive::Single(e) => vec![e],
+    };
+
+    for segment in segments {
+        match segment {
+            SegmentReceive::Image(e) => {
+                let url = &e.url;
+                let name = e.file.clone();
+                let file = LlmFile::from_url(url, name).await;
+                match file {
+                    Ok(e) => embedding_llm_file(e).await,
+                    Err(e) => {
+                        trace!("下载图片文件失败，错误信息: {}", e);
+                    }
+                }
+            }
+            SegmentReceive::Record(e) => {
+                let url = &e.url;
+                let name = e.file.clone();
+                let file = LlmFile::from_url(url, name).await;
+                match file {
+                    Ok(e) => embedding_llm_file(e).await,
+                    Err(e) => {
+                        trace!("下载录音文件失败，错误信息: {}", e);
+                    }
+                }
+            }
+            SegmentReceive::Video(e) => {
+                let url = &e.url;
+                let name = e.file.clone();
+                let file = LlmFile::from_url(url, name).await;
+                match file {
+                    Ok(e) => embedding_llm_file(e).await,
+                    Err(e) => {
+                        trace!("下载视频文件失败，错误信息: {}", e);
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
 }

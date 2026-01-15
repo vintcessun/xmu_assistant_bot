@@ -1,7 +1,14 @@
 use super::super::MessageSend;
 use super::super::message_body::*;
 use crate::abi::message::file;
+use crate::abi::message::message_body;
 use crate::box_new;
+
+impl MessageSend {
+    pub fn new_message() -> MessageSendBuilder {
+        MessageSendBuilder::new()
+    }
+}
 
 pub struct MessageSendBuilder {
     segments: Vec<SegmentSend>,
@@ -270,10 +277,10 @@ impl MessageSendBuilder {
     pub fn json<S: Into<String>>(self, data: S) -> Self {
         self.add_seg(SegmentSend::Json(json::DataSend { data: data.into() }))
     }
-}
 
-impl MessageSend {
-    pub fn new_message() -> MessageSendBuilder {
-        MessageSendBuilder::new()
+    pub fn file<S: Into<String>>(self, data: S) -> Self {
+        self.add_seg(SegmentSend::File(message_body::file::DataSend {
+            file: data.into(),
+        }))
     }
 }

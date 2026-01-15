@@ -1,5 +1,5 @@
 use crate::api::{
-    llm::tool::{LlmOption, LlmPrompt, ask_as},
+    llm::tool::{LlmI64, LlmOption, LlmPrompt, ask_as},
     network::SessionClient,
     xmu_service::lnt::{MyCourses, RecentlyVisitedCourses},
 };
@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, LlmPrompt, Serialize, Deserialize)]
 pub struct CourseChoiceResponse {
     #[prompt("如果找到符合要求的课程就返回课程ID; 如果没找到指定的课程就是 null")]
-    pub course_id: LlmOption<i64>,
+    pub course_id: LlmOption<LlmI64>,
 }
 
 pub struct ChooseCourse;
@@ -55,7 +55,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_exist() -> Result<()> {
-        let castgc = "TGT-4061665-iYw4XFUEPxTAzaIv9bV1BxLDlyVinY--fJ8WWqKz4rRcaVGWes-2h5RfNN4QRu54Ticnull_main";
+        let castgc = "TGT-2531390-mxqQ9-BtOM8LxgojrfyoyhQUHAocCgolFFBSdT6nuxq62GVndQ7ULC1G-pK7tECBfoAnull_main";
         let course_name = "离散数学";
         let session = castgc_get_session(castgc).await?;
         let data = ChooseCourse::get(&session, course_name).await?;
@@ -65,7 +65,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_no() -> Result<()> {
-        let castgc = "TGT-4061665-iYw4XFUEPxTAzaIv9bV1BxLDlyVinY--fJ8WWqKz4rRcaVGWes-2h5RfNN4QRu54Ticnull_main";
+        let castgc = "TGT-2531390-mxqQ9-BtOM8LxgojrfyoyhQUHAocCgolFFBSdT6nuxq62GVndQ7ULC1G-pK7tECBfoAnull_main";
         let course_name = "生理医学";
         let session = castgc_get_session(castgc).await?;
         let data = ChooseCourse::get(&session, course_name).await?;

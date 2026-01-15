@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::api::{
-    llm::tool::{LlmBool, LlmPrompt, LlmVec, ask_as},
+    llm::tool::{LlmBool, LlmI64, LlmOption, LlmPrompt, LlmVec, ask_as},
     network::SessionClient,
     xmu_service::lnt::Activities,
 };
@@ -12,10 +12,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, LlmPrompt, Serialize, Deserialize)]
 pub struct FilesChoiceResponseLlm {
-    #[prompt("如果目的是选择所有的内容则设置为 true，否则为 false")]
+    #[prompt("如果目的是选择所有的内容或者没有特定指定范围则设置为 true，否则为 false")]
     pub all: LlmBool,
     #[prompt("请注意这里对应的是提供的内容的reference_id字段")]
-    pub files: Option<LlmVec<i64>>,
+    pub files: LlmOption<LlmVec<LlmI64>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -85,11 +85,12 @@ impl ChooseFiles {
                 .collect();
             Ok(FilesChoiceResponse { files })
         } else {
-            match response.files {
+            match &*response.files {
                 Some(files) => Ok(FilesChoiceResponse {
                     files: files
                         .into_iter()
                         .map(|reference_id| {
+                            let reference_id = **reference_id;
                             let name = activities_map
                                 .get(&reference_id)
                                 .cloned()
@@ -113,7 +114,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_all() -> Result<()> {
-        let castgc = "TGT-2426467-od3VnqIhNJ4M3bYxjc3CiNphBDX4GUd4PHwRvfLzAx8DZMrSNJVM4LncfE3qrkhqYAknull_main";
+        let castgc = "TGT-2531390-mxqQ9-BtOM8LxgojrfyoyhQUHAocCgolFFBSdT6nuxq62GVndQ7ULC1G-pK7tECBfoAnull_main";
         let course_name = "离散数学";
         let session = castgc_get_session(castgc).await?;
         let data = ChooseFiles::get(&session, course_name, 71211).await?;
@@ -123,7 +124,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_part() -> Result<()> {
-        let castgc = "TGT-2426467-od3VnqIhNJ4M3bYxjc3CiNphBDX4GUd4PHwRvfLzAx8DZMrSNJVM4LncfE3qrkhqYAknull_main";
+        let castgc = "TGT-2531390-mxqQ9-BtOM8LxgojrfyoyhQUHAocCgolFFBSdT6nuxq62GVndQ7ULC1G-pK7tECBfoAnull_main";
         let course_name = "离散数学命题逻辑课件";
         let session = castgc_get_session(castgc).await?;
         let data = ChooseFiles::get(&session, course_name, 71211).await?;

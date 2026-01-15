@@ -1,9 +1,12 @@
 use serde::{Deserialize, Deserializer, Serialize};
 use std::fmt::Debug;
 use std::ops::{Deref, DerefMut};
-use std::str::FromStr;
+use std::sync::OnceLock;
+
+use crate::api::llm::tool::LlmPrompt;
 
 #[derive(Debug, Clone, Serialize, Default, PartialEq, Eq)]
+#[serde(transparent)]
 pub struct LlmVec<T>(pub Vec<T>);
 
 impl<T> Deref for LlmVec<T> {
@@ -51,36 +54,52 @@ impl<T> IntoIterator for LlmVec<T> {
 
 impl<'de, T> Deserialize<'de> for LlmVec<T>
 where
-    T: Deserialize<'de> + FromStr + Debug,
-    <T as FromStr>::Err: Debug,
+    T: Deserialize<'de> + Debug,
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
+        // 1. 定义一个代理结构体
         #[derive(Deserialize)]
+        // 关键：拒绝未知字段。这样 <file> 标签就会触发报错
+        #[serde(deny_unknown_fields)]
         struct XmlSeq<T> {
-            #[serde(rename = "item")]
+            // 关键：rename 捕获子标签
+            #[serde(rename = "item", default = "Vec::new")]
             items: Vec<T>,
         }
 
-        #[derive(Deserialize)]
-        #[serde(untagged)]
-        enum Helper<T> {
-            Full(XmlSeq<T>),
-            Empty(serde::de::IgnoredAny),
+        // 2. 直接解析，不再使用 untagged enum
+        // quick-xml 会自动处理单/多标签
+        match XmlSeq::<T>::deserialize(deserializer) {
+            Ok(wrapper) => Ok(LlmVec(wrapper.items)),
+            Err(e) => {
+                // 如果解析失败，说明不是 item 标签，也不是空
+                Err(serde::de::Error::custom(format!(
+                    "【XML 结构非法】必须是 <item> 序列。详情: {}",
+                    e
+                )))
+            }
         }
+    }
+}
 
-        let result = Helper::<T>::deserialize(deserializer);
-
-        match result {
-            Ok(Helper::Full(wrapper)) => Ok(LlmVec(wrapper.items)),
-            Ok(Helper::Empty(_)) => Ok(LlmVec(Vec::new())), // 识别为空列表
-            Err(e) => Err(serde::de::Error::custom(format!(
-                "【XML 结构非法】既不是有效的 <item> 序列，也不是合法的空列表。详情: {}",
-                e
-            ))),
-        }
+impl<T: LlmPrompt> LlmPrompt for LlmVec<T> {
+    fn get_prompt_schema() -> &'static str {
+        let sub_schema = T::get_prompt_schema();
+        static SCHEMA_CACHE: OnceLock<String> = OnceLock::new();
+        SCHEMA_CACHE.get_or_init(|| {
+            format!(
+                "一个由零个或多个元素组成的列表，每个元素的格式为: <item>{}</item>",
+                sub_schema
+            )
+        })
+    }
+    fn root_name() -> &'static str {
+        let sub_root_name = T::root_name();
+        static SCHEMA_CACHE: OnceLock<String> = OnceLock::new();
+        SCHEMA_CACHE.get_or_init(|| format!("Vec<{}>", sub_root_name))
     }
 }
 
@@ -111,7 +130,7 @@ mod tests {
   </FilesChoiceResponseLlm>"#;
 
     use super::*;
-    use crate::api::llm::tool::{LlmBool, LlmPrompt, LlmVec};
+    use crate::api::llm::tool::{LlmBool, LlmI64, LlmOption, LlmPrompt, LlmVec};
     use helper::LlmPrompt;
     use quick_xml::de::from_str;
     use serde::{Deserialize, Serialize};
@@ -121,7 +140,7 @@ mod tests {
         #[prompt("如果目的是选择所有的内容则设置为 true，否则为 false")]
         pub all: LlmBool,
         #[prompt("请注意这里对应的是提供的内容的reference_id字段")]
-        pub files: LlmVec<i64>,
+        pub files: LlmOption<LlmVec<LlmI64>>,
     }
 
     #[test]

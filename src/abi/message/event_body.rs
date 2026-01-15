@@ -1,9 +1,5 @@
-use std::ops::Deref;
-
-use serde::{Deserialize, Serialize};
-use tokio_tungstenite::tungstenite::Utf8Bytes;
-
 use crate::abi::message::Sender;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Target {
@@ -23,19 +19,6 @@ pub trait MessageType {
     fn get_type(&self) -> Type;
     fn get_text(&self) -> String;
     fn get_sender(&self) -> Sender;
-}
-
-#[derive(Debug)]
-pub struct EventWithUtf8Bytes {
-    pub event: Event,
-    pub raw_bytes: Utf8Bytes,
-}
-
-impl Deref for EventWithUtf8Bytes {
-    type Target = Event;
-    fn deref(&self) -> &Self::Target {
-        &self.event
-    }
 }
 
 #[derive(Deserialize, Debug)]

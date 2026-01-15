@@ -1,11 +1,7 @@
 use crate::{
     abi::{
-        logic_import::{Notice, Request},
         message::{
-            ArcWith, Event, MessageType,
-            event_body::{EventWithUtf8Bytes, message_sent::MessageSent},
-            event_message::Message,
-            event_meta::MetaEvent,
+            Event, MessageType, event_body::message_sent::MessageSent, event_meta::MetaEvent,
         },
         network::BotClient,
         router::context::Context,
@@ -33,10 +29,7 @@ pub trait Router<T>
 where
     T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
 {
-    fn new(
-        subscribe: mpsc::UnboundedReceiver<EventWithUtf8Bytes>,
-        client: BotWebsocketClient<T>,
-    ) -> Self;
+    fn new(subscribe: mpsc::UnboundedReceiver<Event>, client: BotWebsocketClient<T>) -> Self;
     fn get_client(&self) -> Arc<T>;
     async fn run(&mut self) -> ();
 }
@@ -46,7 +39,7 @@ where
     T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
     R: Router<T>,
 {
-    fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: ArcWith<M>);
+    fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: Arc<M>);
 }
 
 impl<T, R> SpawnContext<T, R> for R
@@ -54,7 +47,7 @@ where
     T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
     R: Router<T>,
 {
-    fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: ArcWith<M>) {
+    fn spawn_context<M: MessageType + fmt::Debug + Send + Sync + 'static>(&self, msg: Arc<M>) {
         let client_arc = self.get_client();
         let context = Context::new(client_arc, msg);
 
@@ -63,16 +56,13 @@ where
 }
 
 pub struct NapcatRouter<T: BotHandler> {
-    subscribe: mpsc::UnboundedReceiver<EventWithUtf8Bytes>,
+    subscribe: mpsc::UnboundedReceiver<Event>,
     client: BotWebsocketClient<T>,
 }
 
 #[async_trait]
 impl<T: BotHandler + BotClient + fmt::Debug> Router<T> for NapcatRouter<T> {
-    fn new(
-        subscribe: mpsc::UnboundedReceiver<EventWithUtf8Bytes>,
-        client: BotWebsocketClient<T>,
-    ) -> Self {
+    fn new(subscribe: mpsc::UnboundedReceiver<Event>, client: BotWebsocketClient<T>) -> Self {
         NapcatRouter { subscribe, client }
     }
 
@@ -82,24 +72,20 @@ impl<T: BotHandler + BotClient + fmt::Debug> Router<T> for NapcatRouter<T> {
 
     async fn run(&mut self) {
         while let Some(event) = self.subscribe.recv().await {
-            let EventWithUtf8Bytes {
-                event,
-                raw_bytes: data,
-            } = event;
             match event {
                 Event::Message(msg) => {
                     debug!("处理消息事件: {:?}", msg);
-                    let ctx_data = ArcWith::<Message>::new(*msg, data.clone());
+                    let ctx_data = Arc::new(*msg);
                     self.spawn_context(ctx_data);
                 }
                 Event::Notice(notice) => {
                     debug!("处理通知事件: {:?}", notice);
-                    let ctx_data = ArcWith::<Notice>::new(notice, data.clone());
+                    let ctx_data = Arc::new(notice);
                     self.spawn_context(ctx_data);
                 }
                 Event::Request(req) => {
                     debug!("处理请求事件: {:?}", req);
-                    let ctx_data = ArcWith::<Request>::new(req, data.clone());
+                    let ctx_data = Arc::new(req);
                     self.spawn_context(ctx_data);
                 }
                 Event::MetaEvent(meta) => {

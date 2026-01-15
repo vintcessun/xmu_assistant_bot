@@ -1,4 +1,5 @@
 pub mod bridge;
+pub mod file;
 pub mod identity;
 mod main;
 pub mod message_storage;

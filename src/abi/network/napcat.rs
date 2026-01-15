@@ -8,7 +8,7 @@ use tracing::{debug, error, info, trace};
 
 use crate::abi::{
     echo::{Echo, echo_send_result},
-    message::{Event, Params, api, event_body::EventWithUtf8Bytes},
+    message::{Event, Params, api},
     network::BotClient,
     websocket::BotHandler,
 };
@@ -17,12 +17,12 @@ use crate::abi::{
 pub struct NapcatAdapter {
     event_sender: OnceCell<mpsc::UnboundedSender<String>>,
     api_sender: OnceCell<mpsc::UnboundedSender<String>>,
-    handler: mpsc::UnboundedSender<EventWithUtf8Bytes>,
+    handler: mpsc::UnboundedSender<Event>,
 }
 
 impl NapcatAdapter {
-    pub fn new() -> (Self, mpsc::UnboundedReceiver<EventWithUtf8Bytes>) {
-        let (tx, rx) = mpsc::unbounded_channel::<EventWithUtf8Bytes>();
+    pub fn new() -> (Self, mpsc::UnboundedReceiver<Event>) {
+        let (tx, rx) = mpsc::unbounded_channel::<Event>();
         (
             NapcatAdapter {
                 event_sender: OnceCell::new(),
@@ -110,12 +110,7 @@ impl BotHandler for NapcatAdapter {
                 debug!("解析事件成功: {:?}", evt);
                 trace!(?evt);
 
-                let data_owner = EventWithUtf8Bytes {
-                    event: evt,
-                    raw_bytes: event,
-                };
-
-                if let Err(e) = self.handler.send(data_owner) {
+                if let Err(e) = self.handler.send(evt) {
                     error!("分发事件失败: {:?}", e);
                 }
             }

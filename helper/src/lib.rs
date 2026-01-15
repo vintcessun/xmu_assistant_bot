@@ -4,8 +4,8 @@ use heck::AsPascalCase;
 use proc_macro::TokenStream;
 use quote::{format_ident, quote, quote_spanned};
 use syn::{
-    Data, DeriveInput, Error, Expr, FnArg, GenericArgument, Ident, ItemFn, ItemStruct, LitBool,
-    LitStr, Meta, Pat, Path, PathArguments, Result, Token, Type,
+    Data, DeriveInput, Error, Expr, FnArg, Ident, ItemFn, ItemStruct, LitBool, LitStr, Meta, Pat,
+    Path, Result, Token, Type,
     parse::{Parse, ParseStream},
     parse_macro_input,
     punctuated::Punctuated,
@@ -600,115 +600,138 @@ pub fn jw_api(args: TokenStream, input: TokenStream) -> TokenStream {
     TokenStream::from(expanded)
 }
 
-fn get_type_constraints(ty: &Type) -> Option<String> {
-    match ty {
-        Type::Path(tp) => {
-            let last_segment = tp.path.segments.last()?;
-            let ident_str = last_segment.ident.to_string();
-
-            match ident_str.as_str() {
-                "LlmVec" | "Vec" => {
-                    // 进入泛型内部：LlmVec<T>
-                    if let PathArguments::AngleBracketed(args) = &last_segment.arguments {
-                        if let Some(GenericArgument::Type(inner_type)) = args.args.first() {
-                            let inner_desc = get_type_constraints(inner_type)
-                                .unwrap_or_else(|| "对应类型元素".into());
-                            return Some(format!(
-                                "多个重复的条目，每个条目格式为: <item>{}</item>",
-                                inner_desc
-                            ));
-                        }
-                    }
-                    Some("列表格式内容".into())
-                }
-                "LlmBool" | "bool" => Some("布尔值 (true/false)".into()),
-                "i64" | "u64" | "i32" | "u32" => Some("纯数字".into()),
-                "String" => Some("纯文本内容".into()),
-                "LlmOption" | "Option" => {
-                    if let PathArguments::AngleBracketed(args) = &last_segment.arguments {
-                        if let Some(GenericArgument::Type(inner_type)) = args.args.first() {
-                            return get_type_constraints(inner_type);
-                        }
-                    }
-                    Some("可选内容".into())
-                }
-                _ => None,
-            }
-        }
-        _ => None,
-    }
-}
-
 #[proc_macro_derive(LlmPrompt, attributes(prompt))]
 pub fn derive_llm_prompt(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let name = &input.ident;
+    let root_tag = name.to_string();
 
-    let mut schema_parts = Vec::new();
+    let expanded = match &input.data {
+        Data::Struct(data) => {
+            let mut field_generators = Vec::new();
+            for field in &data.fields {
+                let field_ident = field.ident.as_ref().expect("仅支持具名结构体");
+                let field_name = field_ident.to_string();
+                let field_type = &field.ty;
 
-    if let Data::Struct(data) = &input.data {
-        for field in &data.fields {
-            let field_ident = field.ident.as_ref().unwrap();
-            let field_name = field_ident.to_string();
-            let field_type = &field.ty;
+                // 提取 #[prompt("...")]
+                let mut user_description = quote! { None };
+                for attr in &field.attrs {
+                    if attr.path().is_ident("prompt") {
+                        let _ = attr.parse_nested_meta(|meta| {
+                            if let Ok(lit) = meta.input.parse::<syn::LitStr>() {
+                                user_description = quote! { Some(#lit) };
+                            }
+                            Ok(())
+                        });
+                    }
+                }
 
-            // 将类型转为字符串进行匹配判断
-            let type_str = quote!(#field_type).to_string().replace(" ", "");
+                // 修正这里的 format! 逻辑，确保占位符和参数一一对应
+                field_generators.push(quote! {
+                    {
+                        let sub_schema = <#field_type as LlmPrompt>::get_prompt_schema();
+                        let description: Option<&'static str> = #user_description;
 
-            // 1. 提取 #[prompt("...")]
-            let mut user_description = None;
-            for attr in &field.attrs {
-                if attr.path().is_ident("prompt") {
-                    let _ = attr.parse_nested_meta(|meta| {
-                        if let Ok(lit) = meta.input.parse::<syn::LitStr>() {
-                            user_description = Some(lit.value());
+                        // 处理内部 Schema 的缩进，使其美观
+                        let indented_schema = sub_schema.lines()
+                            .map(|line| format!("  {}", line))
+                            .collect::<Vec<_>>()
+                            .join("\n");
+
+                        if let Some(desc) = description {
+                            // 修正：如果提供了 desc 参数，必须在字符串中使用 {desc}
+                            format!("<{name}>\n{schema}\n</{name}> <!-- {desc} -->",
+                                name = #field_name,
+                                schema = indented_schema,
+                                desc = desc)
+                        } else {
+                            format!("<{name}>\n{schema}\n</{name}>",
+                                name = #field_name,
+                                schema = indented_schema)
                         }
-                        Ok(())
-                    });
+                    }
+                });
+            }
+
+            quote! {
+                impl LlmPrompt for #name {
+                    fn get_prompt_schema() -> &'static str {
+                        use std::sync::OnceLock;
+                        static SCHEMA_CACHE: OnceLock<String> = OnceLock::new();
+                        SCHEMA_CACHE.get_or_init(|| {
+                            let mut parts = Vec::new();
+                            #( parts.push(#field_generators); )*
+                            format!("<{root}>\n  {inner}\n</{root}>",
+                                root = #root_tag, inner = parts.join("\n  "))
+                        })
+                    }
+                    fn root_name() -> &'static str { #root_tag }
                 }
             }
-
-            // 2. 根据类型生成基础约束说明
-            let type_constraint = get_type_constraints(field_type);
-
-            // 3. 严格性检查：如果既没有内置类型判断，直接报错
-            if type_constraint.is_none() {
-                let err_msg = format!(
-                    "字段 `{}` 的类型 `{}` 未定义 Prompt 解释。请修改宏中的 get_type_constraints 函数确定模型的返回格式。",
-                    field_name, type_str
-                );
-                return syn::Error::new_spanned(field_ident, err_msg)
-                    .to_compile_error()
-                    .into();
-            }
-
-            // 合并描述
-            let final_desc = match (type_constraint, user_description) {
-                (Some(tc), Some(ud)) => format!("类型提示:{}; 其他提示:{}", tc, ud),
-                (Some(tc), None) => tc.to_string(),
-                (None, Some(ud)) => ud,
-                _ => unreachable!(),
-            };
-
-            schema_parts.push(format!(
-                "<{field_name}>...</{field_name}>  <!-- {} -->",
-                final_desc
-            ));
         }
-    }
+        Data::Enum(data) => {
+            let mut variants_schemas = Vec::new();
+            for variant in &data.variants {
+                let v_ident = &variant.ident;
+                let v_name = v_ident.to_string().to_lowercase(); // 实际应考虑 serde rename
 
-    let root_tag = name.to_string();
-    let schema = format!("<{0}>\n  {1}\n</{0}>", root_tag, schema_parts.join("\n  "));
+                // 提取变体的说明
+                let mut v_desc = String::new();
+                for attr in &variant.attrs {
+                    if attr.path().is_ident("prompt") {
+                        let _ = attr.parse_nested_meta(|meta| {
+                            if let Ok(lit) = meta.input.parse::<syn::LitStr>() {
+                                v_desc = lit.value();
+                            }
+                            Ok(())
+                        });
+                    }
+                }
 
-    let expanded = quote! {
-        impl LlmPrompt for #name {
-            fn get_prompt_schema() -> &'static str {
-                #schema
+                // 核心改动：解析变体内部的字段
+                let fields_prompt = match &variant.fields {
+                    syn::Fields::Named(fields) => {
+                        let mut f_parts = Vec::new();
+                        for field in &fields.named {
+                            let f_ident = field.ident.as_ref().unwrap();
+                            let f_ty = &field.ty;
+                            f_parts.push(quote! {
+                                format!("<{}>{}</{}>",
+                                    stringify!(#f_ident),
+                                    <#f_ty as LlmPrompt>::get_prompt_schema(),
+                                    stringify!(#f_ident)
+                                )
+                            });
+                        }
+                        quote! { vec![#(#f_parts),*].join("") }
+                    }
+                    syn::Fields::Unit => quote! { "".to_string() },
+                    _ => quote! { "...".to_string() },
+                };
+
+                variants_schemas.push(quote! {
+                    format!("<segment type=\"{}\"> \n  <data>{}</data>\n</segment> <!-- {} -->",
+                        #v_name, #v_desc, #fields_prompt)
+                });
             }
-            fn root_name() -> &'static str {
-                #root_tag
+
+            quote! {
+                impl LlmPrompt for #name {
+                    fn get_prompt_schema() -> &'static str {
+                        use std::sync::OnceLock;
+                        static SCHEMA_CACHE: OnceLock<String> = OnceLock::new();
+                        SCHEMA_CACHE.get_or_init(|| {
+                            let mut parts = Vec::new();
+                            #( parts.push(#variants_schemas); )*
+                            format!("可用消息段类型:\n{}", parts.join("\n"))
+                        })
+                    }
+                    fn root_name() -> &'static str { "segment" }
+                }
             }
         }
+        _ => quote! { compile_error!("LlmPrompt 仅支持 Struct 和 Enum"); },
     };
 
     TokenStream::from(expanded)

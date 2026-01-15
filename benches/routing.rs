@@ -5,7 +5,6 @@ use std::sync::Arc;
 use tokio::{runtime::Runtime, sync::mpsc};
 use tokio_tungstenite::tungstenite::Utf8Bytes;
 use xmu_assistant_bot::abi::echo::Echo;
-use xmu_assistant_bot::abi::message::ArcWith;
 use xmu_assistant_bot::abi::message::{
     MessageType,
     Sender,
@@ -86,19 +85,16 @@ impl BotHandler for MockClient {
 // 3. 辅助函数
 fn create_mock_context(text: &str) -> Context<MockClient, MockMessage> {
     let client = Arc::new(MockClient);
-    let message = ArcWith::new(
-        MockMessage {
-            text: text.to_string(),
-            sender: Sender {
-                user_id: Some(123),
-                nickname: Some("bench_user".to_string()),
-                card: None,
-                role: None,
-            },
-            target: Target::Private(123),
+    let message = Arc::new(MockMessage {
+        text: text.to_string(),
+        sender: Sender {
+            user_id: Some(123),
+            nickname: Some("bench_user".to_string()),
+            card: None,
+            role: None,
         },
-        Utf8Bytes::from(text.to_string()),
-    );
+        target: Target::Private(123),
+    });
     Context::new(client, message)
 }
 

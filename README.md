@@ -7,6 +7,7 @@
 ## ⚡ 性能基准 (Performance Benchmark)
 
 基于项目内 `benches/` 模块的实测数据（环境：Windows 11 x64, Release Mode）：
+**注意：由于代码底层重构，部分基准测试指标因访问冲突暂无法获取，以下数据为最新可用或重构前数据，待修复后更新。**
 
 ### 1. 消息路由与分发 (ABI Efficiency)
 
@@ -25,16 +26,18 @@
 
 | 场景 | 核心指标 | 最新耗时 | 性能变化 |
 |---|---|---|---|
-| 冷存储读取命中 (`cold_get_hit`) | 从 Redb 冷存储中读取单个 Key 的耗时 | `11.910 µs` | 轻微退化 (+4%) |
+| 冷存储读取命中 (`cold_get_hit`) | 从 Redb 冷存储中读取单个 Key 的耗时 | `12.044 µs` | 轻微退化 (+1.12%) |
 | 高并发热存储吞吐 (`hottable_concurrent_read_write_x100_90_10`) | 100路并发读写 DashMap 耗时 | `51.941 µs` | 轻微退化 (+10%) |
-| 冷存储写入 (`cold_insert`) | 写入 Redb 冷存储耗时 | `2.2644 ms` | 无变化 |
+| 冷存储写入 (`cold_insert`) | 写入 Redb 冷存储耗时 | `2.1873 ms` | 轻微优化 (-3.4%) |
 
-### 3. 序列化与协议解析 (Zero-Copy Optimization)
+### 3. 序列化与协议解析 (Stability Focus)
+
+**注意：此部分已移除 LazyString 零拷贝机制，追求稳定性而非极限 I/O 延迟。**
 
 | 场景 | 核心指标 | 最新耗时 | 性能变化 |
 |---|---|---|---|
-| 零拷贝接收反序列化 (`json_deserialize_message_receive`) | 消息体 JSON 反序列化耗时（LazyString） | `1.2562 µs` | 轻微退化 (+10%) |
-| 消息体序列化 (`json_serialize_message_send`) | 消息体 JSON 序列化耗时 | `372.11 ns` | 轻微退化 (+12%) |
+| 反序列化 (`json_deserialize_message_receive`) | 消息体 JSON 反序列化耗时 | `1.2562 µs` | 结构重构 |
+| 消息体序列化 (`json_serialize_message_send`) | 消息体 JSON 序列化耗时 | `372.11 ns` | 结构重构 |
 | 文本段数组获取 (`get_text_array`) | 文本段数组获取耗时 | `95.196 ns` | 轻微退化 (+4%) |
 | 定长文本获取 (`get_text_single`) | 优化后定长字符串获取耗时 | `26.565 ns` | 轻微退化 (+7%) |
 
@@ -42,25 +45,29 @@
 
 ## 🛠️ 深度技术优化 (Technical Deep Dive)
 
-### 1. 极致的内存分配策略
+### 1. 消息体结构重构与性能平衡
 
+- **移除 LazyString/ArcWith**: 出于对 LLM 性能分析的需求，以及简化代码编写和降低心智负担的考虑，项目移除了基于 `LazyString` 和 `ArcWith` 的零拷贝接收机制。消息体的解析现在直接在反序列化阶段完成，以此换取更高的结构稳定性、消除额外的心智负担和降低 LLM 上下文构建的复杂度。
 - **MiMalloc 全局分配器**: 放弃系统默认分配器，采用 `MiMalloc` 优化瞬时大量 JSON 对象的分配，极大降低内存碎片率和全局锁竞争。
 - **哈希性能**: 引入 `ahash::RandomState` 作为全局哈希状态，以获得更优的哈希性能和更强的抗碰撞能力。
-- **零拷贝接收与延迟解析 (LazyString)**:
-    - 引入 `LazyString`，在反序列化消息 (`MessageReceive`) 时，字符串字段只记录原始 JSON 字节位置 (`Box<RawValue>`)，**完全避免了初始时的内存分配和字符串转义开销**。只有当 Handler 实际需要使用文本内容时，才会进行解析和物化。
 - **栈空间优先与健壮序列化**:
   - 大量使用 `smol_str` 存储短字符串，通过 Inline 优化避免堆分配。
   - **`define_default_type!` 宏**: 确保 API 响应中的可选字段在缺失或为 `null` 时，能健壮地使用默认值。
 
-### 2. 消息流零拷贝与 Send/Receive 彻底分离
+### 2. 宏驱动的 LLM 工具化与类型安全
 
-项目通过 `ArcWith<T>` 结合 `LazyString` 实现了消息传递的跨线程零拷贝：
+- **LLM 类型安全封装**: 引入 `LlmI64`、`LlmVec` 等自定义封装类型，强制 LLM 输出结构化数据。该机制旨在解决 LLM 返回格式不规范的问题，极大地提高了 LLM 工具调用的准确性和健壮性。
+- **LlmPrompt 灵活化**: 实现了 `#[derive(LlmPrompt)]` 宏参数的解耦，允许在字段级别使用 `#[prompt("...")]` 定义描述信息，使 Prompt 的生成更加灵活和精确。
+- **LlmFile 抽象**: 引入 `LlmFile` 类对文件进行抽象。该抽象使用文件内容的 **SHA-256 校验和的前八位** 作为唯一标识符 (`FileShortId`)，并结合了文件别名和持久化存储，方便 LLM 在对话中安全、准确地引用和操作文件。
+- **LLM 响应格式化**: 实现了从 LLM 的原始 `ChatResponse` 到规范的 `MessageSendLlmResponse` 结构的反序列化，再到最终的 `MessageSend` 消息体转换的完整流程，确保了 LLM 生成的消息能够正确地在 OneBot 协议中发送。
 
-- **生命周期绑定 (`ArcWith<T>`)**: 使用 `ArcWith<T>` 结构体将反序列化后的消息体 `T` (包含 `LazyString` 的消息) 与原始的零拷贝数据源 `Utf8Bytes` (来自 WebSocket 层的原始数据) 绑定在一起。
-- **内存安全共享**: 这使得 `LazyString` 能够安全地引用底层的 `Utf8Bytes` 数据，并在多个异步 Handler 之间通过 `ArcWith` 共享消息体，**彻底分离了消息的接收和处理生命周期**。
-- **避免 Context 拷贝**: 在路由失败时，**彻底跳过 Context 对象的克隆**，结合宏的前置过滤，进一步将 Context Router 性能提升了 **50%+**。
+### 3. 消息流与文件处理增强
 
-### 3. 基于过程宏的元编程 (Helper Macros)
+- **急速路径（Repeat）回复**: 实现了基于 **用户 ID + 消息文本摘要** 的急速路径缓存机制。对于重复出现的特定消息，系统会直接返回预缓存的 `MessageSend`，无需再次进行 LLM 推理，有效提高了响应速度。
+- **File 消息类型兼容**: 兼容了 `file` 类型的消息发送，并实现了基于 `FileUrl<T>` 结构的 `download` 消息体文件合并转发，确保了文件在转发过程中的生命周期管理。
+- **FileUrl 增强**: 提供了从本地 `Path` 获取 `file://` 格式 `FileUrl` 的功能，支持本地文件作为消息段进行发送。
+
+### 4. 基于过程宏的元编程 (Helper Macros)
 
 项目高度依赖自研过程宏来自动化重复代码、确保运行时性能和安全。
 
@@ -77,15 +84,7 @@
 - **`#[jw_api]` (教务系统)**: 智能适配教务系统非标准的 JSON 嵌套结构，**现已支持配置 `call_type = "GET"` 或 `"POST"`**，以适应教务系统复杂的接口请求方式。
 - **教务系统新增路径 (JW Schedule)**: 在 `src/api/xmu_service/jw/` 下新增 `schedule` 模块，提供了包括**课表列表、时间、可读格式**等在内的多项教务系统信息获取路径。
 
-### 4. 异步 I/O 与分层存储架构
-
-- **消息流自动归档**: 实现了消息和通知的自动存储（持久化），作为 LLM 聊天历史的上下文来源。同时，通过调用 OneBot API 实现了**群组和人员身份信息**的自动归档与更新。
-- **消息到 ChatMessage 的高级转换**: 深度集成了 `genai` 库的 `ChatMessage` 格式。实现了复杂的 OneBot 消息段转换，包括：
-    - **多模态支持**: 将图片、语音、视频、Face 表情转换为 LLM 可理解的 `Binary`（URL 或 Base64 嵌入）。
-    - **上下文重建**: 自动处理 `Reply` 和 `Forward` 消息，通过归档系统获取原始消息内容，并注入到当前消息的上下文流中。
-    - **结构化身份注入**: 对于 `@At` 和 `Contact` 消息，查询归档的身份信息（如昵称、群名），并以结构化 XML 格式注入到消息体中，供 LLM 精确识别和使用。
-
-### 5. Lnt API 深度集成
+### 5. 异步 I/O 与分层存储架构
 
 项目实现了 **Hot-Cold-File** 语义化分层存储系统：
 
@@ -97,6 +96,7 @@
 
 ### 6. 强大的 LLM 上下文与归档系统
 
+- **Embedding 支持**: 完成了 LLM Embedding 模型的配置和集成，为后续的 RAG (检索增强生成) 和更高级的上下文匹配奠定了基础。
 - **消息流自动归档**: 实现了消息和通知的自动存储（持久化），作为 LLM 聊天历史的上下文来源。同时，通过调用 OneBot API 实现了**群组和人员身份信息**的自动归档与更新。
 - **消息到 ChatMessage 的高级转换**: 深度集成了 `genai` 库的 `ChatMessage` 格式。实现了复杂的 OneBot 消息段转换，包括：
     - **多模态支持**: 将图片、语音、视频、Face 表情转换为 LLM 可理解的 `Binary`（URL 或 Base64 嵌入）。
@@ -106,11 +106,12 @@
 ### 7. Lnt API 深度集成
 
 - **Lnt API 深度集成**: 实现了包括 `activities`、`file_url`、`my_courses`、`profile` 修正等在内的 LNT API 封装，并**新增了考试查询、成绩与试题分发等关键接口**：`distribute` (获取试题)、`exams` (考试列表)、`submissions` (提交记录) 和 `submission_id` (查询答案)。
+- **Lnt 文件缓存**: 对 Lnt API 获取的文件下载链接和文件本身进行了缓存管理 (`FILE_DATA` ColdTable)，实现了获取 URL -> 下载文件 -> 存储的完整链条，避免重复下载。
 
 ### 8. LLM 工具驱动
 
-- **`#[derive(LlmPrompt)]`**:
-    - **LLM 工具描述生成**: 自动从 Rust 结构体和自定义类型（`tool/type` 下的 `LlmVec`, `LlmOption` 等）中提取信息，生成 LLM 函数调用所需的精确 Schema。该自定义类型系统是为了解决模型返回格式不精确的问题，**实现了实测高准确率的工具化调用**。
+- **LLM 工具描述生成**: 通过 `#[derive(LlmPrompt)]` 宏，结合新的 **LLM 类型安全封装**（如 `LlmI64`, `LlmVec` 等），自动从 Rust 结构体中提取信息，生成 LLM 函数调用所需的高准确率 Schema。该机制解决了模型返回格式不精确的问题，实现了实测高准确率的工具化调用。
+- **LlmFile 上下文**: 工具能够直接识别和引用由 `LlmFile` 抽象管理的文件 ID，使 LLM 能在 Tool Call 中处理文件参数。
 
 ### 9. 其他核心优化
 

@@ -4,7 +4,10 @@ use std::sync::Arc;
 use tracing::trace;
 
 use crate::{
-    abi::{logic_import::*, message::from_str},
+    abi::{
+        logic_import::*,
+        message::{MessageSend, from_str},
+    },
     api::xmu_service::{
         llm::{ChooseCourse, ChooseFiles},
         lnt::FileUrl,
@@ -27,7 +30,7 @@ pub async fn download(ctx: Context) -> Result<()> {
         .course_id
         .ok_or(anyhow!("未找到课程，请更加清晰的阐释课程的名称"))?;
     trace!("选择课程 ID: {}", course_id);
-    let files = ChooseFiles::get_from_client(&client, msg_text, course_id).await?;
+    let files = ChooseFiles::get_from_client(&client, msg_text, *course_id).await?;
     trace!("返回文件选择结果：");
     trace!(?files);
     let files = files.files;
@@ -59,6 +62,8 @@ pub async fn download(ctx: Context) -> Result<()> {
         let file = res?;
         match file {
             Ok(f) => {
+                let url = f.get_url().await;
+                ctx.send_message_async(MessageSend::new_message().file(url).build());
                 files.push(f);
             }
             Err(e) => ctx.send_message_async(from_str(format!("下载文件失败: {}", e))),

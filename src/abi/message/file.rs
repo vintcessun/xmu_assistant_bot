@@ -1,6 +1,8 @@
-use std::{fmt, sync::Arc};
+use std::{fmt, path::Path, sync::Arc};
 
+use anyhow::Result;
 use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
+use url::Url;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct File {
@@ -81,5 +83,17 @@ impl<'de, T: fmt::Debug> Deserialize<'de> for FileUrl<T> {
 
         // 告诉 deserializer 我们期待一个字符串
         deserializer.deserialize_str(FileUrlVisitor(std::marker::PhantomData))
+    }
+}
+
+impl<T: fmt::Debug> FileUrl<T> {
+    pub fn from_path(path: &Path) -> Result<Self> {
+        let absolute_path = std::fs::canonicalize(path)?;
+
+        let ret: String = Url::from_file_path(absolute_path)
+            .map(|url| url.into())
+            .map_err(|_| anyhow::anyhow!("Failed to convert path to file URL"))?;
+
+        Ok(Self::new(ret))
     }
 }

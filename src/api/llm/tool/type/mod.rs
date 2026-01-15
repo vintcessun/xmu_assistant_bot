@@ -1,5 +1,7 @@
 mod bool;
+mod i64;
 mod option;
+mod string;
 mod vector;
 
 // 关于为什么要自己定义包装原有的各种类型，因为LLM本质还是概率模型，因此就会出现各种不严谨的情况，这很正常，但是我还是要喷一下
@@ -8,5 +10,6 @@ mod vector;
 // 最后：LLM真鸡巴操蛋，这里为了解析完全正确只能加一堆特判了，性能暂时不考虑了，因为操蛋的都寄吧LLM了，重新请求一次的代价远高于这些解析的开销
 
 pub use bool::LlmBool;
+pub use i64::LlmI64;
 pub use option::LlmOption;
 pub use vector::LlmVec;

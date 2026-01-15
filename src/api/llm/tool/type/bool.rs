@@ -1,7 +1,10 @@
 use serde::{Deserialize, Deserializer, Serialize};
 use std::ops::{Deref, DerefMut};
 
+use crate::api::llm::tool::LlmPrompt;
+
 #[derive(Debug, Clone, Copy, Serialize, Default, PartialEq, Eq)]
+#[serde(transparent)]
 pub struct LlmBool(pub bool);
 
 impl Deref for LlmBool {
@@ -77,5 +80,14 @@ impl<'de> Deserialize<'de> for LlmBool {
                 s
             ))),
         }
+    }
+}
+
+impl LlmPrompt for LlmBool {
+    fn get_prompt_schema() -> &'static str {
+        "布尔值，取值为 true 或 false"
+    }
+    fn root_name() -> &'static str {
+        "bool"
     }
 }

@@ -1,4 +1,3 @@
-use crate::abi::message::LazyString;
 use helper::define_default_type;
 use serde::{Deserialize, Deserializer, Serialize, de};
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -26,6 +25,7 @@ pub enum SegmentReceive {
     Forward(forward::DataReceive),
     Xml(xml::DataReceive),
     Json(json::DataReceive),
+    File(Box<file::DataReceive>),
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -50,6 +50,7 @@ pub enum SegmentSend {
     Node(node::DataSend),
     Xml(xml::DataSend),
     Json(json::DataSend),
+    File(file::DataSend),
 }
 
 type ArraySend = Vec<SegmentSend>;
@@ -108,14 +109,14 @@ impl MessageReceive {
     pub fn get_text(&self) -> String {
         match self {
             // 1. 极速路径：单条文本直接 Clone
-            MessageReceive::Single(SegmentReceive::Text(data)) => data.text.get().to_string(),
+            MessageReceive::Single(SegmentReceive::Text(data)) => data.text.clone(),
 
             // 2. 数组路径：利用 Extend 内部优化
             MessageReceive::Array(arr) => {
                 let mut result = String::new();
                 result.extend(arr.iter().filter_map(|seg| {
                     if let SegmentReceive::Text(data) = seg {
-                        Some(data.text.get())
+                        Some(data.text.clone())
                     } else {
                         None
                     }
@@ -164,6 +165,7 @@ mod tests {
             ("Xml", size_of::<xml::DataSend>()),
             ("Json", size_of::<json::DataSend>()),
             ("Node", size_of::<node::DataSend>()),
+            ("File", size_of::<file::DataSend>()),
         ];
 
         // 按字节大小降序排列
@@ -211,6 +213,7 @@ mod tests {
             ("Xml", size_of::<xml::DataReceive>()),
             ("Json", size_of::<json::DataReceive>()),
             ("Forward", size_of::<forward::DataReceive>()),
+            ("File", size_of::<file::DataReceive>()),
         ];
 
         // 按字节大小降序排列
@@ -256,7 +259,7 @@ pub mod text {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub text: LazyString,
+        pub text: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -270,7 +273,7 @@ pub mod face {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub id: LazyString,
+        pub id: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -291,9 +294,9 @@ pub mod image {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub file: LazyString,
-        pub r#type: Option<LazyString>,
-        pub url: LazyString,
+        pub file: String,
+        pub r#type: Option<String>,
+        pub url: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -317,9 +320,9 @@ pub mod record {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub file: LazyString,
+        pub file: String,
         pub magic: Magic,
-        pub url: LazyString,
+        pub url: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -341,8 +344,8 @@ pub mod video {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub file: LazyString,
-        pub url: LazyString,
+        pub file: String,
+        pub url: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -359,7 +362,7 @@ pub mod at {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub qq: LazyString,
+        pub qq: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -394,9 +397,9 @@ pub mod poke {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub r#type: LazyString,
-        pub id: LazyString,
-        pub name: LazyString,
+        pub r#type: String,
+        pub id: String,
+        pub name: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -423,10 +426,10 @@ pub mod share {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub url: LazyString,
-        pub title: LazyString,
-        pub content: LazyString,
-        pub image: LazyString,
+        pub url: String,
+        pub title: String,
+        pub content: String,
+        pub image: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -467,12 +470,12 @@ pub mod contact {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct QqReceive {
-        pub id: LazyString,
+        pub id: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct GroupReceive {
-        pub id: LazyString,
+        pub id: String,
     }
 }
 
@@ -481,10 +484,10 @@ pub mod location {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub lat: LazyString,
-        pub lon: LazyString,
-        pub title: LazyString,
-        pub content: LazyString,
+        pub lat: String,
+        pub lon: String,
+        pub title: String,
+        pub content: String,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -525,21 +528,21 @@ pub mod music {
     #[serde(tag = "type", rename_all = "snake_case")]
     pub enum DataReceive {
         Qq {
-            id: LazyString,
+            id: String,
         },
         #[serde(rename = "163")]
         NetEase163 {
-            id: LazyString,
+            id: String,
         },
         Xm {
-            id: LazyString,
+            id: String,
         },
         Custom {
-            url: LazyString,
-            audio: LazyString,
-            title: LazyString,
-            content: Option<LazyString>,
-            image: Option<LazyString>,
+            url: String,
+            audio: String,
+            title: String,
+            content: Option<String>,
+            image: Option<String>,
         },
     }
 }
@@ -554,7 +557,7 @@ pub mod reply {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub id: LazyString,
+        pub id: String,
     }
 }
 
@@ -563,7 +566,7 @@ pub mod forward {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub id: LazyString,
+        pub id: String,
     }
 }
 
@@ -600,7 +603,7 @@ pub mod xml {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub data: LazyString,
+        pub data: String,
     }
 }
 
@@ -614,6 +617,22 @@ pub mod json {
 
     #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct DataReceive {
-        pub data: LazyString,
+        pub data: String,
+    }
+}
+
+pub mod file {
+    use super::*;
+    #[derive(Serialize, Deserialize, Debug, Clone)]
+    pub struct DataSend {
+        pub file: String,
+    }
+
+    #[derive(Serialize, Deserialize, Debug, Clone)]
+    pub struct DataReceive {
+        pub file: String,
+        pub file_id: String,
+        pub file_size: String,
+        pub url: String,
     }
 }
