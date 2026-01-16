@@ -1,6 +1,8 @@
 use crate::abi::echo::Echo;
+use crate::abi::logic_import::Message;
 use crate::abi::message::MessageSend;
 use crate::abi::message::Sender;
+use crate::abi::message::Type;
 use crate::abi::message::api;
 use crate::abi::message::{MessageType, Target};
 use crate::abi::network::BotClient;
@@ -22,6 +24,7 @@ pub struct Context<
     pub message_text: Arc<str>,
     pub target: Target,
     pub is_echo: bool,
+    send_msg: Option<Arc<Message>>,
 }
 
 impl<
@@ -38,6 +41,7 @@ impl<
             message_text: self.message_text.clone(),
             target: self.target,
             is_echo: self.is_echo,
+            send_msg: self.send_msg.clone(),
         }
     }
 }
@@ -52,6 +56,16 @@ impl<
         let message_text = message.get_text();
         let sender = message.get_sender();
         let message_list = Vec::new();
+
+        let msg = if message.get_type() == Type::Message {
+            Some(unsafe {
+                // 将 Arc<M> 强转为 Arc<Message>
+                // 这种强转前提是 M 的实例在内存中确实是一个 Message 枚举
+                std::mem::transmute::<Arc<M>, Arc<Message>>(message.clone())
+            })
+        } else {
+            None
+        };
         Context {
             client,
             message,
@@ -60,6 +74,7 @@ impl<
             message_list,
             message_text: Arc::from(message_text),
             is_echo: false,
+            send_msg: msg,
         }
     }
 
@@ -146,69 +161,71 @@ impl<
 impl<
     T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
     M: MessageType + fmt::Debug + Send + Sync + 'static,
-> Drop for Context<T, M>
+> Context<T, M>
 {
-    fn drop(&mut self) {
-        if !self.message_list.is_empty() {
-            let client = self.client.clone();
-            let target = self.target;
-            let ctx = Context {
-                client: self.client.clone(),
-                message: self.message.clone(),
-                sender: self.sender.clone(),
-                message_list: std::mem::take(&mut self.message_list),
-                message_text: self.message_text.clone(),
-                target: self.target,
-                is_echo: self.is_echo,
-            };
-            tokio::spawn(async move {
-                match target {
-                    Target::Group(_) => {
-                        let params = api::SendGroupForwardMessageParams::new(ctx);
-                        let call = client.call_api(params, Echo::new()).await;
-                        if let Ok(call) = call {
-                            let res = call.wait_echo().await;
-                            trace!(?res);
-                            if let Ok(res) = res {
-                                match res.status {
-                                    api::Status::Ok => {}
-                                    api::Status::Failed => {
-                                        error!(
-                                            "发送群转发消息失败: {:?}",
-                                            res.message.unwrap_or("未知错误".to_string())
-                                        );
-                                    }
-                                    api::Status::Async => {
-                                        info!("发送群转发消息异步处理中");
-                                    }
+    pub async fn finish(mut self) {
+        if self.message_list.is_empty() {
+            return;
+        }
+
+        let client = self.client.clone();
+        let target = self.target;
+        let list = std::mem::take(&mut self.message_list);
+        let sender = self.sender.clone();
+        let is_echo = self.is_echo;
+        let msg = self.send_msg.take();
+
+        if let Some(msg) = msg {
+            match target {
+                Target::Group(_) => {
+                    let params =
+                        api::SendGroupForwardMessageParams::new(is_echo, list, sender, msg, target);
+
+                    let call = client.call_api(params, Echo::new()).await;
+                    if let Ok(call) = call {
+                        let res = call.wait_echo().await;
+                        trace!(?res);
+                        if let Ok(res) = res {
+                            match res.status {
+                                api::Status::Ok => {}
+                                api::Status::Failed => {
+                                    error!(
+                                        "发送群转发消息失败: {:?}",
+                                        res.message.unwrap_or("未知错误".to_string())
+                                    );
                                 }
-                            }
-                        }
-                    }
-                    Target::Private(_) => {
-                        let params = api::SendPrivateForwardMessageParams::new(ctx);
-                        let call = client.call_api(params, Echo::new()).await;
-                        if let Ok(call) = call {
-                            let res = call.wait_echo().await;
-                            trace!(?res);
-                            if let Ok(res) = res {
-                                match res.status {
-                                    api::Status::Ok => {}
-                                    api::Status::Failed => {
-                                        error!(
-                                            "发送私聊转发消息失败: {:?}",
-                                            res.message.unwrap_or("未知错误".to_string())
-                                        );
-                                    }
-                                    api::Status::Async => {
-                                        info!("发送私聊转发消息异步处理中");
-                                    }
+                                api::Status::Async => {
+                                    info!("发送群转发消息异步处理中");
                                 }
                             }
                         }
                     }
                 }
-            });
+                Target::Private(_) => {
+                    let params = api::SendPrivateForwardMessageParams::new(
+                        is_echo, list, sender, msg, target,
+                    );
+                    let call = client.call_api(params, Echo::new()).await;
+                    if let Ok(call) = call {
+                        let res = call.wait_echo().await;
+                        trace!(?res);
+                        if let Ok(res) = res {
+                            match res.status {
+                                api::Status::Ok => {}
+                                api::Status::Failed => {
+                                    error!(
+                                        "发送私聊转发消息失败: {:?}",
+                                        res.message.unwrap_or("未知错误".to_string())
+                                    );
+                                }
+                                api::Status::Async => {
+                                    info!("发送私聊转发消息异步处理中");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

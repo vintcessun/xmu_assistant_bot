@@ -82,7 +82,7 @@ impl ExposeFileTask {
 
     pub async fn finish(self) -> Result<()> {
         // 1. 构造 ExposeFileList
-        let expose_list = ExposeFileList::new(self.list.clone());
+        let expose_list = ExposeFileList::new(self.list);
 
         // 2. 生成唯一 ID 并写入 HotTable
         ON_QUEUE.remove(&self.id);

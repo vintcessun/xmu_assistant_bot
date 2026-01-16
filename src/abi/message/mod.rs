@@ -6,8 +6,8 @@ pub mod message_body;
 pub mod sender;
 
 use crate::abi::message::message_body::*;
-use crate::box_new;
 
+use ::helper::box_new;
 pub use api::Params;
 pub use event_body as event;
 pub use event_body::Event;
@@ -43,7 +43,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             };
             SegmentSend::Contact(val)
         }
-        SegmentReceive::Dice(p) => SegmentSend::Dice(p.clone()),
+        SegmentReceive::Dice(p) => SegmentSend::Dice(*p),
         SegmentReceive::Face(p) => {
             let val = message_body::face::DataSend { id: p.id.clone() };
             SegmentSend::Face(val)
@@ -83,7 +83,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
         SegmentReceive::Reply(p) => {
             SegmentSend::Reply(message_body::reply::DataSend { id: p.id.clone() })
         }
-        SegmentReceive::Rps(p) => SegmentSend::Rps(p.clone()),
+        SegmentReceive::Rps(p) => SegmentSend::Rps(*p),
         SegmentReceive::Share(p) => SegmentSend::Share(box_new!(message_body::share::DataSend, {
             url: p.url.clone(),
             title: p.title.clone(),

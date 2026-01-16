@@ -5,42 +5,19 @@ use std::sync::Arc;
 use tokio::{runtime::Runtime, sync::mpsc};
 use tokio_tungstenite::tungstenite::Utf8Bytes;
 use xmu_assistant_bot::abi::echo::Echo;
+use xmu_assistant_bot::abi::logic_import::Message;
+use xmu_assistant_bot::abi::message::event_message::{Group, SubTypeGroup};
+use xmu_assistant_bot::abi::message::message_body::SegmentReceive;
+use xmu_assistant_bot::abi::message::message_body::text::DataReceive;
+use xmu_assistant_bot::abi::message::sender::Role;
+use xmu_assistant_bot::abi::message::{MessageReceive, SenderGroup};
 use xmu_assistant_bot::abi::message::{
-    MessageType,
-    Sender,
-    Target,
     api::{Params as Request, data::ApiResponsePending}, // 导入 API 相关的类型和 Trait
 };
 use xmu_assistant_bot::abi::network::BotClient;
 use xmu_assistant_bot::abi::router::context::Context;
 use xmu_assistant_bot::abi::websocket::BotHandler;
 use xmu_assistant_bot::logic::dispatch_all_handlers;
-
-// --- Mock 类型定义 ---
-
-// 1. Mock 消息类型 (M)
-#[derive(Debug)]
-struct MockMessage {
-    text: String,
-    sender: Sender,
-    target: Target,
-}
-
-impl MessageType for MockMessage {
-    fn get_type(&self) -> xmu_assistant_bot::abi::message::Type {
-        xmu_assistant_bot::abi::message::Type::Message
-    }
-    fn get_target(&self) -> Target {
-        self.target
-    }
-    fn get_sender(&self) -> Sender {
-        self.sender.clone()
-    }
-    // 关键：返回路由需要匹配的文本
-    fn get_text(&self) -> String {
-        self.text.clone()
-    }
-}
 
 // 2. Mock 客户端 (T)
 #[derive(Debug)]
@@ -83,18 +60,33 @@ impl BotHandler for MockClient {
 }
 
 // 3. 辅助函数
-fn create_mock_context(text: &str) -> Context<MockClient, MockMessage> {
+fn create_mock_context(text: &str) -> Context<MockClient, Message> {
     let client = Arc::new(MockClient);
-    let message = Arc::new(MockMessage {
-        text: text.to_string(),
-        sender: Sender {
-            user_id: Some(123),
-            nickname: Some("bench_user".to_string()),
-            card: None,
-            role: None,
+    let message = Arc::new(Message::Group(Group {
+        time: 1700000000,
+        self_id: 1,
+        sub_type: SubTypeGroup::Normal,
+        message_id: 123456789,
+        group_id: 111222333,
+        user_id: 987654321,
+        anonymous: None,
+        raw_message: "".to_string() + text,
+        font: 0,
+        sender: SenderGroup {
+            user_id: Some(987654321),
+            nickname: Some("TestUser".to_string()),
+            card: Some("TestCard".to_string()),
+            sex: None,
+            age: None,
+            area: None,
+            level: None,
+            role: Role::Member,
+            title: None,
         },
-        target: Target::Private(123),
-    });
+        message: MessageReceive::Array(vec![SegmentReceive::Text(DataReceive {
+            text: text.to_string(),
+        })]),
+    }));
     Context::new(client, message)
 }
 
@@ -111,7 +103,8 @@ fn bench_routing(c: &mut Criterion) {
             // 需要克隆上下文，因为 dispatch_all_handlers 消费了 Context
             let ctx = ctx_template.clone();
             async move {
-                tokio::spawn(dispatch_all_handlers(ctx));
+                // 直接 await，确保本轮迭代完成时内存是安全的
+                dispatch_all_handlers(ctx).await;
             }
         })
     });
@@ -124,7 +117,7 @@ fn bench_routing(c: &mut Criterion) {
         b.to_async(&rt).iter(|| {
             let ctx = ctx_template.clone();
             async move {
-                tokio::spawn(dispatch_all_handlers(ctx));
+                dispatch_all_handlers(ctx).await;
             }
         })
     });

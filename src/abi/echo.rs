@@ -1,6 +1,6 @@
 use ahash::RandomState;
 use anyhow::Result;
-use dashmap::{DashMap, DashSet};
+use dashmap::DashMap;
 use serde::{Deserialize, Deserializer, Serialize, Serializer, de};
 use std::fmt;
 use std::sync::LazyLock;
@@ -14,8 +14,6 @@ use tracing::debug;
 static COUNTER: AtomicU64 = AtomicU64::new(1);
 static TIMEOUT: Duration = Duration::from_secs(600);
 
-static ACTIVE_ECHOS: LazyLock<DashSet<u64, RandomState>> =
-    LazyLock::new(|| DashSet::with_hasher(RandomState::default()));
 static RESPONSE_REGISTRY: LazyLock<DashMap<u64, oneshot::Sender<Utf8Bytes>, RandomState>> =
     LazyLock::new(|| DashMap::with_hasher(RandomState::default()));
 
@@ -30,16 +28,8 @@ impl Default for Echo {
 
 impl Echo {
     pub fn new() -> Self {
-        loop {
-            let id = COUNTER.fetch_add(1, Ordering::Relaxed);
-            if ACTIVE_ECHOS.insert(id) {
-                return Self(id);
-            }
-        }
-    }
-
-    pub fn remove(val: Self) -> bool {
-        ACTIVE_ECHOS.remove(&val.0).is_some()
+        // 依赖 COUNTER 递增保证唯一性，移除 DashSet 操作和 loop
+        Self(COUNTER.fetch_add(1, Ordering::Relaxed))
     }
 }
 
@@ -105,8 +95,9 @@ impl EchoPending {
             Err(_) => Err(anyhow::anyhow!("等待 Echo 响应超时")),
         };
 
+        // 确保 RESPONSE_REGISTRY 被清理，修复可能的内存泄漏。
+        RESPONSE_REGISTRY.remove(&self.echo.0);
         debug!("清理 Echo: {:?}", self.echo);
-        Echo::remove(self.echo);
 
         ret
     }

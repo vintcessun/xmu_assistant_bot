@@ -24,6 +24,6 @@ pub trait JwAPI {
 
 pub fn get_castgc_client(castgc: &str) -> SessionClient {
     let client = SessionClient::new();
-    client.set_cookie("CASTGC", castgc, IDS_URL.clone());
+    client.set_cookie("CASTGC", castgc, &IDS_URL);
     client
 }

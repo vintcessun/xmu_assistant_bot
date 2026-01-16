@@ -138,11 +138,6 @@ impl StorageEngine {
             }
         };
 
-        const BINCODE_CONFIG: bincode::config::Configuration<
-            bincode::config::LittleEndian,
-            bincode::config::Fixint,
-        > = bincode::config::standard().with_fixed_int_encoding();
-
         // 获取迭代器
         if let Ok(iter) = table.iter() {
             for (key_access, val_access) in iter.flatten() {

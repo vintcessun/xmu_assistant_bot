@@ -11,11 +11,10 @@ use crate::{
         },
         storage::FileStorage,
     },
-    box_new,
 };
 use anyhow::Result;
 use genai::chat::{ChatMessage, ChatResponse};
-use helper::LlmPrompt;
+use helper::{LlmPrompt, box_new};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, LlmPrompt, Serialize, Deserialize)]

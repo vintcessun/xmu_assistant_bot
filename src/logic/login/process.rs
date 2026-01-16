@@ -89,12 +89,8 @@ pub async fn process_login<T: BotClient + BotHandler + fmt::Debug>(
         zzy_profile.entry_year, zzy_profile.trans_dept
     )));
 
-    let year = zzy_profile
-        .entry_year
-        .chars()
-        .skip(2) // 跳过 "20"
-        .take(2) // 取 "24"
-        .collect::<String>();
+    // 假设 entry_year 总是 "YYYY" 格式，长度至少为 4，使用 unsafe 切片消除运行时边界检查。
+    let year = unsafe { zzy_profile.entry_year.get_unchecked(2..4).to_string() };
 
     let dept = zzy_profile.trans_dept.join(",");
 

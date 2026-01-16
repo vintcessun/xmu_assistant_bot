@@ -263,8 +263,9 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
         {
             let result: anyhow::Result<()> = (async { #body }).await;;
             if let Err(e) = result{
-                handle_error(ctx, stringify!(#fn_name), e).await;
+                handle_error(&mut ctx, stringify!(#fn_name), e).await;
             }
+            ctx.finish().await;
             Ok(())
         }
 
@@ -1006,4 +1007,112 @@ pub fn session_client_helper(_args: TokenStream, input: TokenStream) -> TokenStr
     };
 
     TokenStream::from(expanded)
+}
+
+// 定义解析输入的数据结构
+struct BoxNewInput {
+    struct_type: Type,
+    _comma: Token![,],
+    data: BoxData,
+}
+
+enum BoxData {
+    // 处理 { field: value, ... }
+    Struct(Punctuated<FieldValue, Token![,]>),
+    // 处理 Enum::Variant(val) 或 变量
+    Expr(Expr),
+}
+
+struct FieldValue {
+    member: Ident,
+    _colon: Token![:],
+    value: Expr,
+}
+
+impl Parse for BoxNewInput {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let struct_type: Type = input.parse()?;
+        let comma: Token![, ] = input.parse()?;
+
+        if input.peek(token::Brace) {
+            let content;
+            let _brace = syn::braced!(content in input);
+            let fields = content.parse_terminated(FieldValue::parse, Token![,])?;
+            Ok(BoxNewInput {
+                struct_type,
+                _comma: comma,
+                data: BoxData::Struct(fields),
+            })
+        } else {
+            let expr: Expr = input.parse()?;
+            Ok(BoxNewInput {
+                struct_type,
+                _comma: comma,
+                data: BoxData::Expr(expr),
+            })
+        }
+    }
+}
+
+impl Parse for FieldValue {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        Ok(FieldValue {
+            member: input.parse()?,
+            _colon: input.parse()?,
+            value: input.parse()?,
+        })
+    }
+}
+
+#[proc_macro]
+pub fn box_new(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as BoxNewInput);
+    let ty = &input.struct_type;
+
+    match input.data {
+        BoxData::Struct(fields) => {
+            let f_names: Vec<_> = fields.iter().map(|f| &f.member).collect();
+            let f_values: Vec<_> = fields.iter().map(|f| &f.value).collect();
+
+            quote! {
+                {
+                    // 1. 预先计算值（url.clone() 在这里发生，存入局部变量）
+                    #( let #f_names = #f_values; )*
+
+                    // 2. 核心检查：改用解构模式匹配 (Destructuring Pattern)
+                    // 这种方式只检查字段全不全，不涉及变量所有权的转移（Move）
+                    if false {
+                        #[allow(unreachable_code, unused_variables)]
+                        {
+                            // 只要 #f_names 漏掉了字段，这里解构 #ty 就会编译报错
+                            let #ty { #( #f_names: _ ),* } = unsafe { std::mem::zeroed::<#ty>() };
+                        }
+                    }
+
+                    // 3. 真正的堆内存分配和写入
+                    let mut b = Box::<#ty>::new_uninit();
+                    let ptr = b.as_mut_ptr();
+                    unsafe {
+                        #(
+                            // 这里才真正发生 Move，把局部变量写入堆
+                            std::ptr::addr_of_mut!((*ptr).#f_names).write(#f_names);
+                        )*
+                        b.assume_init()
+                    }
+                }
+            }
+            .into()
+        }
+        BoxData::Expr(expr) => quote! {
+            {
+                let val = #expr;
+                let mut b = Box::<#ty>::new_uninit();
+                unsafe {
+                    b.as_mut_ptr().write(val);
+                    b.assume_init()
+                }
+            }
+        }
+        .into(),
+    }
 }

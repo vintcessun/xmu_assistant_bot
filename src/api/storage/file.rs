@@ -125,11 +125,8 @@ impl File {
     }
 
     pub async fn wait_for_data(&self) -> Result<Arc<Vec<u8>>> {
-        let mut rx = self
-            .read_rx
-            .as_ref()
-            .ok_or_else(|| anyhow!("文件未冻结或读取任务未启动"))?
-            .clone();
+        // 文件必须已经调用 freeze()，否则是逻辑错误
+        let mut rx = self.read_rx.as_ref().unwrap().clone();
 
         if rx.borrow().is_none() {
             rx.changed()
@@ -223,7 +220,18 @@ impl File {
 
 impl File {
     pub async fn get_url(&self) -> String {
-        let absolute_path = std::fs::canonicalize(&self.path).unwrap_or_else(|_| self.path.clone());
+        let path_for_blocking = self.path.clone();
+
+        let absolute_path = tokio::task::spawn_blocking(move || {
+            // 阻塞 I/O 运行在单独的线程上
+            std::fs::canonicalize(&path_for_blocking).unwrap_or(path_for_blocking)
+        })
+        .await
+        .unwrap_or_else(|e| {
+            error!("spawn_blocking for canonicalize failed: {}", e);
+            // 任务失败时，返回原始路径的克隆
+            self.path.clone()
+        });
 
         Url::from_file_path(absolute_path)
             .map(|url| url.into())

@@ -27,6 +27,6 @@ pub static LNT_URL: LazyLock<Url> = LazyLock::new(|| url!("https://lnt.xmu.edu.c
 
 pub fn get_session_client(session: &str) -> SessionClient {
     let client = SessionClient::new();
-    client.set_cookie("session", session, LNT_URL.clone());
+    client.set_cookie("session", session, &LNT_URL);
     client
 }

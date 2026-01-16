@@ -1,8 +1,9 @@
+use helper::box_new;
+
 use super::super::MessageSend;
 use super::super::message_body::*;
 use crate::abi::message::file;
 use crate::abi::message::message_body;
-use crate::box_new;
 
 impl MessageSend {
     pub fn new_message() -> MessageSendBuilder {

@@ -58,13 +58,14 @@ mimalloc = "0.1.48"
 axum = "0.8.8"
 mime_guess = "2.0.5"
 futures = "0.3.31"
-uuid = { version = "1.19.0", features = ["v4"] }
+uuid = { version = "1.19.0", features = ["serde", "v4"] }
 tokio-util = "0.7.18"
 genai = "0.5.0"
 quick-xml = { version = "0.38.4", features = ["serde", "serialize", "tokio"] }
 phf = "0.13.1"
 serde-value = "0.7.0"
 sha2 = "0.10.9"
+hnsw_rs = "0.3.3"
 
 [build-dependencies]
 base64 = "0.22.1"

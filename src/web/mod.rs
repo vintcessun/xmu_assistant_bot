@@ -11,7 +11,7 @@ const LOCAL: &str = "0.0.0.0:3080";
 pub async fn start() -> Result<()> {
     let app = router();
 
-    let listener = tokio::net::TcpListener::bind(LOCAL).await.unwrap();
+    let listener = tokio::net::TcpListener::bind(LOCAL).await?;
 
     tokio::spawn(async move {
         axum::serve(listener, app).await.unwrap();

@@ -1,4 +1,3 @@
-pub mod r#box;
 pub mod echo;
 pub mod message;
 pub mod network;
@@ -26,7 +25,7 @@ pub async fn run(config: ServerConfig) -> Result<NapcatRouter<NapcatAdapter>> {
 
 pub mod logic_import {
     pub async fn handle_error<T, M>(
-        mut ctx: Context<T, M>,
+        ctx: &mut Context<T, M>,
         fn_name: &'static str,
         err: anyhow::Error,
     ) where

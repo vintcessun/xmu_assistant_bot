@@ -6,6 +6,7 @@ use anyhow::Result;
 use const_format::concatcp;
 use redb::Database;
 use redb::ReadableDatabase;
+use redb::ReadableTable;
 use redb::TableDefinition;
 use serde::{Serialize, de::DeserializeOwned};
 use std::sync::LazyLock;
@@ -103,6 +104,28 @@ where
             }
             txn.commit()?;
             Ok(())
+        })
+        .await?
+    }
+
+    pub async fn get_all(&self) -> Result<Vec<(K, V)>> {
+        let table_name = self.table_name;
+        task::spawn_blocking(move || {
+            let db = &COLD_ENGINE;
+            let read_txn = db.begin_read()?;
+            let definition: TableDefinition<&[u8], &[u8]> = TableDefinition::new(table_name);
+            let table = read_txn.open_table(definition)?;
+
+            let mut results = Vec::new();
+            for item in table.iter()? {
+                let (k_access, v_access) = item?;
+                let (k, _): (K, usize) =
+                    bincode::serde::decode_from_slice(k_access.value(), BINCODE_CONFIG)?;
+                let (v, _): (V, usize) =
+                    bincode::serde::decode_from_slice(v_access.value(), BINCODE_CONFIG)?;
+                results.push((k, v));
+            }
+            Ok(results)
         })
         .await?
     }

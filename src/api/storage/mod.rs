@@ -2,6 +2,7 @@ mod cold;
 mod file;
 mod hot;
 mod temp;
+mod vector;
 
 use crate::config::DATA_DIR as BASE_DATA_DIR;
 
@@ -11,6 +12,7 @@ pub use file::FileBackend;
 pub use file::FileStorage;
 pub use hot::HotTable;
 pub use temp::TempFile;
+pub use vector::{HasEmbedding, VectorSearchEngine};
 
 const BINCODE_CONFIG: bincode::config::Configuration<
     bincode::config::LittleEndian,

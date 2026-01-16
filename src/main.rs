@@ -16,7 +16,9 @@ async fn main() -> Result<()> {
 
     let _guard = logger::init_logger(LOG_PATH, LevelFilter::TRACE);
 
-    let mut router = abi::run(config::get_napcat_config()).await.unwrap();
+    let mut router = abi::run(config::get_napcat_config())
+        .await
+        .expect("Failed to initialize ABI and connect to Napcat");
 
     web::start().await?;
 

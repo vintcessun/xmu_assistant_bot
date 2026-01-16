@@ -63,26 +63,15 @@ impl ChooseFiles {
         println!("LLM 返回的文件选择结果：{:?}", response);
 
         if *response.all {
-            let mut all_files = Vec::new();
-            for activity in &activities.activities {
-                for file in &activity.uploads {
-                    all_files.push(file.reference_id);
-                }
-            }
-            if all_files.is_empty() {
+            if activities_map.is_empty() {
                 anyhow::bail!("课程无文件可以下载");
             }
 
-            let files = all_files
+            let files = activities_map
                 .into_iter()
-                .map(|reference_id| {
-                    let name = activities_map
-                        .get(&reference_id)
-                        .cloned()
-                        .unwrap_or_else(|| format!("file_{}", reference_id));
-                    File { reference_id, name }
-                })
+                .map(|(reference_id, name)| File { reference_id, name })
                 .collect();
+
             Ok(FilesChoiceResponse { files })
         } else {
             match &*response.files {

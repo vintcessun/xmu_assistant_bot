@@ -15,7 +15,7 @@ const CONFIG: Config = Config {
 };
 
 pub fn ensure_dir(path: &'static str) -> &'static str {
-    fs::create_dir_all(path).unwrap();
+    fs::create_dir_all(path).expect("Failed to create necessary directory");
     path
 }
 

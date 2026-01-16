@@ -229,7 +229,7 @@ impl SessionClient {
             .await
     }
 
-    pub fn set_cookie(&self, key: &str, value: &str, url: url::Url) {
+    pub fn set_cookie(&self, key: &str, value: &str, url: &url::Url) {
         self.cookie_store
             .set(url.host_str().unwrap_or_default(), key, value);
     }

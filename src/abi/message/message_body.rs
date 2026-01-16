@@ -374,21 +374,21 @@ pub mod at {
 pub mod rps {
     use super::*;
 
-    #[derive(Serialize, Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone, Copy)]
     pub struct Data {}
 }
 
 pub mod dice {
     use super::*;
 
-    #[derive(Serialize, Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone, Copy)]
     pub struct Data {}
 }
 
 pub mod shake {
     use super::*;
 
-    #[derive(Serialize, Deserialize, Debug, Clone)]
+    #[derive(Serialize, Deserialize, Debug, Clone, Copy)]
     pub struct Data {}
 }
 

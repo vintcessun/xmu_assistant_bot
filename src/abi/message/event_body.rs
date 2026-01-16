@@ -86,7 +86,7 @@ pub mod message {
         }
     }
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     #[serde(rename_all = "snake_case")]
     pub enum SubTypePrivate {
         Friend,
@@ -101,15 +101,15 @@ pub mod message {
         pub sub_type: SubTypePrivate,
         pub message_id: i32,
         pub user_id: i64,
-        /// 此字段已被 `serde` 忽略。
-        #[serde(skip_serializing)]
-        pub message: MessageReceive,
         pub raw_message: String,
         pub font: i32,
         pub sender: SenderPrivate,
+        /// 此字段已被 `serde` 忽略。
+        #[serde(skip_serializing)]
+        pub message: MessageReceive,
     }
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     #[serde(rename_all = "snake_case")]
     pub enum SubTypeGroup {
         Normal,
@@ -117,7 +117,7 @@ pub mod message {
         Notice,
     }
 
-    #[derive(Serialize, Deserialize, Debug)]
+    #[derive(Serialize, Deserialize, Debug, Clone)]
     pub struct Anonymous {
         pub id: i64,
         pub name: String,
@@ -133,12 +133,12 @@ pub mod message {
         pub group_id: i64,
         pub user_id: i64,
         pub anonymous: Option<Anonymous>,
-        /// 此字段已被 `serde` 忽略。
-        #[serde(skip_serializing)]
-        pub message: MessageReceive,
         pub raw_message: String,
         pub font: i32,
         pub sender: SenderGroup,
+        /// 此字段已被 `serde` 忽略。
+        #[serde(skip_serializing)]
+        pub message: MessageReceive,
     }
 }
 

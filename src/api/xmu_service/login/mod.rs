@@ -133,7 +133,7 @@ pub async fn castgc_get_session(castgc: &str) -> anyhow::Result<String> {
 
     let session = SessionClient::new();
 
-    session.set_cookie("CASTGC", castgc, IDS_URL.clone());
+    session.set_cookie("CASTGC", castgc, &IDS_URL);
 
     let _ = session.get(LNT_URL.clone()).await?.error_for_status()?;
 
