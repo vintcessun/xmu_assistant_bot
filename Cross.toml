@@ -1,35 +1,19 @@
 [target.x86_64-unknown-linux-gnu]
 pre-build = [
-    "apt-get update",
-    "apt-get install -y pkg-config libssl-dev mold clang",
+    "apt-get update && apt-get install -y mold clang pkg-config libssl-dev",
 ]
-# 环境变量必须放在具体 target 的 env 下
-[target.x86_64-unknown-linux-gnu.env]
-RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
 
 [target.i686-unknown-linux-gnu]
 pre-build = [
-    "dpkg --add-architecture i386",
-    "apt-get update",
-    "apt-get install -y pkg-config libssl-dev:i386 mold clang",
+    "dpkg --add-architecture i386 && apt-get update && apt-get install -y mold clang pkg-config libssl-dev:i386",
 ]
-[target.i686-unknown-linux-gnu.env]
-RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
 
 [target.aarch64-unknown-linux-gnu]
 pre-build = [
-    "dpkg --add-architecture arm64",
-    "apt-get update",
-    "apt-get install -y pkg-config libssl-dev:arm64 mold clang",
+    "dpkg --add-architecture arm64 && apt-get update && apt-get install -y mold clang pkg-config libssl-dev:arm64",
 ]
-[target.aarch64-unknown-linux-gnu.env]
-RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
 
 [target.armv7-unknown-linux-gnueabihf]
 pre-build = [
-    "dpkg --add-architecture armhf",
-    "apt-get update",
-    "apt-get install -y pkg-config libssl-dev:armhf mold clang",
+    "dpkg --add-architecture armhf && apt-get update && apt-get install -y mold clang pkg-config libssl-dev:armhf",
 ]
-[target.armv7-unknown-linux-gnueabihf.env]
-RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
