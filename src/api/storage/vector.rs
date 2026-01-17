@@ -7,17 +7,17 @@ use std::sync::Arc;
 use tracing::info;
 use uuid::Uuid;
 
-// 假设你的 V 需要实现这个 trait 来提供向量
+// 需要实现这个 trait 来提供向量
 pub trait HasEmbedding {
     fn get_embedding(&self) -> &[f32];
 }
 
 pub struct VectorSearchEngine<V>
 where
-    V: Serialize + DeserializeOwned + Send + Sync + Clone + HasEmbedding + 'static,
+    V: Serialize + DeserializeOwned + Send + Sync + HasEmbedding + 'static,
 {
     // 你原有的持久化表
-    kv_table: ColdTable<Uuid, V>,
+    kv_table: ColdTable<Uuid, Arc<V>>,
     // 内存向量索引
     index: Arc<Hnsw<'static, f32, DistCosine>>,
     // 内存 ID 映射：HNSW 内部 ID -> 业务 UUID
@@ -26,11 +26,11 @@ where
 
 impl<V> VectorSearchEngine<V>
 where
-    V: Serialize + DeserializeOwned + Send + Sync + Clone + HasEmbedding + 'static,
+    V: Serialize + DeserializeOwned + Send + Sync + HasEmbedding + 'static,
 {
     /// 1. 加载并重建索引
     pub fn new(table_name: &'static str) -> Self {
-        let kv_table: ColdTable<Uuid, V> = ColdTable::new(table_name);
+        let kv_table: ColdTable<Uuid, Arc<V>> = ColdTable::new(table_name);
 
         // 初始化 HNSW 参数
         // M=16, max_elements=100万, ef_construction=200, ef_search=20
@@ -63,7 +63,7 @@ where
     }
 
     /// 2. 插入新数据（同步写入磁盘和内存索引）
-    pub async fn insert(&self, value: V) -> Result<()> {
+    pub async fn insert(&self, value: Arc<V>) -> Result<()> {
         let uuid = Uuid::new_v4();
         let embedding = value.get_embedding().to_vec();
 
@@ -80,11 +80,10 @@ where
     }
 
     /// 3. 向量搜索 (语义搜索)
-    pub async fn search(&self, query_vec: Vec<f32>, top_k: usize) -> Result<Vec<V>> {
+    pub async fn search(&self, query_vec: Vec<f32>, top_k: usize) -> Result<Vec<Arc<V>>> {
         let index = Arc::clone(&self.index);
         let id_map = Arc::clone(&self.id_map);
 
-        // HNSW 的搜索是 CPU 密集型，建议在 spawn_blocking 中执行
         let neighbor_ids = tokio::task::spawn_blocking(move || {
             // search 参数：查询向量，返回数量，ef_search（搜索精度）
             index.search(&query_vec, top_k, 32)

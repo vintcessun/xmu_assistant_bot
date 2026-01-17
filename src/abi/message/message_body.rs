@@ -622,10 +622,14 @@ pub mod json {
 }
 
 pub mod file {
+    use std::fmt;
+
+    use crate::abi::message::file::FileUrl;
+
     use super::*;
     #[derive(Serialize, Deserialize, Debug, Clone)]
-    pub struct DataSend {
-        pub file: String,
+    pub struct DataSend<T: fmt::Debug + Clone = ()> {
+        pub file: FileUrl<T>,
     }
 
     #[derive(Serialize, Deserialize, Debug, Clone)]

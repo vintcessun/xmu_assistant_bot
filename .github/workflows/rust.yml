@@ -69,7 +69,7 @@ jobs:
                   CARGO_TERM_COLOR: always
 
     build-linux-native:
-        name: Linux cross builds
+        name: Linux native builds
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false

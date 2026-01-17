@@ -21,19 +21,22 @@ help_msg=r#"用法:/download <描述>
 <描述>:描述课程及文件，后端使用LLM进行智能识别查询，如果没有提到使用哪个 文件那么就会下载这门课的全部文件
 功能: 下载指定课程文件"#)]
 pub async fn download(ctx: Context) -> Result<()> {
-    let msg_text = ctx.get_message_text();
     let client = get_client_or_err(&ctx).await?;
-    let course = ChooseCourse::get_from_client(&client, msg_text).await?;
-    trace!("返回课程选择结果：");
-    trace!(?course);
-    let course_id = course
-        .course_id
-        .ok_or(anyhow!("未找到课程，请更加清晰的阐释课程的名称"))?;
-    trace!("选择课程 ID: {}", course_id);
-    let files = ChooseFiles::get_from_client(&client, msg_text, *course_id).await?;
-    trace!("返回文件选择结果：");
-    trace!(?files);
-    let files = files.files;
+    let msg_text = ctx.get_message_text();
+    let course_id = {
+        let course = ChooseCourse::get_from_client(&client, msg_text).await?;
+        trace!("返回课程选择结果：");
+        trace!(?course);
+        course.course_id
+    }
+    .ok_or(anyhow!("未找到课程，请更加清晰的阐释课程的名称"))?;
+    let files = {
+        trace!("选择课程 ID: {}", course_id);
+        let files = ChooseFiles::get_from_client(&client, msg_text, *course_id).await?;
+        trace!("返回文件选择结果：");
+        trace!(?files);
+        files.files
+    };
     if files.is_empty() {
         bail!("未找到符合条件的文件，请更加清晰的阐释文件的名称");
     }

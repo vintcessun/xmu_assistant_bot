@@ -52,6 +52,12 @@ impl<T> IntoIterator for LlmVec<T> {
     }
 }
 
+impl<T> LlmVec<T> {
+    pub fn to_vec(self) -> Vec<T> {
+        self.0
+    }
+}
+
 impl<'de, T> Deserialize<'de> for LlmVec<T>
 where
     T: Deserialize<'de> + Debug,

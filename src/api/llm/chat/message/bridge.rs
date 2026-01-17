@@ -55,7 +55,7 @@ pub struct IntoMessageSend;
 
 impl IntoMessageSend {
     pub async fn get(msg: ChatResponse) -> Result<MessageSendLlmResponse> {
-        let messages = vec![
+        let messages: Vec<ChatMessage> = vec![
             ChatMessage::system(
                 "你是一个专业的将消息进行转写的助手，请根据用户提供的信息和所有上下文进行转写为规范格式",
             ),
@@ -68,7 +68,7 @@ impl IntoMessageSend {
     }
 
     pub async fn get_message_send(msg: ChatResponse) -> Result<MessageSend> {
-        let msg = Self::get(msg).await?;
+        let msg: MessageSendLlmResponse = Self::get(msg).await?;
         let mut ret = Vec::with_capacity(msg.message.len());
         for segment in msg.message {
             ret.push(match segment {

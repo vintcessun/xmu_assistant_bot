@@ -66,3 +66,5 @@ impl Default for BotConfig {
         }
     }
 }
+
+pub const LLM_AUDIT_DURATION_SECS: u64 = 60;

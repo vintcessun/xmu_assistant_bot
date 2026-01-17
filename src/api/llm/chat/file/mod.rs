@@ -41,7 +41,7 @@ pub struct LlmFile {
     pub file: Arc<File>, // 你原有的文件抽象
     #[serde(default)]
     pub alias: String, // LLM 容易理解的文件别名（如“大笑.gif”）
-    embedding: Option<Vec<f32>>, // 可选的向量嵌入
+    pub embedding: Option<Vec<f32>>, // 可选的向量嵌入
 }
 
 impl LlmPrompt for LlmFile {

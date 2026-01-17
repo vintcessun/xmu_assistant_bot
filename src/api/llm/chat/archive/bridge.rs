@@ -8,7 +8,7 @@ use crate::{
     },
     api::llm::chat::{
         archive::{
-            file::embedding_llm_file,
+            file_embedding::embedding_llm_file,
             identity::{IdentityGroup, IdentityPerson},
             message_storage::MessageStorage,
         },
@@ -16,7 +16,7 @@ use crate::{
     },
 };
 use genai::chat::{Binary, ChatMessage, ContentPart, MessageContent};
-use tracing::trace;
+use tracing::error;
 
 include!(concat!(env!("OUT_DIR"), "/face_data.rs"));
 
@@ -235,6 +235,22 @@ pub async fn llm_msg_from_notice(notice: &Notice) -> ChatMessage {
     ChatMessage::user(quick_xml::se::to_string(notice).unwrap_or("未知提示".to_string()))
 }
 
+async fn archive_message_file_inner(url: &str, name: String) {
+    match async move {
+        let file = LlmFile::from_url(url, name).await?;
+        let file = embedding_llm_file(file).await?;
+        LlmFile::insert(file).await?;
+        Ok::<(), anyhow::Error>(())
+    }
+    .await
+    {
+        Ok(_) => {}
+        Err(e) => {
+            error!("归档embedding文件失败，错误信息: {}", e);
+        }
+    }
+}
+
 pub async fn archive_message_files(message: &Message) {
     let segments = match message {
         Message::Private(p) => &p.message,
@@ -251,44 +267,22 @@ pub async fn archive_message_files(message: &Message) {
             SegmentReceive::Image(e) => {
                 let url = &e.url;
                 let name = e.file.clone();
-                let file = LlmFile::from_url(url, name).await;
-                match file {
-                    Ok(e) => {
-                        let file = embedding_llm_file(e).await;
-                        LlmFile::insert(file).await.unwrap_or(());
-                    }
-                    Err(e) => {
-                        trace!("下载图片文件失败，错误信息: {}", e);
-                    }
-                }
+                archive_message_file_inner(url, name).await;
             }
             SegmentReceive::Record(e) => {
                 let url = &e.url;
                 let name = e.file.clone();
-                let file = LlmFile::from_url(url, name).await;
-                match file {
-                    Ok(e) => {
-                        let file = embedding_llm_file(e).await;
-                        LlmFile::insert(file).await.unwrap_or(());
-                    }
-                    Err(e) => {
-                        trace!("下载录音文件失败，错误信息: {}", e);
-                    }
-                }
+                archive_message_file_inner(url, name).await;
             }
             SegmentReceive::Video(e) => {
                 let url = &e.url;
                 let name = e.file.clone();
-                let file = LlmFile::from_url(url, name).await;
-                match file {
-                    Ok(e) => {
-                        let file = embedding_llm_file(e).await;
-                        LlmFile::insert(file).await.unwrap_or(());
-                    }
-                    Err(e) => {
-                        trace!("下载视频文件失败，错误信息: {}", e);
-                    }
-                }
+                archive_message_file_inner(url, name).await;
+            }
+            SegmentReceive::File(e) => {
+                let url = &e.url;
+                let name = e.file.clone();
+                archive_message_file_inner(url, name).await;
             }
             _ => {}
         }

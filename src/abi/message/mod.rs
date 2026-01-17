@@ -5,6 +5,7 @@ pub mod helper;
 pub mod message_body;
 pub mod sender;
 
+use crate::abi::message::file::FileUrl;
 use crate::abi::message::message_body::*;
 
 use ::helper::box_new;
@@ -103,7 +104,7 @@ fn receive_seq_to_send_seq(seq: &SegmentReceive) -> SegmentSend {
             data: p.data.clone(),
         }),
         SegmentReceive::File(p) => SegmentSend::File(message_body::file::DataSend {
-            file: p.url.clone(),
+            file: FileUrl::new(p.url.clone()),
         }),
     }
 }

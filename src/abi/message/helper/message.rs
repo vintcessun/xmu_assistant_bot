@@ -3,6 +3,7 @@ use helper::box_new;
 use super::super::MessageSend;
 use super::super::message_body::*;
 use crate::abi::message::file;
+use crate::abi::message::file::FileUrl;
 use crate::abi::message::message_body;
 
 impl MessageSend {
@@ -281,7 +282,7 @@ impl MessageSendBuilder {
 
     pub fn file<S: Into<String>>(self, data: S) -> Self {
         self.add_seg(SegmentSend::File(message_body::file::DataSend {
-            file: data.into(),
+            file: FileUrl::new(data.into()),
         }))
     }
 }

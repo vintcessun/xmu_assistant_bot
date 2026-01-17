@@ -63,7 +63,6 @@ tokio-util = "0.7.18"
 genai = "0.5.0"
 quick-xml = { version = "0.38.4", features = ["serde", "serialize", "tokio"] }
 phf = "0.13.1"
-serde-value = "0.7.0"
 sha2 = "0.10.9"
 hnsw_rs = "0.3.3"
 

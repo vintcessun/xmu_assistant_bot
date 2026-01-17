@@ -180,24 +180,29 @@ impl<
                 Target::Group(_) => {
                     let params =
                         api::SendGroupForwardMessageParams::new(is_echo, list, sender, msg, target);
-
-                    let call = client.call_api(params, Echo::new()).await;
-                    if let Ok(call) = call {
-                        let res = call.wait_echo().await;
+                    match async move {
+                        let call = client.call_api(params, Echo::new()).await?;
+                        let res = call.wait_echo().await?;
                         trace!(?res);
-                        if let Ok(res) = res {
-                            match res.status {
-                                api::Status::Ok => {}
-                                api::Status::Failed => {
-                                    error!(
-                                        "发送群转发消息失败: {:?}",
-                                        res.message.unwrap_or("未知错误".to_string())
-                                    );
-                                }
-                                api::Status::Async => {
-                                    info!("发送群转发消息异步处理中");
-                                }
+                        match res.status {
+                            api::Status::Ok => {}
+                            api::Status::Failed => {
+                                error!(
+                                    "发送群转发消息失败: {:?}",
+                                    res.message.unwrap_or("未知错误".to_string())
+                                );
                             }
+                            api::Status::Async => {
+                                info!("发送群转发消息异步处理中");
+                            }
+                        }
+                        Ok::<(), anyhow::Error>(())
+                    }
+                    .await
+                    {
+                        Ok(_) => {}
+                        Err(err) => {
+                            error!("发送群转发消息失败: {:?}", err);
                         }
                     }
                 }
@@ -205,23 +210,29 @@ impl<
                     let params = api::SendPrivateForwardMessageParams::new(
                         is_echo, list, sender, msg, target,
                     );
-                    let call = client.call_api(params, Echo::new()).await;
-                    if let Ok(call) = call {
-                        let res = call.wait_echo().await;
+                    match async move {
+                        let call = client.call_api(params, Echo::new()).await?;
+                        let res = call.wait_echo().await?;
                         trace!(?res);
-                        if let Ok(res) = res {
-                            match res.status {
-                                api::Status::Ok => {}
-                                api::Status::Failed => {
-                                    error!(
-                                        "发送私聊转发消息失败: {:?}",
-                                        res.message.unwrap_or("未知错误".to_string())
-                                    );
-                                }
-                                api::Status::Async => {
-                                    info!("发送私聊转发消息异步处理中");
-                                }
+                        match res.status {
+                            api::Status::Ok => {}
+                            api::Status::Failed => {
+                                error!(
+                                    "发送私聊转发消息失败: {:?}",
+                                    res.message.unwrap_or("未知错误".to_string())
+                                );
                             }
+                            api::Status::Async => {
+                                info!("发送私聊转发消息异步处理中");
+                            }
+                        }
+                        Ok::<(), anyhow::Error>(())
+                    }
+                    .await
+                    {
+                        Ok(_) => {}
+                        Err(err) => {
+                            error!("发送私聊转发消息失败: {:?}", err);
                         }
                     }
                 }

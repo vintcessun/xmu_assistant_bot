@@ -2,6 +2,7 @@ mod bool;
 mod i64;
 mod option;
 mod string;
+mod usize;
 mod vector;
 
 // 关于为什么要自己定义包装原有的各种类型，因为LLM本质还是概率模型，因此就会出现各种不严谨的情况，这很正常，但是我还是要喷一下
@@ -12,4 +13,5 @@ mod vector;
 pub use bool::LlmBool;
 pub use i64::LlmI64;
 pub use option::LlmOption;
+pub use usize::LlmUsize;
 pub use vector::LlmVec;

@@ -36,6 +36,15 @@ impl<T: fmt::Debug> Clone for FileUrl<T> {
     }
 }
 
+impl<T: fmt::Debug> FileUrl<T> {
+    pub fn get_url(&self) -> &str {
+        match self {
+            FileUrl::Temp { url, .. } => url,
+            FileUrl::Raw(url) => url,
+        }
+    }
+}
+
 impl<T: fmt::Debug> Serialize for FileUrl<T> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
