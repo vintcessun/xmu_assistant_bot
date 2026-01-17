@@ -80,4 +80,7 @@ opt-level = 3
 lto = "fat"
 codegen-units = 1
 panic = "abort"
-debug = true
+debug = 0
+
+[profile.release.package."*"]
+opt-level = 3

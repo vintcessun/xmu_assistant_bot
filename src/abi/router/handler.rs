@@ -1,7 +1,7 @@
 use crate::{
     abi::{
         message::{
-            Event, MessageType, event_body::message_sent::MessageSent, event_meta::MetaEvent,
+            Event, MessageType, Type, event_body::message_sent::MessageSent, event_meta::MetaEvent,
         },
         network::BotClient,
         router::context::Context,
@@ -15,13 +15,15 @@ use std::{fmt, sync::Arc};
 use tokio::sync::mpsc;
 use tracing::{debug, trace};
 
-#[async_trait]
 pub trait Handler<T, M>: Send + Sync
 where
     T: BotClient + BotHandler + fmt::Debug + Send + Sync + 'static,
     M: MessageType + fmt::Debug + Send + Sync + 'static,
 {
-    async fn handle(&self, context: &Context<T, M>) -> Result<()>;
+    const FILTER_TYPE: Option<Type>;
+    const FILTER_CMD: Option<&'static str>;
+
+    fn handle(&self, context: &Context<T, M>) -> Result<()>;
 }
 
 #[async_trait]
@@ -51,7 +53,7 @@ where
         let client_arc = self.get_client();
         let context = Context::new(client_arc, msg);
 
-        tokio::spawn(dispatch_all_handlers(context));
+        dispatch_all_handlers(context);
     }
 }
 

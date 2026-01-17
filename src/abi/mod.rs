@@ -51,6 +51,6 @@ pub mod logic_import {
     };
     pub use crate::config;
     pub use helper::handler;
-    pub use helper::register_handlers;
+    pub use helper::register_handler_with_help;
     pub use std::fmt;
 }

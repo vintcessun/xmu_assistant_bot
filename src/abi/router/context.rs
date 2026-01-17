@@ -163,17 +163,17 @@ impl<
     M: MessageType + fmt::Debug + Send + Sync + 'static,
 > Context<T, M>
 {
-    pub async fn finish(mut self) {
+    pub async fn finish(self) {
         if self.message_list.is_empty() {
             return;
         }
 
-        let client = self.client.clone();
+        let client = self.client;
         let target = self.target;
-        let list = std::mem::take(&mut self.message_list);
+        let list = self.message_list;
         let sender = self.sender.clone();
         let is_echo = self.is_echo;
-        let msg = self.send_msg.take();
+        let msg = self.send_msg;
 
         if let Some(msg) = msg {
             match target {

@@ -151,26 +151,27 @@ impl Parse for HandlerArgs {
             }
         }
 
-        if echo_cmd {
-            if !msg_type
-                .as_ref()
-                .map(|t| t.to_string() == "Message")
-                .unwrap_or(false)
-            {
-                return Err(syn::Error::new_spanned(
-                    &msg_type,
-                    "When 'echo_cmd' is true, 'msg_type' must be 'Message'",
-                ));
-            }
+        if echo_cmd && !msg_type.as_ref().map(|t| *t == "Message").unwrap_or(false) {
+            return Err(syn::Error::new_spanned(
+                &msg_type,
+                "When 'echo_cmd' is true, 'msg_type' must be 'Message'",
+            ));
         }
 
-        if command.is_some() {
-            if help_msg.is_none() {
-                return Err(syn::Error::new_spanned(
-                    &msg_type,
-                    "The 'help_msg' attribute is required because the help message is necessary for the handler.",
-                ));
-            }
+        if command.is_some() && help_msg.is_none() {
+            return Err(syn::Error::new_spanned(
+                &msg_type,
+                "The 'help_msg' attribute is required because the help message is necessary for the handler.",
+            ));
+        }
+
+        if let Some(ref cmd) = command
+            && cmd.value().len() < 2
+        {
+            return Err(syn::Error::new_spanned(
+                cmd,
+                "The 'command' attribute must be at least 2 characters long.",
+            ));
         }
 
         Ok(HandlerArgs {
@@ -201,20 +202,16 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
 
     let hidden_impl = format_ident!("__hidden_{}_impl", fn_name);
 
-    let type_filter = if let Some(ref ty) = args.msg_type {
-        quote! { ctx.message.get_type() == Type::#ty }
+    let type_const = if let Some(ref ty) = args.msg_type {
+        quote! { Some(Type::#ty) }
     } else {
-        quote! { true }
+        quote! { None }
     };
 
-    let command_filter = if let Some(ref cmd) = args.command {
-        quote! {
-            {
-                ctx.get_message_text().starts_with(const_format::formatcp!("{}{}", config::get_command_prefix(), #cmd))
-            }
-        }
+    let cmd_const = if let Some(ref cmd) = args.command {
+        quote! { Some(#cmd) }
     } else {
-        quote! { true }
+        quote! { None }
     };
 
     let echo_logic = if args.echo_cmd {
@@ -272,26 +269,25 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
         #[derive(Clone, Default, Debug)]
         #vis struct #struct_name;
 
-        #[async_trait::async_trait]
         impl<T, M> Handler<T, M> for #struct_name
         where
             T: BotClient + BotHandler + std::fmt::Debug + 'static,
             M: MessageType + std::fmt::Debug + Send + Sync + 'static,
         {
-            async fn handle(&self, ctx: &Context<T, M>) -> anyhow::Result<()> {
-                if #type_filter && #command_filter {
-                    let ctx = ctx.clone();
-                    let typed_ctx = unsafe {
-                        std::mem::transmute::<Context<T, M>, Context<T, #target_type_ident>>(ctx)
-                    };
-                    let handle_ctx = #echo_logic;
+            const FILTER_TYPE: Option<Type> = #type_const;
+            const FILTER_CMD: Option<&'static str> = #cmd_const;
 
-                    tokio::spawn(#hidden_impl(handle_ctx));
+            #[inline(always)] //因为后面设计复杂的匹配逻辑并且强依赖死代码消除(DCE)所以这里强制内联
+            fn handle(&self, ctx: &Context<T, M>) -> anyhow::Result<()> {
+                let ctx = ctx.clone();
+                let typed_ctx = unsafe {
+                    std::mem::transmute::<Context<T, M>, Context<T, #target_type_ident>>(ctx)
+                };
+                let handle_ctx = #echo_logic;
 
-                    Ok(())
-                } else {
-                    Ok(())
-                }
+                tokio::spawn(#hidden_impl(handle_ctx));
+
+                Ok(())
             }
         }
 
@@ -301,32 +297,129 @@ pub fn handler(attr: TokenStream, item: TokenStream) -> TokenStream {
     TokenStream::from(expanded)
 }
 
-#[proc_macro]
-pub fn register_handlers(input: TokenStream) -> TokenStream {
-    let parser = Punctuated::<Path, Token![,]>::parse_terminated;
-    let handlers = parse_macro_input!(input with parser);
+struct RegisterInput {
+    cmd_handlers: Vec<Path>,
+    other_handlers: Vec<Path>,
+}
 
-    let spawns = handlers.iter().map(|handler| {
-        quote! {
-            {
-                async {
-                    let handler_instance = #handler;
-                    if let Err(e) = handler_instance.handle(&context).await {
-                        tracing::error!("Handler [{}] 运行时错误: {:?}", stringify!(#handler), e);
-                    }
-                }
+impl Parse for RegisterInput {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let mut cmd_handlers = Vec::new();
+        let mut other_handlers = Vec::new();
+
+        while !input.is_empty() {
+            let label: Ident = input.parse()?;
+            input.parse::<Token![=]>()?;
+            let content;
+            syn::bracketed!(content in input);
+            let paths: Punctuated<Path, Token![,]> =
+                content.parse_terminated(Path::parse, Token![,])?;
+
+            if label == "command" {
+                cmd_handlers.extend(paths);
+            } else if label == "other" {
+                other_handlers.extend(paths);
+            }
+            if input.peek(Token![,]) {
+                input.parse::<Token![,]>()?;
             }
         }
-    });
+        Ok(RegisterInput {
+            cmd_handlers,
+            other_handlers,
+        })
+    }
+}
+
+#[proc_macro]
+pub fn register_handler_with_help(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as RegisterInput);
+
+    let cmd_handlers = &input.cmd_handlers;
+    let other_handlers = &input.other_handlers;
+
+    let mut all_cmds = cmd_handlers.clone();
+    let help_handler_path: Path = syn::parse_str("HelpHandler").unwrap();
+    all_cmds.push(help_handler_path);
 
     let expanded = quote! {
+        #[handler(
+            msg_type = Message,
+            command = "help",
+            echo_cmd = true,
+            help_msg = "用法:/help\n功能:显示所有指令帮助"
+        )]
+        pub async fn help<T>(ctx: Context<T, Help>) -> anyhow::Result<()>
+        where T: BotClient + BotHandler + std::fmt::Debug + 'static
+        {
+            const ALL_HELP: &'static str = const_format::concatcp!(
+                HelpHandler::HELP_MSG, "\n",
+                #( <#cmd_handlers as BuildHelp>::HELP_MSG, "\n", )*
+            );
+            ctx.send_message_async(crate::abi::message::from_str(ALL_HELP));
+            Ok(())
+        }
+
         #[allow(non_snake_case, dead_code)]
-        pub async fn dispatch_all_handlers<T, M>(context: Context<T, M>)
+        pub fn dispatch_all_handlers<T, M>(context: Context<T, M>)
         where
             T: BotClient + BotHandler + std::fmt::Debug + Sync + Send + 'static,
             M: MessageType + std::fmt::Debug + Sync + Send + 'static,
         {
-            tokio::join!(#(#spawns),*);
+            let msg_type = context.message.get_type();
+            let text = context.get_message_text();
+
+            match msg_type {
+                Type::Message => {
+                    let prefix = config::get_command_prefix();
+                    let prefix_len = prefix.len();
+
+                    if text.starts_with(prefix) && text.len() >= prefix_len + 2 {
+                        let cmd_part = &text[prefix_len..];
+                        let b = cmd_part.as_bytes();
+
+                        match (b[0], b[1]) {
+                            #(
+                                (b1, b2) if [b1, b2] == *<#all_cmds as Handler<T, M>>::FILTER_CMD.unwrap().as_bytes().get(0..2).unwrap_or(&[0,0]) => {
+                                    if cmd_part.starts_with(<#all_cmds as Handler<T, M>>::FILTER_CMD.unwrap()) {
+                                        let _ = <#all_cmds as Handler<T, M>>::handle(&#all_cmds, &context);
+                                        return;
+                                    }
+                                }
+                            )*
+                            _ => {}
+                        }
+                    }
+
+                    #(
+                        if <#other_handlers as Handler<T, M>>::FILTER_TYPE == Some(Type::Message) {
+                             let _ = <#other_handlers as Handler<T, M>>::handle(&#other_handlers, &context);
+                        }
+                    )*
+                }
+
+                Type::Notice => {
+                    #(
+                        if <#other_handlers as Handler<T, M>>::FILTER_TYPE == Some(Type::Notice) {
+                             let _ = <#other_handlers as Handler<T, M>>::handle(&#other_handlers, &context);
+                        }
+                    )*
+                }
+
+                Type::Request => {
+                    #(
+                        if <#other_handlers as Handler<T, M>>::FILTER_TYPE == Some(Type::Request) {
+                             let _ = <#other_handlers as Handler<T, M>>::handle(&#other_handlers, &context);
+                        }
+                    )*
+                }
+            }
+
+            #(
+                if <#other_handlers as Handler<T, M>>::FILTER_TYPE.is_none() {
+                     let _ = <#other_handlers as Handler<T, M>>::handle(&#other_handlers, &context);
+                }
+            )*
         }
     };
 
@@ -447,7 +540,7 @@ impl Parse for JwApiArgs {
 
         let field_name = url
             .split('/')
-            .last()
+            .next_back()
             .and_then(|s| s.split('.').next())
             .ok_or(syn::Error::new(
                 input.span(),
@@ -455,7 +548,7 @@ impl Parse for JwApiArgs {
             ))?
             .to_string();
 
-        if field_name.find("Xs").is_some() {
+        if field_name.contains("Xs") {
             wrap_response = WrapState::Query;
         }
 
@@ -922,16 +1015,13 @@ pub fn session_client_helper(_args: TokenStream, input: TokenStream) -> TokenStr
                 if last_seg.ident == "Arc" {
                     // 进一步校验泛型参数是否为 SessionClient
                     let mut valid_inner = false;
-                    if let syn::PathArguments::AngleBracketed(args) = &last_seg.arguments {
-                        if let Some(syn::GenericArgument::Type(syn::Type::Path(inner_tp))) =
+                    if let syn::PathArguments::AngleBracketed(args) = &last_seg.arguments
+                        && let Some(syn::GenericArgument::Type(syn::Type::Path(inner_tp))) =
                             args.args.first()
-                        {
-                            if inner_tp.path.segments.last().map(|s| &s.ident)
-                                == Some(&format_ident!("SessionClient"))
-                            {
-                                valid_inner = true;
-                            }
-                        }
+                        && inner_tp.path.segments.last().map(|s| &s.ident)
+                            == Some(&format_ident!("SessionClient"))
+                    {
+                        valid_inner = true;
                     }
                     if valid_inner {
                         true
@@ -966,11 +1056,11 @@ pub fn session_client_helper(_args: TokenStream, input: TokenStream) -> TokenStr
     let call_args: Vec<_> = other_params
         .iter()
         .map(|arg| {
-            if let FnArg::Typed(pat_type) = arg {
-                if let Pat::Ident(pat_ident) = &*pat_type.pat {
-                    let id = &pat_ident.ident;
-                    return quote! { #id };
-                }
+            if let FnArg::Typed(pat_type) = arg
+                && let Pat::Ident(pat_ident) = &*pat_type.pat
+            {
+                let id = &pat_ident.ident;
+                return quote! { #id };
             }
             quote! { _ }
         })
