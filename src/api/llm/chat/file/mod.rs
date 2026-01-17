@@ -41,6 +41,7 @@ pub struct LlmFile {
     pub file: Arc<File>, // 你原有的文件抽象
     #[serde(default)]
     pub alias: String, // LLM 容易理解的文件别名（如“大笑.gif”）
+    embedding: Option<Vec<f32>>, // 可选的向量嵌入
 }
 
 impl LlmPrompt for LlmFile {
@@ -74,19 +75,27 @@ impl LlmFile {
             id: short_id,
             file: Arc::new(file),
             alias,
+            embedding: None,
         };
 
         Ok(ret)
     }
+
+    pub fn insert_embedding(&mut self, embedding: Vec<f32>) {
+        self.embedding = Some(embedding);
+    }
 }
 
 impl LlmFile {
-    pub async fn from_url(url: &str, alias: String) -> Result<Arc<Self>> {
+    pub async fn from_url(url: &str, alias: String) -> Result<Self> {
         let file = download_to_file(CLIENT.clone(), url, &alias).await?;
         let file = Self::attach(file, alias).await?;
-        let file = Arc::new(file);
-        FILE_DB.insert(file.id, file.clone()).await?;
         Ok(file)
+    }
+
+    pub async fn insert(file: Arc<Self>) -> Result<()> {
+        FILE_DB.insert(file.id, file.clone()).await?;
+        Ok(())
     }
 
     pub async fn get_by_id(id: FileShortId) -> Result<Option<Arc<Self>>> {

@@ -15,7 +15,7 @@ impl HasEmbedding for LlmFile {
 }
 */
 
-pub async fn embedding_llm_file(file: Arc<LlmFile>) {
+pub async fn embedding_llm_file(mut file: LlmFile) -> Arc<LlmFile> {
     //TODO:完成LLM进行文件嵌入
     todo!()
 }

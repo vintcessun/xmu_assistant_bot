@@ -17,7 +17,6 @@ jobs:
             matrix:
                 target:
                     [
-                        x86_64-unknown-linux-gnu,
                         i686-unknown-linux-gnu,
                         aarch64-unknown-linux-gnu,
                         armv7-unknown-linux-gnueabihf,
@@ -53,6 +52,73 @@ jobs:
                   else
                       echo "Warning: No binary found for ${{ matrix.target }} (maybe cross failed)"
                       ls -R target/${{ matrix.target }}/release || true
+                  fi
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: xmu_assistant_bot-${{ matrix.target }}
+                  path: artifacts/**
+                  if-no-files-found: warn
+                  compression-level: 6
+                  overwrite: false
+                  include-hidden-files: false
+              env:
+                  CARGO_HOME: /home/runner/.cargo
+                  CARGO_INCREMENTAL: 0
+                  CARGO_TERM_COLOR: always
+
+    build-linux-native:
+        name: Linux cross builds
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                target: [x86_64-unknown-linux-gnu]
+        steps:
+            - name: Checkout source
+              uses: actions/checkout@v4
+
+            - name: Prepare LLM tool config
+              run: |
+                  cp src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
+                  cp src/api/llm/chat/config-template.rs src/api/llm/chat/config.rs
+
+            - name: Install Dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y mold clang pkg-config libssl-dev
+
+            - name: Set up Rust
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: ${{ matrix.target }}
+                  components: rustfmt, clippy
+
+            - name: Rust Cache
+              uses: Swatinem/rust-cache@v2
+
+            - name: Build release binary
+              run: cargo build --release --target ${{ matrix.target }}
+              env:
+                  RUSTFLAGS: >-
+                      -C link-arg=-fuse-ld=mold
+                      ${{ contains(matrix.target, 'x86_64') && '-C target-cpu=x86-64-v3' || '' }}
+                  OPENSSL_STATIC: 1
+
+            - name: Rename artifact
+              shell: bash
+              run: |
+                  mkdir -p artifacts
+                  BIN_NAME="xmu_assistant_bot-${{ matrix.target }}"
+                  if [ -f "target/${{ matrix.target }}/release/xmu_assistant_bot" ]; then
+                      cp "target/${{ matrix.target }}/release/xmu_assistant_bot" "artifacts/${BIN_NAME}"
+                  elif [ -f "target/release/xmu_assistant_bot" ]; then
+                      cp "target/release/xmu_assistant_bot" "artifacts/${BIN_NAME}"
+                  else
+                      echo "Error: Binary not found!"
+                      find target -name "xmu_assistant_bot"
+                      exit 1
                   fi
 
             - name: Upload artifacts

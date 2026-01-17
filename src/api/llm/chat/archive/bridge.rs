@@ -253,7 +253,10 @@ pub async fn archive_message_files(message: &Message) {
                 let name = e.file.clone();
                 let file = LlmFile::from_url(url, name).await;
                 match file {
-                    Ok(e) => embedding_llm_file(e).await,
+                    Ok(e) => {
+                        let file = embedding_llm_file(e).await;
+                        LlmFile::insert(file).await.unwrap_or(());
+                    }
                     Err(e) => {
                         trace!("下载图片文件失败，错误信息: {}", e);
                     }
@@ -264,7 +267,10 @@ pub async fn archive_message_files(message: &Message) {
                 let name = e.file.clone();
                 let file = LlmFile::from_url(url, name).await;
                 match file {
-                    Ok(e) => embedding_llm_file(e).await,
+                    Ok(e) => {
+                        let file = embedding_llm_file(e).await;
+                        LlmFile::insert(file).await.unwrap_or(());
+                    }
                     Err(e) => {
                         trace!("下载录音文件失败，错误信息: {}", e);
                     }
@@ -275,7 +281,10 @@ pub async fn archive_message_files(message: &Message) {
                 let name = e.file.clone();
                 let file = LlmFile::from_url(url, name).await;
                 match file {
-                    Ok(e) => embedding_llm_file(e).await,
+                    Ok(e) => {
+                        let file = embedding_llm_file(e).await;
+                        LlmFile::insert(file).await.unwrap_or(());
+                    }
                     Err(e) => {
                         trace!("下载视频文件失败，错误信息: {}", e);
                     }
