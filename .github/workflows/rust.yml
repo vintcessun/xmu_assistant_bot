@@ -40,15 +40,13 @@ jobs:
             - name: Install Cross
               run: cargo install cross --git https://github.com/cross-rs/cross.git
 
-            - name: Build with Cross + Mold
+            - name: Build with Cross
               run: cross build --release --target ${{ matrix.target }}
               env:
-                  # 核心：通过环境变量强制 Cross 及其内部容器使用静态 OpenSSL
+                  # 传递环境变量给 cross 容器
+                  CROSS_CONTAINER_OPTS: "--env OPENSSL_STATIC"
                   OPENSSL_STATIC: 1
-                  # 这里再次声明 RUSTFLAGS 确保万无一失
-                  RUSTFLAGS: >-
-                      -C link-arg=-fuse-ld=mold
-                      ${{ contains(matrix.target, 'x86_64') && '-C target-cpu=x86-64-v3' || '' }}
+                  RUSTFLAGS: ${{ contains(matrix.target, 'x86_64') && '-C target-cpu=x86-64-v3' || '' }}
 
             - name: Rename artifact
               shell: bash
