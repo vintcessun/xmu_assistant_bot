@@ -3,6 +3,9 @@ pre-build = [
     "apt-get update",
     "apt-get install -y pkg-config libssl-dev mold clang",
 ]
+# 环境变量必须放在具体 target 的 env 下
+[target.x86_64-unknown-linux-gnu.env]
+RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
 
 [target.i686-unknown-linux-gnu]
 pre-build = [
@@ -10,6 +13,8 @@ pre-build = [
     "apt-get update",
     "apt-get install -y pkg-config libssl-dev:i386 mold clang",
 ]
+[target.i686-unknown-linux-gnu.env]
+RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
 
 [target.aarch64-unknown-linux-gnu]
 pre-build = [
@@ -17,6 +22,8 @@ pre-build = [
     "apt-get update",
     "apt-get install -y pkg-config libssl-dev:arm64 mold clang",
 ]
+[target.aarch64-unknown-linux-gnu.env]
+RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
 
 [target.armv7-unknown-linux-gnueabihf]
 pre-build = [
@@ -24,7 +31,5 @@ pre-build = [
     "apt-get update",
     "apt-get install -y pkg-config libssl-dev:armhf mold clang",
 ]
-
-# 全局环境变量：强制所有 Cross 编译任务使用 mold 链接器
-[build.env]
+[target.armv7-unknown-linux-gnueabihf.env]
 RUSTFLAGS = "-C link-arg=-fuse-ld=mold"

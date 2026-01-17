@@ -43,9 +43,9 @@ jobs:
             - name: Build with Cross + Mold
               run: cross build --release --target ${{ matrix.target }}
               env:
-                  # 传递这些变量给 Cross 容器
+                  # 核心：通过环境变量强制 Cross 及其内部容器使用静态 OpenSSL
                   OPENSSL_STATIC: 1
-                  # 针对 x86_64 的特殊优化
+                  # 这里再次声明 RUSTFLAGS 确保万无一失
                   RUSTFLAGS: >-
                       -C link-arg=-fuse-ld=mold
                       ${{ contains(matrix.target, 'x86_64') && '-C target-cpu=x86-64-v3' || '' }}
