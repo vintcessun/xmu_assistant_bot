@@ -31,51 +31,35 @@ jobs:
                   cp src/api/llm/tool/config-template.rs src/api/llm/tool/config.rs
                   cp src/api/llm/chat/config-template.rs src/api/llm/chat/config.rs
 
-            - name: Install Multi-arch Dependencies
-              run: |
-                  sudo dpkg --add-architecture i386
-                  sudo apt-get update
-                  # 一次性安装所有架构的 C 标准库头文件和 OpenSSL
-                  sudo apt-get install -y mold clang pkg-config \
-                  gcc-multilib \
-                  libssl-dev libssl-dev:i386 \
-                  gcc-aarch64-linux-gnu libc6-dev-arm64-cross \
-                  gcc-arm-linux-gnueabihf libc6-dev-armhf-cross
-
-            - name: Install Dependencies
-              run: |
-                  sudo apt-get update
-                  sudo apt-get install -y mold clang pkg-config libssl-dev
-
             - name: Set up Rust
               uses: dtolnay/rust-toolchain@stable
               with:
                   targets: ${{ matrix.target }}
                   components: rustfmt, clippy
 
-            - name: Rust Cache
-              uses: Swatinem/rust-cache@v2
+            - name: Install Cross
+              run: cargo install cross --git https://github.com/cross-rs/cross.git
 
-            - name: Build release binary
-              run: cargo build --release --target ${{ matrix.target }}
+            - name: Build with Cross + Mold
+              run: cross build --release --target ${{ matrix.target }}
               env:
+                  # 传递这些变量给 Cross 容器
+                  OPENSSL_STATIC: 1
+                  # 针对 x86_64 的特殊优化
                   RUSTFLAGS: >-
                       -C link-arg=-fuse-ld=mold
                       ${{ contains(matrix.target, 'x86_64') && '-C target-cpu=x86-64-v3' || '' }}
-                  OPENSSL_STATIC: 1
 
             - name: Rename artifact
               shell: bash
               run: |
                   mkdir -p artifacts
                   BIN_NAME="xmu_assistant_bot-${{ matrix.target }}"
+                  # Cross 的产物通常严格在 target/${target}/release 下
                   if [ -f "target/${{ matrix.target }}/release/xmu_assistant_bot" ]; then
                       cp "target/${{ matrix.target }}/release/xmu_assistant_bot" "artifacts/${BIN_NAME}"
-                  elif [ -f "target/release/xmu_assistant_bot" ]; then
-                      cp "target/release/xmu_assistant_bot" "artifacts/${BIN_NAME}"
                   else
                       echo "Error: Binary not found!"
-                      find target -name "xmu_assistant_bot"
                       exit 1
                   fi
 

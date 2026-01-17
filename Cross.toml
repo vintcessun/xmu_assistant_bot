@@ -1,0 +1,30 @@
+[target.x86_64-unknown-linux-gnu]
+pre-build = [
+    "apt-get update",
+    "apt-get install -y pkg-config libssl-dev mold clang",
+]
+
+[target.i686-unknown-linux-gnu]
+pre-build = [
+    "dpkg --add-architecture i386",
+    "apt-get update",
+    "apt-get install -y pkg-config libssl-dev:i386 mold clang",
+]
+
+[target.aarch64-unknown-linux-gnu]
+pre-build = [
+    "dpkg --add-architecture arm64",
+    "apt-get update",
+    "apt-get install -y pkg-config libssl-dev:arm64 mold clang",
+]
+
+[target.armv7-unknown-linux-gnueabihf]
+pre-build = [
+    "dpkg --add-architecture armhf",
+    "apt-get update",
+    "apt-get install -y pkg-config libssl-dev:armhf mold clang",
+]
+
+# 全局环境变量：强制所有 Cross 编译任务使用 mold 链接器
+[build.env]
+RUSTFLAGS = "-C link-arg=-fuse-ld=mold"
