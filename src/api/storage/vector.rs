@@ -9,7 +9,7 @@ use uuid::Uuid;
 
 // 假设你的 V 需要实现这个 trait 来提供向量
 pub trait HasEmbedding {
-    fn get_embedding(&self) -> Vec<f32>;
+    fn get_embedding(&self) -> &[f32];
 }
 
 pub struct VectorSearchEngine<V>
@@ -50,7 +50,7 @@ where
         for (i, (uuid, value)) in all_records.into_iter().enumerate() {
             let embedding = value.get_embedding();
             // 插入索引：(向量数据, 内部自增ID)
-            index.insert((&embedding, i));
+            index.insert((embedding, i));
             // 映射关系存入 DashMap
             id_map.insert(i, uuid);
         }
@@ -65,7 +65,7 @@ where
     /// 2. 插入新数据（同步写入磁盘和内存索引）
     pub async fn insert(&self, value: V) -> Result<()> {
         let uuid = Uuid::new_v4();
-        let embedding = value.get_embedding();
+        let embedding = value.get_embedding().to_vec();
 
         // A. 写入持久化数据库 (ColdTable)
         self.kv_table.insert(uuid, value).await?;
