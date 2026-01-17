@@ -30,11 +30,3 @@ rustflags = ["-C", "link-arg=-fuse-ld=lld"]
 # mold 是 Linux 下性能的物理极限，设计初衷就是解决 ld 的单线程瓶颈
 [target.x86_64-unknown-linux-gnu]
 rustflags = ["-C", "link-arg=-fuse-ld=mold"]
-
-# --- macOS (Darwin 链) ---
-# mold 曾经有 macOS 支持，但现在推荐 zld (faster alternative to ld64)
-# 需要安装：brew install michaeleisel/zld/zld
-[target.x86_64-apple-darwin]
-rustflags = ["-C", "link-arg=-fuse-ld=zld"]
-[target.aarch64-apple-darwin]
-rustflags = ["-C", "link-arg=-fuse-ld=zld"]
