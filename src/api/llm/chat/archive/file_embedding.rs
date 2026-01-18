@@ -1,4 +1,5 @@
 use anyhow::Result;
+use uuid::Uuid;
 
 use crate::api::{
     llm::chat::{file::LlmFile, llm::get_single_file_embedding},
@@ -23,6 +24,6 @@ pub async fn embedding_llm_file(mut file: LlmFile) -> Result<Arc<LlmFile>> {
     Ok(file)
 }
 
-pub async fn search_llm_file(key: Vec<f32>, top_k: usize) -> Result<Vec<Arc<LlmFile>>> {
+pub async fn search_llm_file(key: Vec<f32>, top_k: usize) -> Result<Vec<(Uuid, Arc<LlmFile>)>> {
     FILE_EMBEDDING_DB.search(key, top_k).await
 }

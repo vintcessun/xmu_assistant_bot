@@ -105,6 +105,12 @@ impl<T: LlmPrompt> LlmPrompt for LlmOption<T> {
     }
 }
 
+impl<T: Default> LlmOption<T> {
+    pub fn unwrap_or_default(self) -> T {
+        self.0.unwrap_or_default()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::api::llm::tool::LlmI64;

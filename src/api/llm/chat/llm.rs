@@ -90,6 +90,33 @@ pub async fn get_single_file_embedding(file: &LlmFile) -> Result<Vec<f32>> {
     .await
 }
 
+#[derive(Debug, LlmPrompt, Clone, Serialize, Deserialize)]
+pub struct ChatSemanticSnapshot {
+    #[prompt("这是这些消息的整体的摘要")]
+    pub summary: String,
+    #[prompt("这是这些消息的详细描述或者关键信息点")]
+    pub details: String,
+    #[prompt("这是这些消息的关键词列表")]
+    pub keywords: LlmVec<String>,
+}
+
+pub async fn get_chat_embedding(messages: Vec<ChatMessage>) -> Result<Vec<f32>> {
+    let mut msgs = vec![ChatMessage::system(
+        "你是一个聊天消息分析专家。请分析以下聊天内容并提取关键信息。",
+    )];
+    for msg in messages {
+        msgs.push(msg);
+    }
+
+    let response = ask_as::<ChatSemanticSnapshot>(msgs).await?;
+    let combined_text = format!(
+        "消息摘要: {}\n详细信息: {}\n关键词: {:?}",
+        response.summary, response.details, response.keywords
+    );
+
+    get_single_text_embedding(combined_text).await
+}
+
 pub async fn ask_llm(chat_message: Vec<ChatMessage>) -> Result<ChatResponse> {
     let chat_req = genai::chat::ChatRequest::new(chat_message);
     let res = CLIENT.exec_chat(CHAT_MODEL, chat_req, None).await?;

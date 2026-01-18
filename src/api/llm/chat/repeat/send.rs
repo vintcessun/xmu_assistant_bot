@@ -1,6 +1,14 @@
 use crate::{
-    abi::{Context, message::MessageType, network::BotClient, websocket::BotHandler},
-    api::llm::chat::repeat::reply::{MessageAbstract, get_repeat_reply},
+    abi::{
+        Context,
+        message::{MessageType, Target},
+        network::BotClient,
+        websocket::BotHandler,
+    },
+    api::llm::chat::{
+        audit::audit_test_fast,
+        repeat::reply::{MessageAbstract, RepeatReply},
+    },
 };
 use anyhow::{Result, anyhow};
 
@@ -20,14 +28,17 @@ where
         msg_text: msg,
     };
 
-    let message_send = get_repeat_reply(message)
+    let message_send = RepeatReply::get(message.clone())
         .await
         .ok_or(anyhow!("未命中热回复"))?;
 
-    ctx.send_message(message_send).await?;
+    let group_id = match ctx.get_target() {
+        Target::Group(id) => id,
+        Target::Private(id) => -id,
+    };
+    audit_test_fast(&message_send, message, group_id).await?;
 
-    //TODO:完成回测
-    todo!("进行回测");
+    ctx.send_message(message_send).await?;
 
     Ok(())
 }

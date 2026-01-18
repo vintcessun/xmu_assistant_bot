@@ -1,8 +1,6 @@
-use async_trait::async_trait;
+use crate::api::storage::ColdTable;
 use genai::chat::ChatMessage;
 use serde::{Deserialize, Serialize};
-
-use crate::api::storage::ColdTable;
 use std::{sync::LazyLock, time};
 
 static MESSAGE_DB: LazyLock<ColdTable<String, MessageStore>> =
@@ -43,6 +41,19 @@ impl MessageStorage {
             )
             .await;
     }
+
+    pub async fn get_range(start_time: u64, end_time: u64) -> Vec<(String, ChatMessage)> {
+        let segments = MESSAGE_DB.get_all().await.unwrap_or_default();
+        let start_idx = segments.partition_point(|s| s.1.timestamp < start_time);
+
+        // 2. 找到第一个时间戳 > end_time 的索引 (上界)
+        let end_idx = segments.partition_point(|s| s.1.timestamp <= end_time);
+
+        segments[start_idx..end_idx]
+            .iter()
+            .map(|(k, v)| (k.clone(), v.msg.clone()))
+            .collect()
+    }
 }
 
 pub struct NoticeStorage;
@@ -67,11 +78,8 @@ impl NoticeStorage {
             )
             .await;
     }
-}
 
-#[async_trait]
-pub trait MessageStorageExt {
-    async fn get_range(start_time: u64, end_time: u64) -> Vec<ChatMessage> {
+    pub async fn get_range(start_time: u64, end_time: u64) -> Vec<ChatMessage> {
         let segments = NOTICE_DB.get_all().await.unwrap_or_default();
         let start_idx = segments.partition_point(|s| s.1.timestamp < start_time);
 
@@ -84,6 +92,3 @@ pub trait MessageStorageExt {
             .collect()
     }
 }
-
-impl MessageStorageExt for NoticeStorage {}
-impl MessageStorageExt for MessageStorage {}

@@ -6,7 +6,7 @@ use crate::api::{
     storage::{HasEmbedding, VectorSearchEngine},
 };
 use anyhow::Result;
-use genai::chat::{ChatMessage, ChatResponse};
+use genai::chat::ChatMessage;
 use helper::LlmPrompt;
 use serde::{Deserialize, Serialize};
 use std::time;
@@ -14,6 +14,7 @@ use std::{
     sync::{Arc, LazyLock},
     time::UNIX_EPOCH,
 };
+use uuid::Uuid;
 
 static MEMO_FRAGMENT_DB: LazyLock<VectorSearchEngine<ChatSegment>> =
     LazyLock::new(|| VectorSearchEngine::new("llm_chat_memo_fragment"));
@@ -48,16 +49,8 @@ impl HasEmbedding for ChatSegment {
     }
 }
 
-pub async fn insert_memo_fragment(fragment: Arc<ChatSegment>) -> Result<()> {
-    MEMO_FRAGMENT_DB.insert(fragment).await
-}
-
 impl ChatSegment {
-    pub async fn generate(
-        group_id: i64,
-        message_id: Vec<String>,
-        request: ChatResponse,
-    ) -> Result<Self> {
+    pub async fn generate(group_id: i64, message_id: Vec<String>, request: String) -> Result<Self> {
         let mut messages = Vec::with_capacity(message_id.len());
         for msg in &message_id {
             if let Some(m) = MessageStorage::get(msg.clone()).await {
@@ -70,7 +63,7 @@ impl ChatSegment {
                 "你是一个专业的将消息进行总结的助手，请提取以下对话的关键信息，生成简洁的摘要和关键词",
             ),
             ChatMessage::user("请根据以下模型输出的要求和细节进行总结："),
-            ChatMessage::user(request.content),
+            ChatMessage::user(request),
             ChatMessage::user("请根据以下对话内容生成摘要和关键词："),
         ];
 
@@ -100,9 +93,20 @@ impl ChatSegment {
     }
 }
 
-pub async fn search_llm_memo_fragment(
-    key: Vec<f32>,
-    top_k: usize,
-) -> Result<Vec<Arc<ChatSegment>>> {
-    MEMO_FRAGMENT_DB.search(key, top_k).await
+pub struct MemoFragment;
+
+impl MemoFragment {
+    pub async fn search(
+        key: Vec<f32>,
+        top_k: usize,
+    ) -> anyhow::Result<Vec<(Uuid, Arc<ChatSegment>)>> {
+        MEMO_FRAGMENT_DB.search(key, top_k).await
+    }
+
+    pub async fn insert(group_id: i64, message_id: Vec<String>, request: String) -> Result<()> {
+        let msg = ChatSegment::generate(group_id, message_id, request).await?;
+        let fragment = Arc::new(msg);
+        MEMO_FRAGMENT_DB.insert(fragment).await?;
+        Ok(())
+    }
 }
