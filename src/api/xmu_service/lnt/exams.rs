@@ -6,6 +6,9 @@ use serde::{Deserialize, Serialize};
 pub struct Exam {
     pub title: String,
     pub id: i64,
+    pub is_started: bool,
+    pub start_time: String,
+    pub end_time: String,
     //pub announce_answer_status:IgnoredAny,
     //pub announce_answer_time: IgnoredAny,
     //pub announce_answer_type: IgnoredAny,
@@ -25,7 +28,6 @@ pub struct Exam {
     //pub enable_anti_cheat: IgnoredAny,
     //pub enable_edit: IgnoredAny,
     //pub enable_invigilation: IgnoredAny,
-    //pub end_time: IgnoredAny,
     //pub exam_submissions: IgnoredAny,
     //pub group_set_id: IgnoredAny,
     //pub group_set_name: IgnoredAny,
@@ -43,7 +45,6 @@ pub struct Exam {
     //pub is_leaving_window_timeout: IgnoredAny,
     //pub is_opened_catalog: IgnoredAny,
     //pub is_practice_mode: IgnoredAny,
-    //pub is_started: IgnoredAny,
     //pub knowledge_node_ids: IgnoredAny,
     //pub knowledge_node_reference: IgnoredAny,
     //pub leaving_window_limit: IgnoredAny,
@@ -63,7 +64,6 @@ pub struct Exam {
     //pub score_rule: IgnoredAny,
     //pub score_type: IgnoredAny,
     //pub sort: IgnoredAny,
-    //pub start_time: IgnoredAny,
     //pub subjects_rule: IgnoredAny,
     //pub submit_by_group: IgnoredAny,
     //pub submit_times: IgnoredAny,
@@ -95,7 +95,7 @@ mod tests {
 
     #[tokio::test]
     async fn test() -> Result<()> {
-        let castgc = "TGT-4088819-bG3FxYIkBwX837YeLgF3rxm1V2mLe9ZJCvpcsM4MpBdpfDsdW2krM9T5qgXogbA0krwnull_main";
+        let castgc = "TGT-2573461-NzJdqBAiUk7XIiX4bM-zAKMKJ-BVKIworT50c1XW-Ot904sgTtAJAF3trrQr56QGraInull_main";
         let session = castgc_get_session(castgc).await?;
         let data = Exams::get(&session, 78180).await?;
         println!("Exams: {:?}", data);

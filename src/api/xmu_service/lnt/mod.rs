@@ -10,7 +10,7 @@ mod submissions_id;
 
 pub use activities::Activities;
 pub use distribute::Distribute;
-pub use exams::Exam;
+pub use exams::Exams;
 pub use file_url::FileUrl;
 pub use my_courses::MyCourses;
 pub use profile::Profile;

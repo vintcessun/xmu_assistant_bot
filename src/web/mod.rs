@@ -2,6 +2,7 @@ use anyhow::Result;
 use axum::{Router, routing::get};
 
 pub mod file;
+pub mod md;
 
 use file::file_router;
 

@@ -3,6 +3,7 @@ mod echo;
 mod helper;
 mod llm;
 mod login;
+mod test;
 
 use crate::abi::logic_import::*;
 
@@ -16,6 +17,7 @@ register_handler_with_help!(
         login::LoginHandler,
         login::LogoutHandler,
         download::DownloadHandler,
+        test::TestHandler,
     ],
     other = [llm::LlmMessageHandler, llm::LlmNoticeHandler,]
 );
